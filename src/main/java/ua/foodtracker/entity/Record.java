@@ -38,7 +38,7 @@ public class Record {
         return new Builder();
     }
 
-    private static class Builder {
+    public static class Builder {
         private Integer id;
         private Integer userId;
         private Integer mealId;

@@ -1,6 +1,7 @@
 package ua.foodtracker.entity;
 
 public class UserGoal {
+    private final Integer id;
     private final Integer dailyEnergyGoal;
     private final Integer dailyFatGoal;
     private final Integer dailyProteinGoal;
@@ -8,6 +9,7 @@ public class UserGoal {
     private final Integer dailyWaterGoal;
 
     public UserGoal(Builder builder) {
+        this.id = builder.id;
         this.dailyEnergyGoal = builder.dailyEnergyGoal;
         this.dailyFatGoal = builder.dailyFatGoal;
         this.dailyProteinGoal = builder.dailyProteinGoal;
@@ -35,16 +37,29 @@ public class UserGoal {
         return dailyWaterGoal;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
 
-    private static class Builder {
+    public static class Builder {
+        private Integer id;
         private Integer dailyEnergyGoal;
         private Integer dailyFatGoal;
         private Integer dailyProteinGoal;
         private Integer dailyCarbohydrateGoal;
         private Integer dailyWaterGoal;
+
+        private Builder() {
+        }
+
+        public Builder withId(Integer id) {
+            this.id = id;
+            return this;
+        }
 
         public Builder withDailyEnergyGoal(Integer dailyEnergyGoal) {
             this.dailyEnergyGoal = dailyEnergyGoal;

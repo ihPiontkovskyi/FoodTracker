@@ -33,11 +33,13 @@ public class Lifestyle {
         return new Builder();
     }
 
-    private static class Builder {
+    public static class Builder {
         private Integer id;
         private String description;
         private String name;
         private Double energyCoefficient;
+
+        private Builder(){}
 
         public Builder withId(Integer id) {
             this.id = id;

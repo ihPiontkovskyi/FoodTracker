@@ -68,13 +68,14 @@ CREATE TABLE `users`
 
 CREATE TABLE `meals`
 (
-    `id`           int(11) NOT NULL AUTO_INCREMENT,
-    `user_id`      int(11) NOT NULL,
-    `fat`          int(11) NOT NULL,
-    `protein`      int(11) DEFAULT NULL,
-    `carbohydrate` int(11) NOT NULL,
-    `water`        int(11) NOT NULL,
-    `weight`       int(11) NOT NULL,
+    `id`           int(11)     NOT NULL AUTO_INCREMENT,
+    `user_id`      int(11)     NOT NULL,
+    `fat`          int(11)     NOT NULL,
+    `protein`      int(11)     NOT NULL,
+    `carbohydrate` int(11)     NOT NULL,
+    `water`        int(11)     NOT NULL,
+    `weight`       int(11)     NOT NULL,
+    `name`         varchar(32) NOT NULL,
     PRIMARY KEY (`id`),
     KEY `meals_users_id_fk` (`user_id`),
     CONSTRAINT `meals_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE

@@ -11,11 +11,13 @@ public class User {
     private final String password;
     private final String firstName;
     private final String lastName;
-    private final Double weight;
-    private final Double height;
-    private final Lifestyle lifestyle;
+    private final Integer weight;
+    private final Integer height;
+    private final Integer lifestyle;
     private final Date birthday;
-    private final Gender gender;
+    private final Integer gender;
+    private final Integer userGoal;
+    private final Integer role;
 
     private User(Builder builder) {
         this.id = builder.id;
@@ -28,6 +30,8 @@ public class User {
         this.lifestyle = builder.lifestyle;
         this.birthday = builder.birthday;
         this.gender = builder.gender;
+        this.userGoal = builder.userGoal;
+        this.role = builder.role;
     }
 
     public Integer getId() {
@@ -50,15 +54,15 @@ public class User {
         return lastName;
     }
 
-    public Double getWeight() {
+    public Integer getWeight() {
         return weight;
     }
 
-    public Double getHeight() {
+    public Integer getHeight() {
         return height;
     }
 
-    public Lifestyle getLifestyle() {
+    public Integer getLifestyle() {
         return lifestyle;
     }
 
@@ -66,8 +70,16 @@ public class User {
         return birthday;
     }
 
-    public Gender getGender() {
+    public Integer getGender() {
         return gender;
+    }
+
+    public Integer getUserGoal() {
+        return userGoal;
+    }
+
+    public Integer getRole() {
+        return role;
     }
 
     public static Builder builder() {
@@ -80,11 +92,16 @@ public class User {
         private String password;
         private String firstName;
         private String lastName;
-        private Double weight;
-        private Double height;
-        private Lifestyle lifestyle;
+        private Integer weight;
+        private Integer height;
+        private Integer lifestyle;
         private Date birthday;
-        private Gender gender;
+        private Integer gender;
+        private Integer userGoal;
+        private Integer role;
+
+        private Builder() {
+        }
 
         public Builder withId(Integer id) {
             this.id = id;
@@ -111,17 +128,17 @@ public class User {
             return this;
         }
 
-        public Builder withWeight(Double weight) {
+        public Builder withWeight(Integer weight) {
             this.weight = weight;
             return this;
         }
 
-        public Builder withHeight(Double height) {
+        public Builder withHeight(Integer height) {
             this.height = height;
             return this;
         }
 
-        public Builder withLifestyle(Lifestyle lifestyle) {
+        public Builder withLifestyle(Integer lifestyle) {
             this.lifestyle = lifestyle;
             return this;
         }
@@ -131,8 +148,19 @@ public class User {
             return this;
         }
 
-        public Builder withGender(Gender gender) {
+        public Builder withGender(Integer gender) {
             this.gender = gender;
+            return this;
+        }
+
+
+        public Builder withUserGoal(Integer userGoal) {
+            this.userGoal = userGoal;
+            return this;
+        }
+
+        public Builder withRole(Integer role) {
+            this.role = role;
             return this;
         }
 

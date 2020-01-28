@@ -60,7 +60,7 @@ public class Meal {
         return new Builder();
     }
 
-    private static class Builder {
+    public static class Builder {
         private Integer id;
         private String name;
         private Integer protein;
