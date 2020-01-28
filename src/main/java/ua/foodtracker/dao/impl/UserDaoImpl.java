@@ -31,7 +31,7 @@ public class UserDaoImpl extends AbstractCrudDaoImpl<User> implements UserDao {
 
     @Override
     public Optional<User> findByEmail(String email) {
-        return findByParam(email, SELECT_BY_EMAIL_QUERY, PARAM_SETTER);
+        return findByParam(email, SELECT_BY_EMAIL_QUERY);
     }
 
     @Override
@@ -63,19 +63,19 @@ public class UserDaoImpl extends AbstractCrudDaoImpl<User> implements UserDao {
     }
 
     @Override
-    public boolean save(User entity) {
+    public boolean save(User user) {
         try (PreparedStatement ps = getConnection().prepareStatement(INSERT_QUERY)) {
-            ps.setObject(1, entity.getEmail());
-            ps.setObject(2, hashpw(entity.getPassword(), gensalt()));
-            ps.setObject(3, entity.getFirstName());
-            ps.setObject(4, entity.getLastName());
-            ps.setObject(5, entity.getHeight());
-            ps.setObject(6, entity.getWeight());
-            ps.setObject(7, entity.getBirthday());
-            ps.setObject(8, entity.getGender());
-            ps.setObject(9, entity.getUserGoal());
-            ps.setObject(10, entity.getLifestyle());
-            ps.setObject(11, entity.getRole());
+            ps.setObject(1, user.getEmail());
+            ps.setObject(2, hashpw(user.getPassword(), gensalt()));
+            ps.setObject(3, user.getFirstName());
+            ps.setObject(4, user.getLastName());
+            ps.setObject(5, user.getHeight());
+            ps.setObject(6, user.getWeight());
+            ps.setObject(7, user.getBirthday());
+            ps.setObject(8, user.getGender());
+            ps.setObject(9, user.getUserGoal());
+            ps.setObject(10, user.getLifestyle());
+            ps.setObject(11, user.getRole());
             if (ps.executeUpdate() > 0) {
                 return true;
             }
@@ -88,24 +88,24 @@ public class UserDaoImpl extends AbstractCrudDaoImpl<User> implements UserDao {
 
     @Override
     public Optional<User> findById(Integer id) {
-        return findByParam(id, SELECT_BY_ID_QUERY, PARAM_SETTER);
+        return findByParam(id, SELECT_BY_ID_QUERY);
     }
 
     @Override
-    public boolean update(User entity) {
+    public boolean update(User user) {
         try (PreparedStatement ps = getConnection().prepareStatement(UPDATE_QUERY)) {
-            ps.setObject(1, entity.getEmail());
-            ps.setObject(2, hashpw(entity.getPassword(), gensalt()));
-            ps.setObject(3, entity.getFirstName());
-            ps.setObject(4, entity.getLastName());
-            ps.setObject(5, entity.getHeight());
-            ps.setObject(6, entity.getWeight());
-            ps.setObject(7, entity.getBirthday());
-            ps.setObject(8, entity.getGender());
-            ps.setObject(9, entity.getUserGoal());
-            ps.setObject(10, entity.getLifestyle());
-            ps.setObject(11, entity.getRole());
-            ps.setObject(12, entity.getId());
+            ps.setObject(1, user.getEmail());
+            ps.setObject(2, hashpw(user.getPassword(), gensalt()));
+            ps.setObject(3, user.getFirstName());
+            ps.setObject(4, user.getLastName());
+            ps.setObject(5, user.getHeight());
+            ps.setObject(6, user.getWeight());
+            ps.setObject(7, user.getBirthday());
+            ps.setObject(8, user.getGender());
+            ps.setObject(9, user.getUserGoal());
+            ps.setObject(10, user.getLifestyle());
+            ps.setObject(11, user.getRole());
+            ps.setObject(12, user.getId());
             if (ps.executeUpdate() > 0) {
                 return true;
             }

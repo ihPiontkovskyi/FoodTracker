@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class RoleDaoImpl extends AbstractCrudDaoImpl<Role> implements CrudDao<Role> {
-    private static final String FIND_BY_ID = "SELECT * FROM roles WHERE id=?";
-    private static final String DELETE_BY_ID = "DELETE FROM roles WHERE id=?";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM roles WHERE id=?";
+    private static final String DELETE_BY_ID_QUERY = "DELETE FROM roles WHERE id=?";
     private static final String INSERT_QUERY = "INSERT INTO roles VALUES(DEFAULT,?)";
     public static final String UPDATE_QUERY = "UPDATE roles SET name=? WHERE id=?";
     public static final String SELECT_ALL_QUERY = "SELECT * FROM roles";
@@ -28,9 +28,9 @@ public class RoleDaoImpl extends AbstractCrudDaoImpl<Role> implements CrudDao<Ro
     }
 
     @Override
-    public boolean save(Role entity) {
+    public boolean save(Role role) {
         try (PreparedStatement ps = getConnection().prepareStatement(INSERT_QUERY)) {
-            PARAM_SETTER.accept(ps, entity.getName());
+            ps.setObject(1, role.getName());
             if (ps.executeUpdate() > 0) {
                 return true;
             }
@@ -43,14 +43,14 @@ public class RoleDaoImpl extends AbstractCrudDaoImpl<Role> implements CrudDao<Ro
 
     @Override
     public Optional<Role> findById(Integer id) {
-        return findByParam(id, FIND_BY_ID, PARAM_SETTER);
+        return findByParam(id, FIND_BY_ID_QUERY);
     }
 
     @Override
-    public boolean update(Role entity) {
+    public boolean update(Role role) {
         try (PreparedStatement ps = getConnection().prepareStatement(UPDATE_QUERY)) {
-            ps.setObject(1, entity.getName());
-            ps.setObject(4, entity.getId());
+            ps.setObject(1, role.getName());
+            ps.setObject(4, role.getId());
             if (ps.executeUpdate() > 0) {
                 return true;
             }
@@ -63,7 +63,7 @@ public class RoleDaoImpl extends AbstractCrudDaoImpl<Role> implements CrudDao<Ro
 
     @Override
     public boolean deleteById(Integer id) {
-        return delete(id, DELETE_BY_ID);
+        return delete(id, DELETE_BY_ID_QUERY);
     }
 
     @Override

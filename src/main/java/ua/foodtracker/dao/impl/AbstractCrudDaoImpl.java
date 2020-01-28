@@ -5,7 +5,6 @@ import ua.foodtracker.dao.CrudDao;
 import ua.foodtracker.dao.Page;
 import ua.foodtracker.dao.db.holder.ConnectionHolder;
 import ua.foodtracker.exception.DataAccessException;
-import ua.foodtracker.exception.PrepareStatementException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,20 +14,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.BiConsumer;
 
 public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E> {
     protected static final Logger LOGGER = Logger.getLogger(AbstractCrudDaoImpl.class);
     protected static final String ERROR_MESSAGE = "Cannot handle sql ['%s']; Message:%s";
-    protected static final String STATEMENT_ERROR_MESSAGE = "Cannot prepare statement! Message:%s";
-    protected static final BiConsumer<PreparedStatement, Object> PARAM_SETTER = (preparedStatement, obj) -> {
-        try {
-            preparedStatement.setObject(1, obj);
-        } catch (SQLException e) {
-            LOGGER.warn(String.format(STATEMENT_ERROR_MESSAGE, e));
-            throw new PrepareStatementException(e);
-        }
-    };
+
+    protected static String getMessage(String sql) {
+        return String.format("Cannot handle sql ['%s']", sql);
+    }
 
     private final ConnectionHolder connectionHolder;
 
@@ -36,13 +29,15 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E> {
         this.connectionHolder = connectionHolder;
     }
 
+    protected abstract E extractFromResultSet(ResultSet resultSet) throws SQLException;
+
     protected Connection getConnection() {
         return connectionHolder.get();
     }
 
     protected boolean delete(Integer id, String sql) {
         try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
-            PARAM_SETTER.accept(ps, id);
+            ps.setObject(1, id);
             return id != 0 && ps.executeUpdate() != 0;
         } catch (SQLException e) {
             LOGGER.warn(String.format(ERROR_MESSAGE, sql, e));
@@ -50,10 +45,10 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E> {
         }
     }
 
-    protected <P> Optional<E> findByParam(P param, String query, BiConsumer<PreparedStatement, P> designatedParamSetter) {
-        try (final PreparedStatement preparedStatement = getConnection().prepareStatement(query)) {
-            designatedParamSetter.accept(preparedStatement, param);
-            try (final ResultSet resultSet = preparedStatement.executeQuery()) {
+    protected <P> Optional<E> findByParam(P param, String query) {
+        try (final PreparedStatement ps = getConnection().prepareStatement(query)) {
+            ps.setObject(1, param);
+            try (final ResultSet resultSet = ps.executeQuery()) {
                 if (resultSet.next()) {
                     return Optional.of(extractFromResultSet(resultSet));
                 }
@@ -63,12 +58,6 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E> {
             throw new DataAccessException(getMessage(query), e);
         }
         return Optional.empty();
-    }
-
-    protected abstract E extractFromResultSet(ResultSet resultSet) throws SQLException;
-
-    protected static String getMessage(String sql) {
-        return String.format("Cannot handle sql ['%s']", sql);
     }
 
     protected List<E> findAll(String query) {

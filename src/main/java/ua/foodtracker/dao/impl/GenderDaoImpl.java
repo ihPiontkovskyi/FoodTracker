@@ -31,7 +31,7 @@ public class GenderDaoImpl extends AbstractCrudDaoImpl<Gender> implements CrudDa
     @Override
     public boolean save(Gender gender) {
         try (PreparedStatement ps = getConnection().prepareStatement(INSERT_QUERY)) {
-            PARAM_SETTER.accept(ps, gender.getName());
+            ps.setObject(1, gender.getName());
             if (ps.executeUpdate() > 0) {
                 return true;
             }
@@ -44,7 +44,7 @@ public class GenderDaoImpl extends AbstractCrudDaoImpl<Gender> implements CrudDa
 
     @Override
     public Optional<Gender> findById(Integer id) {
-        return findByParam(id, FIND_BY_ID_QUERY, PARAM_SETTER);
+        return findByParam(id, FIND_BY_ID_QUERY);
     }
 
     @Override

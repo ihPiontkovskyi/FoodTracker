@@ -19,8 +19,6 @@ public class HikariCPManager implements ConnectionManager {
     private static HikariConfig config = new HikariConfig();
     private HikariDataSource ds;
 
-    public static final String DB_CONFIG_FILE = "db";
-
     public HikariCPManager(String filename) {
         ResourceBundle resource = ResourceBundle.getBundle(filename);
         config.setDriverClassName(resource.getString(DB_DRIVER));

@@ -20,7 +20,7 @@ public class RecordDaoImpl extends AbstractCrudDaoImpl<Record> implements Record
     public static final String UPDATE_QUERY = "UPDATE records SET user_id=?,meal_id=?,date=? WHERE id =?";
     public static final String DELETE_QUERY = "DELETE FROM records WHERE id=?";
     public static final String SELECT_ALL_QUERY = "SELECT * FROM records";
-    public static final String SELECT_BY_USER_ID_AND_DATE = "SELECT * FROM records WHERE user_id=? AND date=?";
+    public static final String SELECT_BY_USER_ID_AND_DATE_QUERY = "SELECT * FROM records WHERE user_id=? AND date=?";
 
     public RecordDaoImpl(ConnectionHolder connectionHolder) {
         super(connectionHolder);
@@ -28,7 +28,7 @@ public class RecordDaoImpl extends AbstractCrudDaoImpl<Record> implements Record
 
     @Override
     public List<Record> findByUserIdAndDate(int id, Date date) {
-        try (PreparedStatement ps = getConnection().prepareStatement(SELECT_BY_USER_ID_AND_DATE)) {
+        try (PreparedStatement ps = getConnection().prepareStatement(SELECT_BY_USER_ID_AND_DATE_QUERY)) {
             ps.setObject(1, id);
             ps.setObject(2, date);
             try (ResultSet resultSet = ps.executeQuery()) {
@@ -55,11 +55,11 @@ public class RecordDaoImpl extends AbstractCrudDaoImpl<Record> implements Record
     }
 
     @Override
-    public boolean save(Record entity) {
+    public boolean save(Record record) {
         try (PreparedStatement ps = getConnection().prepareStatement(INSERT_QUERY)) {
-            ps.setObject(1, entity.getUserId());
-            ps.setObject(2, entity.getMealId());
-            ps.setObject(3, entity.getDate());
+            ps.setObject(1, record.getUserId());
+            ps.setObject(2, record.getMealId());
+            ps.setObject(3, record.getDate());
             if (ps.executeUpdate() > 0) {
                 return true;
             }
@@ -72,7 +72,7 @@ public class RecordDaoImpl extends AbstractCrudDaoImpl<Record> implements Record
 
     @Override
     public Optional<Record> findById(Integer id) {
-        return findByParam(id, SELECT_BY_ID_QUERY, PARAM_SETTER);
+        return findByParam(id, SELECT_BY_ID_QUERY);
     }
 
     @Override
@@ -81,12 +81,12 @@ public class RecordDaoImpl extends AbstractCrudDaoImpl<Record> implements Record
     }
 
     @Override
-    public boolean update(Record entity) {
+    public boolean update(Record record) {
         try (PreparedStatement ps = getConnection().prepareStatement(UPDATE_QUERY)) {
-            ps.setObject(1, entity.getUserId());
-            ps.setObject(2, entity.getMealId());
-            ps.setObject(3, entity.getDate());
-            ps.setObject(4, entity.getId());
+            ps.setObject(1, record.getUserId());
+            ps.setObject(2, record.getMealId());
+            ps.setObject(3, record.getDate());
+            ps.setObject(4, record.getId());
             if (ps.executeUpdate() > 0) {
                 return true;
             }

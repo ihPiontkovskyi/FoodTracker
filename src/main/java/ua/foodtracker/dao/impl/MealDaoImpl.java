@@ -1,6 +1,6 @@
 package ua.foodtracker.dao.impl;
 
-import ua.foodtracker.dao.MealDao;
+import ua.foodtracker.dao.CrudPageableDao;
 import ua.foodtracker.dao.Page;
 import ua.foodtracker.dao.db.holder.ConnectionHolder;
 import ua.foodtracker.entity.Meal;
@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-public class MealDaoImpl extends AbstractCrudDaoImpl<Meal> implements MealDao {
+public class MealDaoImpl extends AbstractCrudDaoImpl<Meal> implements CrudPageableDao<Meal> {
 
     public static final String SELECT_BY_ID_QUERY = "SELECT * FROM meals WHERE id=?";
     public static final String DELETE_QUERY = "DELETE FROM meals WHERE id=?";
@@ -50,15 +50,15 @@ public class MealDaoImpl extends AbstractCrudDaoImpl<Meal> implements MealDao {
     }
 
     @Override
-    public boolean save(Meal entity) {
+    public boolean save(Meal meal) {
         try (PreparedStatement ps = getConnection().prepareStatement(INSERT_QUERY)) {
-            ps.setObject(1, entity.getUserId());
-            ps.setObject(2, entity.getFat());
-            ps.setObject(3, entity.getProtein());
-            ps.setObject(4, entity.getCarbohydrates());
-            ps.setObject(5, entity.getWater());
-            ps.setObject(6, entity.getWeight());
-            ps.setObject(7, entity.getName());
+            ps.setObject(1, meal.getUserId());
+            ps.setObject(2, meal.getFat());
+            ps.setObject(3, meal.getProtein());
+            ps.setObject(4, meal.getCarbohydrates());
+            ps.setObject(5, meal.getWater());
+            ps.setObject(6, meal.getWeight());
+            ps.setObject(7, meal.getName());
             if (ps.executeUpdate() > 0) {
                 return true;
             }
@@ -71,20 +71,20 @@ public class MealDaoImpl extends AbstractCrudDaoImpl<Meal> implements MealDao {
 
     @Override
     public Optional<Meal> findById(Integer id) {
-        return findByParam(id, SELECT_BY_ID_QUERY, PARAM_SETTER);
+        return findByParam(id, SELECT_BY_ID_QUERY);
     }
 
     @Override
-    public boolean update(Meal entity) {
+    public boolean update(Meal meal) {
         try (PreparedStatement ps = getConnection().prepareStatement(UPDATE_QUERY)) {
-            ps.setObject(1, entity.getUserId());
-            ps.setObject(2, entity.getFat());
-            ps.setObject(3, entity.getProtein());
-            ps.setObject(4, entity.getCarbohydrates());
-            ps.setObject(5, entity.getWater());
-            ps.setObject(6, entity.getWeight());
-            ps.setObject(7, entity.getName());
-            ps.setObject(8, entity.getId());
+            ps.setObject(1, meal.getUserId());
+            ps.setObject(2, meal.getFat());
+            ps.setObject(3, meal.getProtein());
+            ps.setObject(4, meal.getCarbohydrates());
+            ps.setObject(5, meal.getWater());
+            ps.setObject(6, meal.getWeight());
+            ps.setObject(7, meal.getName());
+            ps.setObject(8, meal.getId());
             if (ps.executeUpdate() > 0) {
                 return true;
             }

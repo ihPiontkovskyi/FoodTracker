@@ -117,5 +117,4 @@ public class Meal {
             return new Meal(this);
         }
     }
-
 }

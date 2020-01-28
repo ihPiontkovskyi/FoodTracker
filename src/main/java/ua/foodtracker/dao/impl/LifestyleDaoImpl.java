@@ -13,8 +13,8 @@ import java.util.Optional;
 
 public class LifestyleDaoImpl extends AbstractCrudDaoImpl<Lifestyle> implements CrudDao<Lifestyle> {
 
-    private static final String FIND_BY_ID = "SELECT * FROM lifestyles WHERE id=?";
-    private static final String DELETE_BY_ID = "DELETE FROM lifestyles WHERE id=?";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM lifestyles WHERE id=?";
+    private static final String DELETE_BY_ID_QUERY = "DELETE FROM lifestyles WHERE id=?";
     private static final String INSERT_QUERY = "INSERT INTO lifestyles VALUES(DEFAULT,?,?,?)";
     public static final String UPDATE_QUERY = "UPDATE lifestyles SET name=?,description=?,energy_coefficient=? WHERE id=?";
     public static final String SELECT_ALL_QUERY = "SELECT * FROM lifestyles";
@@ -34,11 +34,11 @@ public class LifestyleDaoImpl extends AbstractCrudDaoImpl<Lifestyle> implements 
     }
 
     @Override
-    public boolean save(Lifestyle entity) {
+    public boolean save(Lifestyle lifestyle) {
         try (PreparedStatement ps = getConnection().prepareStatement(INSERT_QUERY)) {
-            ps.setObject(1, entity.getName());
-            ps.setObject(2, entity.getDescription());
-            ps.setObject(3, entity.getEnergyCoefficient());
+            ps.setObject(1, lifestyle.getName());
+            ps.setObject(2, lifestyle.getDescription());
+            ps.setObject(3, lifestyle.getEnergyCoefficient());
             if (ps.executeUpdate() > 0) {
                 return true;
             }
@@ -51,16 +51,16 @@ public class LifestyleDaoImpl extends AbstractCrudDaoImpl<Lifestyle> implements 
 
     @Override
     public Optional<Lifestyle> findById(Integer id) {
-        return findByParam(id, FIND_BY_ID, PARAM_SETTER);
+        return findByParam(id, FIND_BY_ID_QUERY);
     }
 
     @Override
-    public boolean update(Lifestyle entity) {
+    public boolean update(Lifestyle lifestyle) {
         try (PreparedStatement ps = getConnection().prepareStatement(UPDATE_QUERY)) {
-            ps.setObject(1, entity.getName());
-            ps.setObject(2, entity.getDescription());
-            ps.setObject(3, entity.getEnergyCoefficient());
-            ps.setObject(4, entity.getId());
+            ps.setObject(1, lifestyle.getName());
+            ps.setObject(2, lifestyle.getDescription());
+            ps.setObject(3, lifestyle.getEnergyCoefficient());
+            ps.setObject(4, lifestyle.getId());
             if (ps.executeUpdate() > 0) {
                 return true;
             }
@@ -73,7 +73,7 @@ public class LifestyleDaoImpl extends AbstractCrudDaoImpl<Lifestyle> implements 
 
     @Override
     public boolean deleteById(Integer id) {
-        return delete(id, DELETE_BY_ID);
+        return delete(id, DELETE_BY_ID_QUERY);
     }
 
     @Override
