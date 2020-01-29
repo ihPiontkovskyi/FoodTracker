@@ -13,4 +13,13 @@ public class DataAccessException extends RuntimeException {
     public DataAccessException(String description, Throwable e) {
         super(description, e);
     }
+
+    /**
+     * Creates a new {@code DataAccessException} object with a specified message.
+     *
+     * @param description message of the exception
+     */
+    public DataAccessException(String description) {
+        super(description);
+    }
 }

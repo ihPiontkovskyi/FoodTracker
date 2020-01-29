@@ -2,6 +2,7 @@ package ua.foodtracker.dao.db.manager;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,6 +16,9 @@ public class HikariCPManager implements ConnectionManager {
     private static final String DB_DRIVER = "db.driver";
     private static final String DB_POOL_SIZE = "db.pool.size";
     private static final String DB_TIMEOUT = "db.timeout";
+
+    private static final Logger LOGGER = Logger.getLogger(HikariCPManager.class);
+    public static final String ERROR_MESSAGE = "Connection wasn't set %s";
 
     private static HikariConfig config = new HikariConfig();
     private HikariDataSource ds;
@@ -34,7 +38,8 @@ public class HikariCPManager implements ConnectionManager {
         try {
             return ds.getConnection();
         } catch (SQLException e) {
-            throw new IllegalStateException("Connection wasn't set", e);
+            LOGGER.error(String.format(ERROR_MESSAGE, e.getMessage()));
+            throw new IllegalStateException(String.format(ERROR_MESSAGE, ""), e);
         }
     }
 

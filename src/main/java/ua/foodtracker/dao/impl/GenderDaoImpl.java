@@ -8,6 +8,7 @@ import ua.foodtracker.exception.DataAccessException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,17 +30,20 @@ public class GenderDaoImpl extends AbstractCrudDaoImpl<Gender> implements CrudDa
     }
 
     @Override
-    public boolean save(Gender gender) {
-        try (PreparedStatement ps = getConnection().prepareStatement(INSERT_QUERY)) {
+    public Integer save(Gender gender) {
+        try (PreparedStatement ps = getConnection().prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             ps.setObject(1, gender.getName());
-            if (ps.executeUpdate() > 0) {
-                return true;
+            ps.execute();
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
             }
         } catch (SQLException e) {
             LOGGER.warn(String.format(ERROR_MESSAGE, INSERT_QUERY, e));
             throw new DataAccessException(getMessage(INSERT_QUERY), e);
         }
-        return false;
+        throw new DataAccessException(getMessage(INSERT_QUERY));
     }
 
     @Override
@@ -71,4 +75,5 @@ public class GenderDaoImpl extends AbstractCrudDaoImpl<Gender> implements CrudDa
     public List<Gender> findAll() {
         return findAll(SELECT_ALL_QUERY);
     }
+
 }

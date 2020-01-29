@@ -9,6 +9,7 @@ import ua.foodtracker.exception.DataAccessException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,8 +51,8 @@ public class MealDaoImpl extends AbstractCrudDaoImpl<Meal> implements CrudPageab
     }
 
     @Override
-    public boolean save(Meal meal) {
-        try (PreparedStatement ps = getConnection().prepareStatement(INSERT_QUERY)) {
+    public Integer save(Meal meal) {
+        try (PreparedStatement ps = getConnection().prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             ps.setObject(1, meal.getUserId());
             ps.setObject(2, meal.getFat());
             ps.setObject(3, meal.getProtein());
@@ -59,14 +60,17 @@ public class MealDaoImpl extends AbstractCrudDaoImpl<Meal> implements CrudPageab
             ps.setObject(5, meal.getWater());
             ps.setObject(6, meal.getWeight());
             ps.setObject(7, meal.getName());
-            if (ps.executeUpdate() > 0) {
-                return true;
+            ps.execute();
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
             }
         } catch (SQLException e) {
             LOGGER.warn(String.format(ERROR_MESSAGE, INSERT_QUERY, e));
             throw new DataAccessException(getMessage(INSERT_QUERY), e);
         }
-        return false;
+        throw new DataAccessException(getMessage(INSERT_QUERY));
     }
 
     @Override

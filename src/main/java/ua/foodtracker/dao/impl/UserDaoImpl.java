@@ -9,6 +9,7 @@ import ua.foodtracker.exception.DataAccessException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,8 +64,8 @@ public class UserDaoImpl extends AbstractCrudDaoImpl<User> implements UserDao {
     }
 
     @Override
-    public boolean save(User user) {
-        try (PreparedStatement ps = getConnection().prepareStatement(INSERT_QUERY)) {
+    public Integer save(User user) {
+        try (PreparedStatement ps = getConnection().prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             ps.setObject(1, user.getEmail());
             ps.setObject(2, hashpw(user.getPassword(), gensalt()));
             ps.setObject(3, user.getFirstName());
@@ -76,14 +77,17 @@ public class UserDaoImpl extends AbstractCrudDaoImpl<User> implements UserDao {
             ps.setObject(9, user.getUserGoal());
             ps.setObject(10, user.getLifestyle());
             ps.setObject(11, user.getRole());
-            if (ps.executeUpdate() > 0) {
-                return true;
+            ps.execute();
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
             }
         } catch (SQLException e) {
             LOGGER.warn(String.format(ERROR_MESSAGE, INSERT_QUERY, e));
             throw new DataAccessException(getMessage(INSERT_QUERY), e);
         }
-        return false;
+        throw new DataAccessException(getMessage(INSERT_QUERY));
     }
 
     @Override

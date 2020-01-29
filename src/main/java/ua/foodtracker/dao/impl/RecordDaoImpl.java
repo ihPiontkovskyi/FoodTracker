@@ -9,6 +9,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -55,19 +56,22 @@ public class RecordDaoImpl extends AbstractCrudDaoImpl<Record> implements Record
     }
 
     @Override
-    public boolean save(Record record) {
-        try (PreparedStatement ps = getConnection().prepareStatement(INSERT_QUERY)) {
+    public Integer save(Record record) {
+        try (PreparedStatement ps = getConnection().prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             ps.setObject(1, record.getUserId());
             ps.setObject(2, record.getMealId());
             ps.setObject(3, record.getDate());
-            if (ps.executeUpdate() > 0) {
-                return true;
+            ps.execute();
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
             }
         } catch (SQLException e) {
             LOGGER.warn(String.format(ERROR_MESSAGE, INSERT_QUERY, e));
             throw new DataAccessException(getMessage(INSERT_QUERY), e);
         }
-        return false;
+        throw new DataAccessException(getMessage(INSERT_QUERY));
     }
 
     @Override

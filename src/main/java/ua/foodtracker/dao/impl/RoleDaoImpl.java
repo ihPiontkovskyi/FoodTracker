@@ -8,6 +8,7 @@ import ua.foodtracker.exception.DataAccessException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,17 +29,20 @@ public class RoleDaoImpl extends AbstractCrudDaoImpl<Role> implements CrudDao<Ro
     }
 
     @Override
-    public boolean save(Role role) {
-        try (PreparedStatement ps = getConnection().prepareStatement(INSERT_QUERY)) {
+    public Integer save(Role role) {
+        try (PreparedStatement ps = getConnection().prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             ps.setObject(1, role.getName());
-            if (ps.executeUpdate() > 0) {
-                return true;
+            ps.execute();
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
             }
         } catch (SQLException e) {
             LOGGER.warn(String.format(ERROR_MESSAGE, INSERT_QUERY, e));
             throw new DataAccessException(getMessage(INSERT_QUERY), e);
         }
-        return false;
+        throw new DataAccessException(getMessage(INSERT_QUERY));
     }
 
     @Override
@@ -50,7 +54,7 @@ public class RoleDaoImpl extends AbstractCrudDaoImpl<Role> implements CrudDao<Ro
     public boolean update(Role role) {
         try (PreparedStatement ps = getConnection().prepareStatement(UPDATE_QUERY)) {
             ps.setObject(1, role.getName());
-            ps.setObject(4, role.getId());
+            ps.setObject(2, role.getId());
             if (ps.executeUpdate() > 0) {
                 return true;
             }
