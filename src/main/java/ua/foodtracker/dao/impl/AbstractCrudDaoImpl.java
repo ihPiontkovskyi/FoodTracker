@@ -16,12 +16,9 @@ import java.util.List;
 import java.util.Optional;
 
 public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E> {
+
     protected static final Logger LOGGER = Logger.getLogger(AbstractCrudDaoImpl.class);
     protected static final String ERROR_MESSAGE = "Cannot handle sql ['%s']; Message:%s";
-
-    protected static String getMessage(String sql) {
-        return String.format("Cannot handle sql ['%s']", sql);
-    }
 
     private final ConnectionHolder connectionHolder;
 
@@ -104,5 +101,9 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E> {
             LOGGER.warn(String.format(ERROR_MESSAGE, query, e));
             throw new DataAccessException(getMessage(query), e);
         }
+    }
+
+    protected static String getMessage(String sql) {
+        return String.format("Cannot handle sql ['%s']", sql);
     }
 }

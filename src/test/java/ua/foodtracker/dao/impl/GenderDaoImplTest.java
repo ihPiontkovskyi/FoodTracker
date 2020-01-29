@@ -20,9 +20,10 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class GenderDaoImplTest {
+
     private static final String FILENAME = "properties/db";
     private static final HikariCPManager manager = new HikariCPManager(FILENAME);
-    public static final Gender GENDER = new Gender(0, "male");
+    private static final Gender GENDER = new Gender(0, "male");
 
     private ConnectionHolder holder = new ThreadLocalConnectionHolder();
 

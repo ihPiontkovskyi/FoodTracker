@@ -20,9 +20,10 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class UserGoalDaoImplTest {
+    
     private static final String FILENAME = "properties/db";
     private static final HikariCPManager manager = new HikariCPManager(FILENAME);
-    public static final UserGoal USER_GOAL = UserGoal.builder()
+    private static final UserGoal USER_GOAL = UserGoal.builder()
             .withId(0)
             .withDailyCarbohydrateGoal(140)
             .withDailyEnergyGoal(2200)

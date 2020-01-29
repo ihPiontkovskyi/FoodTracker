@@ -20,9 +20,10 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class LifestyleDaoImplTest {
+
     private static final String FILENAME = "properties/db";
     private static final HikariCPManager manager = new HikariCPManager(FILENAME);
-    public static final Lifestyle LIFESTYLE = Lifestyle.builder()
+    private static final Lifestyle LIFESTYLE = Lifestyle.builder()
             .withId(0)
             .withName("lifestyle")
             .withDescription("description")

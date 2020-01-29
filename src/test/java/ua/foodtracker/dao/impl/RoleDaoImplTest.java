@@ -20,9 +20,10 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class RoleDaoImplTest {
+
     private static final String FILENAME = "properties/db";
     private static final HikariCPManager manager = new HikariCPManager(FILENAME);
-    public static final Role ROLE = new Role(0, "role");
+    private static final Role ROLE = new Role(0, "role");
 
     private ConnectionHolder holder = new ThreadLocalConnectionHolder();
 

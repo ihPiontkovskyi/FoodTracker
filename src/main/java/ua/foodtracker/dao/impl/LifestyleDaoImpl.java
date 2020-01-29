@@ -17,21 +17,11 @@ public class LifestyleDaoImpl extends AbstractCrudDaoImpl<Lifestyle> implements 
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM lifestyles WHERE id=?";
     private static final String DELETE_BY_ID_QUERY = "DELETE FROM lifestyles WHERE id=?";
     private static final String INSERT_QUERY = "INSERT INTO lifestyles VALUES(DEFAULT,?,?,?)";
-    public static final String UPDATE_QUERY = "UPDATE lifestyles SET name=?,description=?,energy_coefficient=? WHERE id=?";
-    public static final String SELECT_ALL_QUERY = "SELECT * FROM lifestyles";
+    private static final String UPDATE_QUERY = "UPDATE lifestyles SET name=?,description=?,energy_coefficient=? WHERE id=?";
+    private static final String SELECT_ALL_QUERY = "SELECT * FROM lifestyles";
 
     public LifestyleDaoImpl(ConnectionHolder holder) {
         super(holder);
-    }
-
-    @Override
-    protected Lifestyle extractFromResultSet(ResultSet resultSet) throws SQLException {
-        return Lifestyle.builder()
-                .withId(resultSet.getInt("id"))
-                .withName(resultSet.getString("name"))
-                .withDescription(resultSet.getString("description"))
-                .withEnergyCoefficient(resultSet.getDouble("energy_coefficient"))
-                .build();
     }
 
     @Override
@@ -83,5 +73,15 @@ public class LifestyleDaoImpl extends AbstractCrudDaoImpl<Lifestyle> implements 
     @Override
     public List<Lifestyle> findAll() {
         return findAll(SELECT_ALL_QUERY);
+    }
+
+    @Override
+    protected Lifestyle extractFromResultSet(ResultSet resultSet) throws SQLException {
+        return Lifestyle.builder()
+                .withId(resultSet.getInt("id"))
+                .withName(resultSet.getString("name"))
+                .withDescription(resultSet.getString("description"))
+                .withEnergyCoefficient(resultSet.getDouble("energy_coefficient"))
+                .build();
     }
 }

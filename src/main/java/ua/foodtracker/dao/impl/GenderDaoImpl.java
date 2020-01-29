@@ -14,19 +14,14 @@ import java.util.Optional;
 
 public class GenderDaoImpl extends AbstractCrudDaoImpl<Gender> implements CrudDao<Gender> {
 
-    public static final String FIND_BY_ID_QUERY = "SELECT * FROM genders WHERE id=?";
-    public static final String DELETE_QUERY = "DELETE FROM genders WHERE id=?";
-    public static final String INSERT_QUERY = "INSERT INTO genders VALUES(DEFAULT,?)";
-    public static final String UPDATE_QUERY = "UPDATE genders SET name=? WHERE id=?";
-    public static final String SELECT_ALL_QUERY = "SELECT * FROM genders";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM genders WHERE id=?";
+    private static final String DELETE_QUERY = "DELETE FROM genders WHERE id=?";
+    private static final String INSERT_QUERY = "INSERT INTO genders VALUES(DEFAULT,?)";
+    private static final String UPDATE_QUERY = "UPDATE genders SET name=? WHERE id=?";
+    private static final String SELECT_ALL_QUERY = "SELECT * FROM genders";
 
     public GenderDaoImpl(ConnectionHolder holder) {
         super(holder);
-    }
-
-    @Override
-    protected Gender extractFromResultSet(ResultSet resultSet) throws SQLException {
-        return new Gender(resultSet.getInt("id"), resultSet.getString("name"));
     }
 
     @Override
@@ -76,4 +71,8 @@ public class GenderDaoImpl extends AbstractCrudDaoImpl<Gender> implements CrudDa
         return findAll(SELECT_ALL_QUERY);
     }
 
+    @Override
+    protected Gender extractFromResultSet(ResultSet resultSet) throws SQLException {
+        return new Gender(resultSet.getInt("id"), resultSet.getString("name"));
+    }
 }

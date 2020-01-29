@@ -18,13 +18,13 @@ import static org.mindrot.jbcrypt.BCrypt.hashpw;
 
 public class UserDaoImpl extends AbstractCrudDaoImpl<User> implements UserDao {
 
-    public static final String SELECT_BY_EMAIL_QUERY = "SELECT * FROM users WHERE email=?";
-    public static final String SELECT_PAGE_QUERY = "SELECT * FROM users LIMIT ? OFFSET ?";
-    public static final String COUNT_RECORD_QUERY = "SELECT COUNT(1) FROM users";
-    public static final String SELECT_BY_ID_QUERY = "SELECT * FROM users WHERE id=?";
-    public static final String DELETE_QUERY = "DELETE FROM users WHERE id=?";
-    public static final String INSERT_QUERY = "INSERT INTO users VALUES (DEFAULT ,?,?,?,?,?,?,?,?,?,?,?)";
-    public static final String UPDATE_QUERY = "UPDATE users SET email=?,password=?,first_name=?,last_name=?,height=?,weight=?,birthday=?,gender_id=?,user_goal_id=?,lifestyle_id=?,role_id=? WHERE id=?";
+    private static final String SELECT_BY_EMAIL_QUERY = "SELECT * FROM users WHERE email=?";
+    private static final String SELECT_PAGE_QUERY = "SELECT * FROM users LIMIT ? OFFSET ?";
+    private static final String COUNT_RECORD_QUERY = "SELECT COUNT(1) FROM users";
+    private static final String SELECT_BY_ID_QUERY = "SELECT * FROM users WHERE id=?";
+    private static final String DELETE_QUERY = "DELETE FROM users WHERE id=?";
+    private static final String INSERT_QUERY = "INSERT INTO users VALUES (DEFAULT ,?,?,?,?,?,?,?,?,?,?,?)";
+    private static final String UPDATE_QUERY = "UPDATE users SET email=?,password=?,first_name=?,last_name=?,height=?,weight=?,birthday=?,gender_id=?,user_goal_id=?,lifestyle_id=?,role_id=? WHERE id=?";
 
     public UserDaoImpl(ConnectionHolder connectionHolder) {
         super(connectionHolder);
@@ -46,37 +46,9 @@ public class UserDaoImpl extends AbstractCrudDaoImpl<User> implements UserDao {
     }
 
     @Override
-    protected User extractFromResultSet(ResultSet resultSet) throws SQLException {
-        return User.builder()
-                .withId(resultSet.getInt("id"))
-                .withEmail(resultSet.getString("email"))
-                .withFirstName(resultSet.getString("first_name"))
-                .withLastName(resultSet.getString("last_name"))
-                .withGender(resultSet.getInt("gender_id"))
-                .withBirthday(resultSet.getDate("birthday"))
-                .withHeight(resultSet.getInt("height"))
-                .withWeight(resultSet.getInt("weight"))
-                .withLifestyle(resultSet.getInt("lifestyle_id"))
-                .withPassword(resultSet.getString("password"))
-                .withRole(resultSet.getInt("role_id"))
-                .withUserGoal(resultSet.getInt("user_goal_id"))
-                .build();
-    }
-
-    @Override
     public Integer save(User user) {
         try (PreparedStatement ps = getConnection().prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setObject(1, user.getEmail());
-            ps.setObject(2, hashpw(user.getPassword(), gensalt()));
-            ps.setObject(3, user.getFirstName());
-            ps.setObject(4, user.getLastName());
-            ps.setObject(5, user.getHeight());
-            ps.setObject(6, user.getWeight());
-            ps.setObject(7, user.getBirthday());
-            ps.setObject(8, user.getGender());
-            ps.setObject(9, user.getUserGoal());
-            ps.setObject(10, user.getLifestyle());
-            ps.setObject(11, user.getRole());
+            prepareData(user, ps);
             ps.execute();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
@@ -98,17 +70,7 @@ public class UserDaoImpl extends AbstractCrudDaoImpl<User> implements UserDao {
     @Override
     public boolean update(User user) {
         try (PreparedStatement ps = getConnection().prepareStatement(UPDATE_QUERY)) {
-            ps.setObject(1, user.getEmail());
-            ps.setObject(2, hashpw(user.getPassword(), gensalt()));
-            ps.setObject(3, user.getFirstName());
-            ps.setObject(4, user.getLastName());
-            ps.setObject(5, user.getHeight());
-            ps.setObject(6, user.getWeight());
-            ps.setObject(7, user.getBirthday());
-            ps.setObject(8, user.getGender());
-            ps.setObject(9, user.getUserGoal());
-            ps.setObject(10, user.getLifestyle());
-            ps.setObject(11, user.getRole());
+            prepareData(user, ps);
             ps.setObject(12, user.getId());
             if (ps.executeUpdate() > 0) {
                 return true;
@@ -123,5 +85,37 @@ public class UserDaoImpl extends AbstractCrudDaoImpl<User> implements UserDao {
     @Override
     public boolean deleteById(Integer id) {
         return delete(id, DELETE_QUERY);
+    }
+
+    @Override
+    protected User extractFromResultSet(ResultSet resultSet) throws SQLException {
+        return User.builder()
+                .withId(resultSet.getInt("id"))
+                .withEmail(resultSet.getString("email"))
+                .withFirstName(resultSet.getString("first_name"))
+                .withLastName(resultSet.getString("last_name"))
+                .withGender(resultSet.getInt("gender_id"))
+                .withBirthday(resultSet.getDate("birthday"))
+                .withHeight(resultSet.getInt("height"))
+                .withWeight(resultSet.getInt("weight"))
+                .withLifestyle(resultSet.getInt("lifestyle_id"))
+                .withPassword(resultSet.getString("password"))
+                .withRole(resultSet.getInt("role_id"))
+                .withUserGoal(resultSet.getInt("user_goal_id"))
+                .build();
+    }
+
+    private void prepareData(User user, PreparedStatement ps) throws SQLException {
+        ps.setObject(1, user.getEmail());
+        ps.setObject(2, hashpw(user.getPassword(), gensalt()));
+        ps.setObject(3, user.getFirstName());
+        ps.setObject(4, user.getLastName());
+        ps.setObject(5, user.getHeight());
+        ps.setObject(6, user.getWeight());
+        ps.setObject(7, user.getBirthday());
+        ps.setObject(8, user.getGender());
+        ps.setObject(9, user.getUserGoal());
+        ps.setObject(10, user.getLifestyle());
+        ps.setObject(11, user.getRole());
     }
 }

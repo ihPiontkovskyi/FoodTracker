@@ -15,12 +15,12 @@ import java.util.Optional;
 
 public class MealDaoImpl extends AbstractCrudDaoImpl<Meal> implements CrudPageableDao<Meal> {
 
-    public static final String SELECT_BY_ID_QUERY = "SELECT * FROM meals WHERE id=?";
-    public static final String DELETE_QUERY = "DELETE FROM meals WHERE id=?";
-    public static final String INSERT_QUERY = "INSERT INTO meals VALUES (DEFAULT,?,?,?,?,?,?,?)";
-    public static final String UPDATE_QUERY = "UPDATE meals SET user_id=?,fat=?,protein=?,carbohydrate=?,water=?,weight=?,name=? WHERE id=?";
-    public static final String SELECT_PAGE_QUERY = "SELECT * FROM meals LIMIT ? OFFSET ?";
-    public static final String COUNT_RECORD_QUERY = "SELECT COUNT(1) FROM meals";
+    private static final String SELECT_BY_ID_QUERY = "SELECT * FROM meals WHERE id=?";
+    private static final String DELETE_QUERY = "DELETE FROM meals WHERE id=?";
+    private static final String INSERT_QUERY = "INSERT INTO meals VALUES (DEFAULT,?,?,?,?,?,?,?)";
+    private static final String UPDATE_QUERY = "UPDATE meals SET user_id=?,fat=?,protein=?,carbohydrate=?,water=?,weight=?,name=? WHERE id=?";
+    private static final String SELECT_PAGE_QUERY = "SELECT * FROM meals LIMIT ? OFFSET ?";
+    private static final String COUNT_RECORD_QUERY = "SELECT COUNT(1) FROM meals";
 
     public MealDaoImpl(ConnectionHolder connectionHolder) {
         super(connectionHolder);
@@ -37,29 +37,9 @@ public class MealDaoImpl extends AbstractCrudDaoImpl<Meal> implements CrudPageab
     }
 
     @Override
-    protected Meal extractFromResultSet(ResultSet resultSet) throws SQLException {
-        return Meal.builder().
-                withId(resultSet.getInt("id"))
-                .withName(resultSet.getString("name"))
-                .withCarbohydrates(resultSet.getInt("carbohydrate"))
-                .withFat(resultSet.getInt("fat"))
-                .withProtein(resultSet.getInt("protein"))
-                .withWater(resultSet.getInt("water"))
-                .withWeight(resultSet.getInt("weight"))
-                .withUserId(resultSet.getInt("user_id"))
-                .build();
-    }
-
-    @Override
     public Integer save(Meal meal) {
         try (PreparedStatement ps = getConnection().prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setObject(1, meal.getUserId());
-            ps.setObject(2, meal.getFat());
-            ps.setObject(3, meal.getProtein());
-            ps.setObject(4, meal.getCarbohydrates());
-            ps.setObject(5, meal.getWater());
-            ps.setObject(6, meal.getWeight());
-            ps.setObject(7, meal.getName());
+            prepareData(meal, ps);
             ps.execute();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
@@ -81,13 +61,7 @@ public class MealDaoImpl extends AbstractCrudDaoImpl<Meal> implements CrudPageab
     @Override
     public boolean update(Meal meal) {
         try (PreparedStatement ps = getConnection().prepareStatement(UPDATE_QUERY)) {
-            ps.setObject(1, meal.getUserId());
-            ps.setObject(2, meal.getFat());
-            ps.setObject(3, meal.getProtein());
-            ps.setObject(4, meal.getCarbohydrates());
-            ps.setObject(5, meal.getWater());
-            ps.setObject(6, meal.getWeight());
-            ps.setObject(7, meal.getName());
+            prepareData(meal, ps);
             ps.setObject(8, meal.getId());
             if (ps.executeUpdate() > 0) {
                 return true;
@@ -102,5 +76,29 @@ public class MealDaoImpl extends AbstractCrudDaoImpl<Meal> implements CrudPageab
     @Override
     public boolean deleteById(Integer id) {
         return delete(id, DELETE_QUERY);
+    }
+
+    @Override
+    protected Meal extractFromResultSet(ResultSet resultSet) throws SQLException {
+        return Meal.builder().
+                withId(resultSet.getInt("id"))
+                .withName(resultSet.getString("name"))
+                .withCarbohydrates(resultSet.getInt("carbohydrate"))
+                .withFat(resultSet.getInt("fat"))
+                .withProtein(resultSet.getInt("protein"))
+                .withWater(resultSet.getInt("water"))
+                .withWeight(resultSet.getInt("weight"))
+                .withUserId(resultSet.getInt("user_id"))
+                .build();
+    }
+
+    private void prepareData(Meal meal, PreparedStatement ps) throws SQLException {
+        ps.setObject(1, meal.getUserId());
+        ps.setObject(2, meal.getFat());
+        ps.setObject(3, meal.getProtein());
+        ps.setObject(4, meal.getCarbohydrates());
+        ps.setObject(5, meal.getWater());
+        ps.setObject(6, meal.getWeight());
+        ps.setObject(7, meal.getName());
     }
 }

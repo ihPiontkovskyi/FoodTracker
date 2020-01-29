@@ -16,12 +16,12 @@ import java.util.Optional;
 
 public class RecordDaoImpl extends AbstractCrudDaoImpl<Record> implements RecordDao {
 
-    public static final String INSERT_QUERY = "INSERT INTO records VALUES (DEFAULT,?,?,?)";
-    public static final String SELECT_BY_ID_QUERY = "SELECT * FROM records WHERE id=?";
-    public static final String UPDATE_QUERY = "UPDATE records SET user_id=?,meal_id=?,date=? WHERE id =?";
-    public static final String DELETE_QUERY = "DELETE FROM records WHERE id=?";
-    public static final String SELECT_ALL_QUERY = "SELECT * FROM records";
-    public static final String SELECT_BY_USER_ID_AND_DATE_QUERY = "SELECT * FROM records WHERE user_id=? AND date=?";
+    private static final String INSERT_QUERY = "INSERT INTO records VALUES (DEFAULT,?,?,?)";
+    private static final String SELECT_BY_ID_QUERY = "SELECT * FROM records WHERE id=?";
+    private static final String UPDATE_QUERY = "UPDATE records SET user_id=?,meal_id=?,date=? WHERE id =?";
+    private static final String DELETE_QUERY = "DELETE FROM records WHERE id=?";
+    private static final String SELECT_ALL_QUERY = "SELECT * FROM records";
+    private static final String SELECT_BY_USER_ID_AND_DATE_QUERY = "SELECT * FROM records WHERE user_id=? AND date=?";
 
     public RecordDaoImpl(ConnectionHolder connectionHolder) {
         super(connectionHolder);
@@ -43,16 +43,6 @@ public class RecordDaoImpl extends AbstractCrudDaoImpl<Record> implements Record
             LOGGER.warn(String.format(ERROR_MESSAGE, INSERT_QUERY, e));
             throw new DataAccessException(getMessage(INSERT_QUERY), e);
         }
-    }
-
-    @Override
-    protected Record extractFromResultSet(ResultSet resultSet) throws SQLException {
-        return Record.builder()
-                .withId(resultSet.getInt("id"))
-                .withMeal(resultSet.getInt("meal_id"))
-                .withUserId(resultSet.getInt("user_id"))
-                .withDate(resultSet.getDate("date"))
-                .build();
     }
 
     @Override
@@ -104,5 +94,15 @@ public class RecordDaoImpl extends AbstractCrudDaoImpl<Record> implements Record
     @Override
     public boolean deleteById(Integer id) {
         return delete(id, DELETE_QUERY);
+    }
+
+    @Override
+    protected Record extractFromResultSet(ResultSet resultSet) throws SQLException {
+        return Record.builder()
+                .withId(resultSet.getInt("id"))
+                .withMeal(resultSet.getInt("meal_id"))
+                .withUserId(resultSet.getInt("user_id"))
+                .withDate(resultSet.getDate("date"))
+                .build();
     }
 }

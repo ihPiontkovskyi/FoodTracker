@@ -13,19 +13,15 @@ import java.util.List;
 import java.util.Optional;
 
 public class RoleDaoImpl extends AbstractCrudDaoImpl<Role> implements CrudDao<Role> {
+
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM roles WHERE id=?";
     private static final String DELETE_BY_ID_QUERY = "DELETE FROM roles WHERE id=?";
     private static final String INSERT_QUERY = "INSERT INTO roles VALUES(DEFAULT,?)";
-    public static final String UPDATE_QUERY = "UPDATE roles SET name=? WHERE id=?";
-    public static final String SELECT_ALL_QUERY = "SELECT * FROM roles";
+    private static final String UPDATE_QUERY = "UPDATE roles SET name=? WHERE id=?";
+    private static final String SELECT_ALL_QUERY = "SELECT * FROM roles";
 
     public RoleDaoImpl(ConnectionHolder holder) {
         super(holder);
-    }
-
-    @Override
-    protected Role extractFromResultSet(ResultSet resultSet) throws SQLException {
-        return new Role(resultSet.getInt("id"), resultSet.getString("name"));
     }
 
     @Override
@@ -73,5 +69,10 @@ public class RoleDaoImpl extends AbstractCrudDaoImpl<Role> implements CrudDao<Ro
     @Override
     public List<Role> findAll() {
         return findAll(SELECT_ALL_QUERY);
+    }
+
+    @Override
+    protected Role extractFromResultSet(ResultSet resultSet) throws SQLException {
+        return new Role(resultSet.getInt("id"), resultSet.getString("name"));
     }
 }
