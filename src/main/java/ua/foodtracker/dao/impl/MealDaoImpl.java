@@ -32,7 +32,7 @@ public class MealDaoImpl extends AbstractCrudDaoImpl<Meal> implements CrudPageab
     }
 
     @Override
-    public long count() {
+    public Long count() {
         return count(COUNT_RECORD_QUERY);
     }
 

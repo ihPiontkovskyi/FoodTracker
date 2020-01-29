@@ -41,7 +41,7 @@ public class UserDaoImpl extends AbstractCrudDaoImpl<User> implements UserDao {
     }
 
     @Override
-    public long count() {
+    public Long count() {
         return count(COUNT_RECORD_QUERY);
     }
 

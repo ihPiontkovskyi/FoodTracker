@@ -89,14 +89,14 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E> {
         }
     }
 
-    protected long count(String query) {
+    protected Long count(String query) {
         try (Statement st = getConnection().createStatement()) {
             try (ResultSet rs = st.executeQuery(query)) {
                 if (rs.next()) {
-                    return rs.getInt(1);
+                    return rs.getLong(1);
                 }
             }
-            return 0;
+            throw new DataAccessException(getMessage(query));
         } catch (SQLException e) {
             LOGGER.warn(String.format(ERROR_MESSAGE, query, e));
             throw new DataAccessException(getMessage(query), e);
