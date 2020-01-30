@@ -1,68 +1,42 @@
 package ua.foodtracker.entity;
 
-public class Lifestyle {
-    private final Integer id;
-    private final String description;
-    private final String name;
-    private final Double energyCoefficient;
+/**
+ * Enum which contain user lifestyles
+ */
+public enum Lifestyle {
+    SEDENTARY(1.2),
+    LIGHTLY_ACTIVE(1.375),
+    ACTIVE(1.55),
+    VERY_ACTIVE(1.725);
 
-    public Lifestyle(Builder builder) {
-        this.id = builder.id;
-        this.description = builder.description;
-        this.name = builder.name;
-        this.energyCoefficient = builder.energyCoefficient;
+    public static final String ERROR_MESSAGE = "There is no such lifestyle!";
+
+    private Double coefficient;
+
+    private Lifestyle(Double coefficient) {
+        this.coefficient = coefficient;
+    }
+
+    public static Lifestyle getLifestyleById(Integer id) {
+        switch (id) {
+            case 1:
+                return SEDENTARY;
+            case 2:
+                return LIGHTLY_ACTIVE;
+            case 3:
+                return ACTIVE;
+            case 4:
+                return VERY_ACTIVE;
+            default:
+                throw new IllegalArgumentException(ERROR_MESSAGE);
+        }
     }
 
     public Integer getId() {
-        return id;
+        return this.ordinal();
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public Double getEnergyCoefficient() {
-        return energyCoefficient;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public static Builder builder() {
-        return new Builder();
-    }
-
-    public static class Builder {
-        private Integer id;
-        private String description;
-        private String name;
-        private Double energyCoefficient;
-
-        private Builder(){}
-
-        public Builder withId(Integer id) {
-            this.id = id;
-            return this;
-        }
-
-        public Builder withDescription(String description) {
-            this.description = description;
-            return this;
-        }
-
-        public Builder withName(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public Builder withEnergyCoefficient(Double energyCoefficient) {
-            this.energyCoefficient = energyCoefficient;
-            return this;
-        }
-
-        public Lifestyle build() {
-            return new Lifestyle(this);
-        }
+    public Double getCoefficient() {
+        return coefficient;
     }
 }

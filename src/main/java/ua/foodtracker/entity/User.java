@@ -13,11 +13,11 @@ public class User {
     private final String lastName;
     private final Integer weight;
     private final Integer height;
-    private final Integer lifestyle;
+    private final Lifestyle lifestyle;
     private final Date birthday;
-    private final Integer gender;
-    private final Integer userGoal;
-    private final Integer role;
+    private final Gender gender;
+    private final UserGoal userGoal;
+    private final Role role;
 
     private User(Builder builder) {
         this.id = builder.id;
@@ -62,7 +62,7 @@ public class User {
         return height;
     }
 
-    public Integer getLifestyle() {
+    public Lifestyle getLifestyle() {
         return lifestyle;
     }
 
@@ -70,15 +70,15 @@ public class User {
         return birthday;
     }
 
-    public Integer getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public Integer getUserGoal() {
+    public UserGoal getUserGoal() {
         return userGoal;
     }
 
-    public Integer getRole() {
+    public Role getRole() {
         return role;
     }
 
@@ -94,11 +94,11 @@ public class User {
         private String lastName;
         private Integer weight;
         private Integer height;
-        private Integer lifestyle;
+        private Lifestyle lifestyle;
         private Date birthday;
-        private Integer gender;
-        private Integer userGoal;
-        private Integer role;
+        private Gender gender;
+        private UserGoal userGoal;
+        private Role role;
 
         private Builder() {
         }
@@ -138,7 +138,7 @@ public class User {
             return this;
         }
 
-        public Builder withLifestyle(Integer lifestyle) {
+        public Builder withLifestyle(Lifestyle lifestyle) {
             this.lifestyle = lifestyle;
             return this;
         }
@@ -148,18 +148,17 @@ public class User {
             return this;
         }
 
-        public Builder withGender(Integer gender) {
+        public Builder withGender(Gender gender) {
             this.gender = gender;
             return this;
         }
 
-
-        public Builder withUserGoal(Integer userGoal) {
+        public Builder withUserGoal(UserGoal userGoal) {
             this.userGoal = userGoal;
             return this;
         }
 
-        public Builder withRole(Integer role) {
+        public Builder withRole(Role role) {
             this.role = role;
             return this;
         }

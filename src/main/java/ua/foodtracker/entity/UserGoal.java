@@ -1,5 +1,8 @@
 package ua.foodtracker.entity;
 
+/**
+ * Entity class of user goals
+ */
 public class UserGoal {
     private final Integer id;
     private final Integer dailyEnergyGoal;

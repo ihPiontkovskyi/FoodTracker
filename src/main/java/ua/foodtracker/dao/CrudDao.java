@@ -1,17 +1,14 @@
 package ua.foodtracker.dao;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
+/**
+ * Crud dao class which contain methods interaction with database for all entities
+ */
 public interface CrudDao<E> {
     Integer save(E entity);
 
     Optional<E> findById(Integer id);
-
-    default List<E> findAll() {
-        return Collections.emptyList();
-    }
 
     boolean update(E entity);
 

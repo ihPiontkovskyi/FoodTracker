@@ -7,7 +7,7 @@ public class Meal {
     private final Integer id;
     private final String name;
     private final Integer protein;
-    private final Integer userId;
+    private final User user;
     private final Integer carbohydrates;
     private final Integer fat;
     private final Integer weight;
@@ -17,7 +17,7 @@ public class Meal {
         this.id = builder.id;
         this.name = builder.name;
         this.protein = builder.protein;
-        this.userId = builder.userId;
+        this.user = builder.user;
         this.carbohydrates = builder.carbohydrates;
         this.fat = builder.fat;
         this.weight = builder.weight;
@@ -36,8 +36,8 @@ public class Meal {
         return protein;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
     public Integer getCarbohydrates() {
@@ -64,7 +64,7 @@ public class Meal {
         private Integer id;
         private String name;
         private Integer protein;
-        private Integer userId;
+        private User user;
         private Integer carbohydrates;
         private Integer fat;
         private Integer weight;
@@ -88,8 +88,8 @@ public class Meal {
             return this;
         }
 
-        public Builder withUserId(Integer userId) {
-            this.userId = userId;
+        public Builder withUser(User user) {
+            this.user = user;
             return this;
         }
 

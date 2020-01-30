@@ -7,14 +7,14 @@ import java.sql.Date;
  */
 public class Record {
     private final Integer id;
-    private final Integer userId;
-    private final Integer mealId;
+    private final User user;
+    private final Meal meal;
     private final Date date;
 
     public Record(Builder builder) {
         this.id = builder.id;
-        this.userId = builder.userId;
-        this.mealId = builder.mealId;
+        this.user = builder.user;
+        this.meal = builder.meal;
         this.date = builder.date;
     }
 
@@ -22,12 +22,12 @@ public class Record {
         return id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public Integer getMealId() {
-        return mealId;
+    public Meal getMeal() {
+        return meal;
     }
 
     public Date getDate() {
@@ -40,8 +40,8 @@ public class Record {
 
     public static class Builder {
         private Integer id;
-        private Integer userId;
-        private Integer mealId;
+        private User user;
+        private Meal meal;
         private Date date;
 
         private Builder(){ }
@@ -51,13 +51,13 @@ public class Record {
             return this;
         }
 
-        public Builder withUserId(Integer userId) {
-            this.userId = userId;
+        public Builder withUser(User user) {
+            this.user = user;
             return this;
         }
 
-        public Builder withMeal(Integer mealId) {
-            this.mealId = mealId;
+        public Builder withMeal(Meal meal) {
+            this.meal = meal;
             return this;
         }
 

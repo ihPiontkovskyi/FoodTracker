@@ -1,19 +1,29 @@
 package ua.foodtracker.entity;
 
-public class Gender {
-    private final Integer id;
-    private final String name;
+/**
+ * Enum which contain user genders
+ */
+public enum Gender {
+    MALE,
+    FEMALE,
+    OTHER;
 
-    public Gender(Integer id, String name) {
-        this.id = id;
-        this.name = name;
+    public static final String ERROR_MESSAGE = "There is no such gender!";
+
+    public static Gender getGenderById(Integer id) {
+        switch (id) {
+            case 1:
+                return MALE;
+            case 2:
+                return FEMALE;
+            case 3:
+                return OTHER;
+            default:
+                throw new IllegalArgumentException(ERROR_MESSAGE);
+        }
     }
 
     public Integer getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
+        return this.ordinal();
     }
 }
