@@ -148,7 +148,7 @@ public class MealDaoImplTest {
                 .build();
         mealForTest = Meal.builder()
                 .withId(0)
-                .withCarbohydrates(containedMeal.getCarbohydrates())
+                .withCarbohydrates(containedMeal.getCarbohydrate())
                 .withFat(containedMeal.getFat())
                 .withName(containedMeal.getName())
                 .withProtein(containedMeal.getProtein())

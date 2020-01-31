@@ -8,7 +8,7 @@ public class Meal {
     private final String name;
     private final Integer protein;
     private final User user;
-    private final Integer carbohydrates;
+    private final Integer carbohydrate;
     private final Integer fat;
     private final Integer weight;
     private final Integer water;
@@ -18,7 +18,7 @@ public class Meal {
         this.name = builder.name;
         this.protein = builder.protein;
         this.user = builder.user;
-        this.carbohydrates = builder.carbohydrates;
+        this.carbohydrate = builder.carbohydrates;
         this.fat = builder.fat;
         this.weight = builder.weight;
         this.water = builder.water;
@@ -40,8 +40,8 @@ public class Meal {
         return user;
     }
 
-    public Integer getCarbohydrates() {
-        return carbohydrates;
+    public Integer getCarbohydrate() {
+        return carbohydrate;
     }
 
     public Integer getFat() {

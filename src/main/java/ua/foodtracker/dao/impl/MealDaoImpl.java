@@ -65,7 +65,7 @@ public class MealDaoImpl extends AbstractDaoImpl<Meal> implements PageableDao<Me
         ps.setObject(1, meal.getUser().getId());
         ps.setObject(2, meal.getFat());
         ps.setObject(3, meal.getProtein());
-        ps.setObject(4, meal.getCarbohydrates());
+        ps.setObject(4, meal.getCarbohydrate());
         ps.setObject(5, meal.getWater());
         ps.setObject(6, meal.getWeight());
         ps.setObject(7, meal.getName());
