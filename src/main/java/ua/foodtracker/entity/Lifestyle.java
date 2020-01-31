@@ -10,8 +10,6 @@ public enum Lifestyle {
     VERY_ACTIVE(1.725),
     NOT_SELECTED(1.0);
 
-    public static final String ERROR_MESSAGE = "There is no such lifestyle!";
-
     private Double coefficient;
 
     private Lifestyle(Double coefficient) {

@@ -53,6 +53,7 @@ CREATE TABLE `records`
     `meal_id` int(11) NOT NULL,
     `date`    date    NOT NULL,
     PRIMARY KEY (`id`),
-    CONSTRAINT `records_meals_id_fk` FOREIGN KEY (`meal_id`) REFERENCES `meals` (`id`) ON DELETE CASCADE ON UPDATE CASCADE);
+    CONSTRAINT `records_meals_id_fk` FOREIGN KEY (`meal_id`) REFERENCES `meals` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
 

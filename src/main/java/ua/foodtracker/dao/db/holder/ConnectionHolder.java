@@ -25,6 +25,4 @@ public interface ConnectionHolder {
      * Removes a connection from holder
      */
     void remove();
-
-
 }

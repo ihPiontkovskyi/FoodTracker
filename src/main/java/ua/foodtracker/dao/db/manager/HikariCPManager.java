@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class HikariCPManager implements ConnectionManager {
+    private static final Logger LOGGER = Logger.getLogger(HikariCPManager.class);
 
     private static final String DB_URL = "db.url";
     private static final String DB_USERNAME = "db.username";
@@ -16,9 +17,7 @@ public class HikariCPManager implements ConnectionManager {
     private static final String DB_DRIVER = "db.driver";
     private static final String DB_POOL_SIZE = "db.pool.size";
     private static final String DB_TIMEOUT = "db.timeout";
-
-    private static final Logger LOGGER = Logger.getLogger(HikariCPManager.class);
-    public static final String ERROR_MESSAGE = "Connection wasn't set %s";
+    private static final String ERROR_MESSAGE = "Connection wasn't set %s";
 
     private static HikariConfig config = new HikariConfig();
     private HikariDataSource ds;

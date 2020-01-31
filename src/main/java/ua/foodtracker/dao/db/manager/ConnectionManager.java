@@ -20,5 +20,4 @@ public interface ConnectionManager {
      * Closes connection.
      */
     void shutdown();
-
 }
