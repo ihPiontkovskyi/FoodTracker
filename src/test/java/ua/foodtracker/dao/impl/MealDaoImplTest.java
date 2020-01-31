@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import ua.foodtracker.dao.CrudPageableDao;
+import ua.foodtracker.dao.PageableDao;
 import ua.foodtracker.dao.Page;
 import ua.foodtracker.dao.db.holder.ConnectionHolder;
 import ua.foodtracker.dao.db.holder.ThreadLocalConnectionHolder;
@@ -13,7 +13,6 @@ import ua.foodtracker.dao.db.manager.HikariCPManager;
 import ua.foodtracker.entity.Gender;
 import ua.foodtracker.entity.Lifestyle;
 import ua.foodtracker.entity.Meal;
-import ua.foodtracker.entity.Record;
 import ua.foodtracker.entity.Role;
 import ua.foodtracker.entity.User;
 import ua.foodtracker.entity.UserGoal;
@@ -22,7 +21,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Optional;
 
@@ -40,7 +38,7 @@ public class MealDaoImplTest {
     private HikariCPManager manager;
     private Meal mealForTest;
     private ConnectionHolder holder;
-    private CrudPageableDao<Meal> dao;
+    private PageableDao<Meal> dao;
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
@@ -107,9 +105,10 @@ public class MealDaoImplTest {
         assertFalse(dao.deleteById(0));
     }
 
+    @Test
+
     @After
-    public void close() throws SQLException {
-        holder.get().close();
+    public void close() {
         holder.remove();
         manager.shutdown();
     }

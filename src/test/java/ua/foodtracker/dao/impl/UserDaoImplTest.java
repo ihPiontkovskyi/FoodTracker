@@ -71,7 +71,7 @@ public class UserDaoImplTest {
     }
 
     @Test
-    public void findByIdShouldReturnMeal() {
+    public void findByIdShouldReturnUser() {
         Optional<User> user = dao.findById(containedUser.getId());
         assertTrue(user.isPresent());
     }

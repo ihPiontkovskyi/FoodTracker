@@ -1,7 +1,7 @@
 package ua.foodtracker.dao.impl;
 
 import org.apache.log4j.Logger;
-import ua.foodtracker.dao.CrudDao;
+import ua.foodtracker.dao.BaseDao;
 import ua.foodtracker.dao.Page;
 import ua.foodtracker.dao.db.holder.ConnectionHolder;
 import ua.foodtracker.exception.DatabaseInteractionException;
@@ -20,7 +20,7 @@ import static ua.foodtracker.utility.Query.getQuery;
 /**
  * Provides a base functionality for all dao.
  */
-public abstract class AbstractDaoImpl<E> implements CrudDao<E> {
+public abstract class AbstractDaoImpl<E> implements BaseDao<E> {
     protected static final Logger LOGGER = Logger.getLogger(AbstractDaoImpl.class);
 
     protected static final String ERROR_MESSAGE = "Cannot handle sql ['%s']; Message:%s";
@@ -76,7 +76,7 @@ public abstract class AbstractDaoImpl<E> implements CrudDao<E> {
     protected boolean update(E entity, String queryKey) {
         String query = getQuery(queryKey);
         try (PreparedStatement ps = getConnection().prepareStatement(query)) {
-            prepareWithId(entity, ps);
+            prepareDataWithId(entity, ps);
             if (ps.executeUpdate() > 0) {
                 return true;
             }
@@ -102,12 +102,6 @@ public abstract class AbstractDaoImpl<E> implements CrudDao<E> {
         }
         return Optional.empty();
     }
-
-    protected abstract E extractFromResultSet(ResultSet resultSet) throws SQLException;
-
-    protected abstract void prepareData(E entity, PreparedStatement ps) throws SQLException;
-
-    protected abstract void prepareWithId(E entity, PreparedStatement ps) throws SQLException;
 
     protected List<E> findAll(String queryKey, Page page) {
         String query = getQuery(queryKey);
@@ -152,4 +146,9 @@ public abstract class AbstractDaoImpl<E> implements CrudDao<E> {
         return String.format("Cannot handle sql ['%s']", sql);
     }
 
+    protected abstract E extractFromResultSet(ResultSet resultSet) throws SQLException;
+
+    protected abstract void prepareData(E entity, PreparedStatement ps) throws SQLException;
+
+    protected abstract void prepareDataWithId(E entity, PreparedStatement ps) throws SQLException;
 }

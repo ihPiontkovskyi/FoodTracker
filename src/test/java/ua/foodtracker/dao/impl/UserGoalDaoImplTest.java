@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import ua.foodtracker.dao.CrudDao;
+import ua.foodtracker.dao.BaseDao;
 import ua.foodtracker.dao.db.holder.ConnectionHolder;
 import ua.foodtracker.dao.db.holder.ThreadLocalConnectionHolder;
 import ua.foodtracker.dao.db.manager.HikariCPManager;
@@ -33,7 +33,7 @@ public class UserGoalDaoImplTest {
     private UserGoal userGoalForTest;
     private UserGoal containedUserGoal;
     private ConnectionHolder holder;
-    private CrudDao<UserGoal> dao;
+    private BaseDao<UserGoal> dao;
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
@@ -60,7 +60,7 @@ public class UserGoalDaoImplTest {
     }
 
     @Test
-    public void findByIdShouldReturnMeal() {
+    public void findByIdShouldReturnUserGoal() {
         Optional<UserGoal> userGoal = dao.findById(containedUserGoal.getId());
         assertTrue(userGoal.isPresent());
     }

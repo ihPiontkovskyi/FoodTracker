@@ -16,9 +16,6 @@ public class Query {
     private static final String SQL_FILE = "properties/query";
     private static final String ERROR_MESSAGE = "Cannot load file: '" + SQL_FILE + "'";
 
-    private Query() {
-    }
-
     static {
         try {
             QUERIES = ResourceBundle.getBundle(SQL_FILE);
@@ -26,6 +23,9 @@ public class Query {
             LOGGER.error(ERROR_MESSAGE, ex);
             throw new FileProcessingException(ERROR_MESSAGE, ex);
         }
+    }
+
+    private Query() {
     }
 
     /**

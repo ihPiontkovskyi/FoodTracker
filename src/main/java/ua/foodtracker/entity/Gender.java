@@ -6,7 +6,8 @@ package ua.foodtracker.entity;
 public enum Gender {
     MALE,
     FEMALE,
-    OTHER;
+    OTHER,
+    NOT_SELECTED;
 
     public static final String ERROR_MESSAGE = "There is no such gender!";
 
@@ -19,7 +20,7 @@ public enum Gender {
             case 3:
                 return OTHER;
             default:
-                throw new IllegalArgumentException(ERROR_MESSAGE);
+                return NOT_SELECTED;
         }
     }
 

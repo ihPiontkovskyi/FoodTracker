@@ -99,7 +99,7 @@ public class RecordDaoImplTest {
 
     @Test
     public void findByUserAndDateShouldReturnList() {
-        assertTrue(dao.findByUserIdAndDate(containedRecord.getUser().getId(), containedRecord.getDate()).size() > 0);
+        assertTrue(dao.findByUserIdAndDate(containedRecord.getMeal().getUser().getId(), containedRecord.getDate()).size() > 0);
     }
 
     @After
@@ -144,13 +144,11 @@ public class RecordDaoImplTest {
                 .build();
         containedRecord = Record.builder()
                 .withId(3)
-                .withUser(containedUser)
                 .withMeal(containedMeal)
                 .withDate(Date.valueOf("2020-01-27"))
                 .build();
         recordForTest = Record.builder()
                 .withId(0)
-                .withUser(containedUser)
                 .withMeal(containedMeal)
                 .withDate(Date.valueOf("2020-01-27"))
                 .build();

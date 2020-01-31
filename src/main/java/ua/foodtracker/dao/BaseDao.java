@@ -3,9 +3,9 @@ package ua.foodtracker.dao;
 import java.util.Optional;
 
 /**
- * Crud dao class which contain methods interaction with database for all entities
+ * Base dao class which contain methods interaction with database for all entities
  */
-public interface CrudDao<E> {
+public interface BaseDao<E> {
     Integer save(E entity);
 
     Optional<E> findById(Integer id);

@@ -84,7 +84,7 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao {
     }
 
     @Override
-    protected void prepareWithId(User user, PreparedStatement ps) throws SQLException {
+    protected void prepareDataWithId(User user, PreparedStatement ps) throws SQLException {
         prepareData(user, ps);
         ps.setObject(12, user.getId());
     }

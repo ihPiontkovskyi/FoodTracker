@@ -7,7 +7,8 @@ public enum Lifestyle {
     SEDENTARY(1.2),
     LIGHTLY_ACTIVE(1.375),
     ACTIVE(1.55),
-    VERY_ACTIVE(1.725);
+    VERY_ACTIVE(1.725),
+    NOT_SELECTED(1.0);
 
     public static final String ERROR_MESSAGE = "There is no such lifestyle!";
 
@@ -28,7 +29,7 @@ public enum Lifestyle {
             case 4:
                 return VERY_ACTIVE;
             default:
-                throw new IllegalArgumentException(ERROR_MESSAGE);
+                return NOT_SELECTED;
         }
     }
 

@@ -7,6 +7,7 @@ import ua.foodtracker.entity.Record;
 import ua.foodtracker.entity.Role;
 import ua.foodtracker.entity.User;
 import ua.foodtracker.entity.UserGoal;
+import ua.foodtracker.exception.DatabaseInteractionException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,11 +16,14 @@ import java.sql.SQLException;
  * Utility class , converts values from {@link ResultSet} to specified entity
  */
 public class EntityMapper {
+
+    private static final String ERROR_MESSAGE = "Cannot extract entity from result set";
+
     private EntityMapper() {
     }
 
     public static UserGoal extractUserGoalsFromResultSet(ResultSet resultSet) throws SQLException {
-        return UserGoal.builder()
+        UserGoal goal = UserGoal.builder()
                 .withId(resultSet.getInt("user_goals.id"))
                 .withDailyEnergyGoal(resultSet.getInt("daily_energy"))
                 .withDailyCarbohydrateGoal(resultSet.getInt("daily_carbohydrate"))
@@ -27,10 +31,14 @@ public class EntityMapper {
                 .withDailyWaterGoal(resultSet.getInt("daily_water"))
                 .withDailyProteinGoal(resultSet.getInt("daily_protein"))
                 .build();
+        if (goal.getId().equals(0)) {
+            throw new DatabaseInteractionException(ERROR_MESSAGE);
+        }
+        return goal;
     }
 
     public static User extractUserFromResultSet(ResultSet resultSet) throws SQLException {
-        return User.builder()
+        User user = User.builder()
                 .withId(resultSet.getInt("users.id"))
                 .withEmail(resultSet.getString("email"))
                 .withFirstName(resultSet.getString("first_name"))
@@ -44,10 +52,14 @@ public class EntityMapper {
                 .withRole(Role.getGenderById(resultSet.getInt("role")))
                 .withUserGoal(extractUserGoalsFromResultSet(resultSet))
                 .build();
+        if (user.getId().equals(0)) {
+            throw new DatabaseInteractionException(ERROR_MESSAGE);
+        }
+        return user;
     }
 
     public static Meal extractMealFromResultSet(ResultSet resultSet) throws SQLException {
-        return Meal.builder().
+        Meal meal = Meal.builder().
                 withId(resultSet.getInt("meals.id"))
                 .withName(resultSet.getString("name"))
                 .withCarbohydrates(resultSet.getInt("carbohydrate"))
@@ -57,14 +69,21 @@ public class EntityMapper {
                 .withWeight(resultSet.getInt("weight"))
                 .withUser(extractUserFromResultSet(resultSet))
                 .build();
+        if (meal.getId().equals(0)) {
+            throw new DatabaseInteractionException(ERROR_MESSAGE);
+        }
+        return meal;
     }
 
     public static Record extractRecordFromResultSet(ResultSet resultSet) throws SQLException {
-        return Record.builder()
+        Record record = Record.builder()
                 .withId(resultSet.getInt("id"))
                 .withMeal(extractMealFromResultSet(resultSet))
-                .withUser(extractUserFromResultSet(resultSet))
                 .withDate(resultSet.getDate("date"))
                 .build();
+        if (record.getId().equals(0)) {
+            throw new DatabaseInteractionException(ERROR_MESSAGE);
+        }
+        return record;
     }
 }

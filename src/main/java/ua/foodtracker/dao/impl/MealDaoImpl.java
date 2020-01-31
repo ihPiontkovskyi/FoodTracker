@@ -1,6 +1,6 @@
 package ua.foodtracker.dao.impl;
 
-import ua.foodtracker.dao.CrudPageableDao;
+import ua.foodtracker.dao.PageableDao;
 import ua.foodtracker.dao.Page;
 import ua.foodtracker.dao.db.holder.ConnectionHolder;
 import ua.foodtracker.entity.Meal;
@@ -13,7 +13,7 @@ import java.util.Optional;
 
 import static ua.foodtracker.utility.EntityMapper.extractMealFromResultSet;
 
-public class MealDaoImpl extends AbstractDaoImpl<Meal> implements CrudPageableDao<Meal> {
+public class MealDaoImpl extends AbstractDaoImpl<Meal> implements PageableDao<Meal> {
     private static final String FIND_PAGE_QUERY_KEY = "meals.find.page";
     private static final String COUNT_RECORD_QUERY_KEY = "meals.get.count";
     private static final String FIND_BY_ID_QUERY_KEY = "meals.find.by.id";
@@ -61,7 +61,7 @@ public class MealDaoImpl extends AbstractDaoImpl<Meal> implements CrudPageableDa
     }
 
     @Override
-    protected void prepareData(Meal meal, PreparedStatement ps) throws SQLException {
+    protected void prepareData(Meal meal, PreparedStatement ps) throws SQLException     {
         ps.setObject(1, meal.getUser().getId());
         ps.setObject(2, meal.getFat());
         ps.setObject(3, meal.getProtein());
@@ -72,7 +72,7 @@ public class MealDaoImpl extends AbstractDaoImpl<Meal> implements CrudPageableDa
     }
 
     @Override
-    protected void prepareWithId(Meal meal, PreparedStatement ps) throws SQLException {
+    protected void prepareDataWithId(Meal meal, PreparedStatement ps) throws SQLException {
         prepareData(meal, ps);
         ps.setObject(8, meal.getId());
     }

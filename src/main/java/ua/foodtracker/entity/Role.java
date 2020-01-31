@@ -11,14 +11,10 @@ public enum Role {
     public static final String ERROR_MESSAGE = "There is no such role!";
 
     public static Role getGenderById(Integer id) {
-        switch (id) {
-            case 1:
-                return USER;
-            case 2:
-                return ADMIN;
-            default:
-                throw new IllegalArgumentException(ERROR_MESSAGE);
+        if (id == 2) {
+            return ADMIN;
         }
+        return USER;
     }
 
     public Integer getId() {

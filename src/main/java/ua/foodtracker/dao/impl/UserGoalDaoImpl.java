@@ -1,6 +1,6 @@
 package ua.foodtracker.dao.impl;
 
-import ua.foodtracker.dao.CrudDao;
+import ua.foodtracker.dao.BaseDao;
 import ua.foodtracker.dao.db.holder.ConnectionHolder;
 import ua.foodtracker.entity.UserGoal;
 
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 import static ua.foodtracker.utility.EntityMapper.extractUserGoalsFromResultSet;
 
-public class UserGoalDaoImpl extends AbstractDaoImpl<UserGoal> implements CrudDao<UserGoal> {
+public class UserGoalDaoImpl extends AbstractDaoImpl<UserGoal> implements BaseDao<UserGoal> {
     private static final String FIND_BY_ID_QUERY = "users.goals.find.by.id";
     private static final String DELETE_QUERY = "users.goals.delete.by.id";
     private static final String INSERT_QUERY = "users.goals.insert";
@@ -56,7 +56,7 @@ public class UserGoalDaoImpl extends AbstractDaoImpl<UserGoal> implements CrudDa
     }
 
     @Override
-    protected void prepareWithId(UserGoal userGoal, PreparedStatement ps) throws SQLException {
+    protected void prepareDataWithId(UserGoal userGoal, PreparedStatement ps) throws SQLException {
         prepareData(userGoal, ps);
         ps.setObject(6, userGoal.getId());
     }
