@@ -67,7 +67,7 @@ public class UserDaoImplTest {
 
     @Test
     public void findAllShouldReturnPage() {
-        assertTrue(dao.findAll(new Page(1, 1)).size() > 0);
+        assertTrue(dao.findAll(new Page(1, 1L)).size() > 0);
     }
 
     @Test

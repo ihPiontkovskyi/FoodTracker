@@ -5,9 +5,9 @@ package ua.foodtracker.dao;
  */
 public class Page {
     private final Integer pageNumber;
-    private final Integer recordNumber;
+    private final Long recordNumber;
 
-    public Page(Integer pageNumber, Integer recordNumber) {
+    public Page(Integer pageNumber, Long recordNumber) {
         this.pageNumber = pageNumber;
         this.recordNumber = recordNumber;
     }
@@ -16,7 +16,7 @@ public class Page {
         return pageNumber;
     }
 
-    public Integer getRecordNumber() {
+    public Long getRecordNumber() {
         return recordNumber;
     }
 }

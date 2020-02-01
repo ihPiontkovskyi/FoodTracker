@@ -1,5 +1,6 @@
 package ua.foodtracker.dao.impl;
 
+import ua.foodtracker.annotation.Dao;
 import ua.foodtracker.dao.RecordDao;
 import ua.foodtracker.dao.db.holder.ConnectionHolder;
 import ua.foodtracker.entity.Record;
@@ -16,6 +17,7 @@ import java.util.Optional;
 
 import static ua.foodtracker.utility.EntityMapper.extractRecordFromResultSet;
 
+@Dao
 public class RecordDaoImpl extends AbstractDaoImpl<Record> implements RecordDao {
     private static final String FIND_BY_USER_AND_DATE_QUERY_KEY = "records.find.by.user.and.date";
     private static final String FIND_BY_ID_QUERY_KEY = "records.find.by.id";

@@ -17,9 +17,6 @@ import java.util.Optional;
 
 import static ua.foodtracker.utility.Query.getQuery;
 
-/**
- * Provides a base functionality for all dao.
- */
 public abstract class AbstractDaoImpl<E> implements BaseDao<E> {
     protected static final Logger LOGGER = Logger.getLogger(AbstractDaoImpl.class);
 
@@ -27,20 +24,10 @@ public abstract class AbstractDaoImpl<E> implements BaseDao<E> {
 
     private final ConnectionHolder connectionHolder;
 
-    /**
-     * Creates a new dao.
-     *
-     * @param connectionHolder connection holder
-     */
     public AbstractDaoImpl(ConnectionHolder connectionHolder) {
         this.connectionHolder = connectionHolder;
     }
 
-    /**
-     * Gets a connection from connection holder.
-     *
-     * @return connection from connection holder
-     */
     protected Connection getConnection() {
         return connectionHolder.get();
     }

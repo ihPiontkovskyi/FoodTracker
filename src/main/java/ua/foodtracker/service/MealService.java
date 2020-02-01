@@ -1,18 +1,21 @@
 package ua.foodtracker.service;
 
 import ua.foodtracker.dao.Page;
-import ua.foodtracker.entity.Record;
+import ua.foodtracker.entity.Meal;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MealService {
-    List<Record> getPage(Page page);
+    List<Meal> getPage(Integer pageNumber, Integer userId);
 
-    Integer getPageCount();
+    Long getPageCount();
 
-    boolean addRecord(Record record);
+    boolean add(Meal meal);
 
-    boolean deleteRecord(Record record);
+    boolean delete(Meal meal);
 
-    boolean modifyRecord(Record record);
+    boolean modify(Meal meal);
+
+    Optional<Meal> findById(Integer id);
 }

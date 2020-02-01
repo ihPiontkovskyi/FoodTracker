@@ -28,12 +28,6 @@ public class Query {
     private Query() {
     }
 
-    /**
-     * Gets a query by {@code key}.
-     *
-     * @param key key of the query to find
-     * @return found query
-     */
     public static String getQuery(String key) {
         return QUERIES.getString(key);
     }

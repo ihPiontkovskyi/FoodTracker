@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import ua.foodtracker.dao.PageableDao;
+import ua.foodtracker.dao.MealDao;
 import ua.foodtracker.dao.Page;
 import ua.foodtracker.dao.db.holder.ConnectionHolder;
 import ua.foodtracker.dao.db.holder.ThreadLocalConnectionHolder;
@@ -38,7 +38,7 @@ public class MealDaoImplTest {
     private HikariCPManager manager;
     private Meal mealForTest;
     private ConnectionHolder holder;
-    private PageableDao<Meal> dao;
+    private MealDao dao;
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
@@ -66,7 +66,7 @@ public class MealDaoImplTest {
 
     @Test
     public void findAllShouldReturnPage() {
-        assertTrue(dao.findAll(new Page(1, 1)).size() > 0);
+        assertTrue(dao.findAll(new Page(1, 1L)).size() > 0);
     }
 
     @Test

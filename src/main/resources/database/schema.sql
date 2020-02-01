@@ -36,7 +36,7 @@ CREATE TABLE `users`
 CREATE TABLE `meals`
 (
     `id`           int(11)     NOT NULL AUTO_INCREMENT,
-    `user_id`      int(11)     NOT NULL,
+    `user_id`      int(11),
     `fat`          int(11)     NOT NULL,
     `protein`      int(11)     NOT NULL,
     `carbohydrate` int(11)     NOT NULL,

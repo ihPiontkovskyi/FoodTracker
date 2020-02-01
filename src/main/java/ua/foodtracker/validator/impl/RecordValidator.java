@@ -1,4 +1,4 @@
-package ua.foodtracker.service.validator.impl;
+package ua.foodtracker.validator.impl;
 
 import ua.foodtracker.entity.Record;
 

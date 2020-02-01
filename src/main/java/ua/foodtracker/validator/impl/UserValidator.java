@@ -1,4 +1,4 @@
-package ua.foodtracker.service.validator.impl;
+package ua.foodtracker.validator.impl;
 
 import ua.foodtracker.entity.User;
 
@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class UserValidator extends AbstractValidator {
     private static final Pattern EMAIL_TEMPLATE = Pattern.compile("^\\w{4,}@\\w+.[a-zA-Z]+$");
-    private static final Pattern PASSWORD_TEMPLATE = Pattern.compile("^[a-zA-Z0-9]}$");
+    private static final Pattern PASSWORD_TEMPLATE = Pattern.compile("^[a-zA-Z0-9]+$");
 
     public UserValidator(User user, Locale locale) {
         super(locale);

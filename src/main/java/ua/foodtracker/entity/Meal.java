@@ -56,6 +56,10 @@ public class Meal {
         return water;
     }
 
+    public Integer calculateEnergy() {
+        return carbohydrate * 4 + protein * 4 + fat * 9;
+    }
+
     public static Builder builder() {
         return new Builder();
     }

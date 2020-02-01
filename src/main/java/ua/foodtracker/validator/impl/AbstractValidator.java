@@ -1,7 +1,7 @@
-package ua.foodtracker.service.validator.impl;
+package ua.foodtracker.validator.impl;
 
 import org.apache.log4j.Logger;
-import ua.foodtracker.service.validator.Validator;
+import ua.foodtracker.validator.Validator;
 
 import java.sql.Date;
 import java.util.HashMap;

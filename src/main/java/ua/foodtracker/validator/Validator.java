@@ -1,4 +1,4 @@
-package ua.foodtracker.service.validator;
+package ua.foodtracker.validator;
 
 import java.util.Map;
 

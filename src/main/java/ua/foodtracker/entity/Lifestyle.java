@@ -32,7 +32,7 @@ public enum Lifestyle {
     }
 
     public Integer getId() {
-        return this.ordinal();
+        return this.ordinal() + 1;
     }
 
     public Double getCoefficient() {
