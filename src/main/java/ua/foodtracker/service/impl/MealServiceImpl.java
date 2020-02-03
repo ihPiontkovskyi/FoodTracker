@@ -19,18 +19,19 @@ public class MealServiceImpl implements MealService {
 
     @Override
     public List<Meal> getPage(Integer pageNumber, Integer userId) {
-        return dao.findAll(new Page(pageNumber,ITEMS_PER_PAGE));
+        return dao.findAll(new Page(pageNumber, ITEMS_PER_PAGE));
     }
 
     @Override
     public Long getPageCount() {
         Long count = dao.count();
-        return count % ITEMS_PER_PAGE == 0 ? count : count + 1;
+        return count % ITEMS_PER_PAGE == 0 ? count / ITEMS_PER_PAGE : count / ITEMS_PER_PAGE + 1;
     }
 
     @Override
     public boolean add(Meal meal) {
-        return dao.save(meal) != 0;
+        Integer id = dao.save(meal);
+        return id != null && id != 0;
     }
 
     @Override

@@ -52,7 +52,10 @@ CREATE TABLE `records`
     `id`      int(11) NOT NULL AUTO_INCREMENT,
     `meal_id` int(11) NOT NULL,
     `date`    date    NOT NULL,
+    `user_id` int(11) NOT NULL,
     PRIMARY KEY (`id`),
-    CONSTRAINT `records_meals_id_fk` FOREIGN KEY (`meal_id`) REFERENCES `meals` (`id`) ON DELETE CASCADE ON UPDATE CASCADE);
+    CONSTRAINT `records_meals_id_fk` FOREIGN KEY (`meal_id`) REFERENCES `meals` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `records_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
 

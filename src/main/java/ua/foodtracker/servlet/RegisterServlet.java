@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
+import java.util.Locale;
 
 @WebServlet(Constants.URI.REGISTER_URI)
 public class RegisterServlet extends AbstractServlet {
@@ -31,7 +32,7 @@ public class RegisterServlet extends AbstractServlet {
                 .withGender(Gender.getGenderById(getIntParam(request, Constants.Parameters.GENDER)))
                 .withRole(Role.USER)
                 .build();
-        Validator validator = new UserValidator(newUser, request.getLocale());
+        Validator validator = new UserValidator(newUser, Locale.forLanguageTag(request.getSession(false).getAttribute(Constants.Attributes.LOCALE).toString()));
         if (!validator.hasErrors()) {
             if (getUserService().register(newUser)) {
                 redirectTo(Constants.Pages.LOGIN_PAGE, request, response);

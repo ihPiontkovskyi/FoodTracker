@@ -148,7 +148,7 @@ public class UserDaoImplTest {
                 .withHeight(190)
                 .withWeight(80)
                 .withUserGoal(containedUserGoal)
-                .withGender(Gender.MALE)
+                .withGender(Gender.FEMALE)
                 .withRole(Role.USER)
                 .withLifestyle(Lifestyle.SEDENTARY)
                 .withBirthday(Date.valueOf("1994-01-29"))
@@ -162,7 +162,7 @@ public class UserDaoImplTest {
                 .withHeight(190)
                 .withWeight(80)
                 .withUserGoal(containedUserGoal) //just for test
-                .withGender(Gender.MALE)
+                .withGender(Gender.OTHER)
                 .withRole(Role.USER)
                 .withLifestyle(Lifestyle.SEDENTARY)
                 .withBirthday(Date.valueOf("1994-01-29"))

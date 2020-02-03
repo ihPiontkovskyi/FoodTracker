@@ -4,9 +4,6 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Period;
 
-/**
- * Entity class of user
- */
 public class User {
     private final Integer id;
     private final String email;
@@ -27,11 +24,29 @@ public class User {
         this.password = builder.password;
         this.firstName = builder.firstName;
         this.lastName = builder.lastName;
+        if (builder.height == null) {
+            builder.weight = 0;
+        }
         this.weight = builder.weight;
+        if (builder.height == null) {
+            builder.height = 0;
+        }
         this.height = builder.height;
+        if (builder.lifestyle == null) {
+            builder.lifestyle = Lifestyle.NOT_SELECTED;
+        }
         this.lifestyle = builder.lifestyle;
+        if (builder.birthday == null) {
+            builder.birthday = Date.valueOf("2000-01-01");
+        }
         this.birthday = builder.birthday;
+        if (builder.gender == null) {
+            builder.gender = Gender.NOT_SELECTED;
+        }
         this.gender = builder.gender;
+        if (builder.role == null) {
+            builder.role = Role.USER;
+        }
         this.role = builder.role;
         if (builder.userGoal == null) {
             builder.userGoal = build();

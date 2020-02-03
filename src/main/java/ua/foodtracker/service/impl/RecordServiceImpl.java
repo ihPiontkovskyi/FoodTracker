@@ -22,7 +22,8 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public boolean add(Record record) {
-        return dao.save(record) != 0;
+        Integer id = dao.save(record);
+        return id != null && id != 0;
     }
 
     @Override

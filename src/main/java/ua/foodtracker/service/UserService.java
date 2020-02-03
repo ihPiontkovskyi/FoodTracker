@@ -20,7 +20,7 @@ public interface UserService {
 
     boolean delete(Integer id);
 
-    List<User> getPage(Page page);
+    List<User> getPage(Integer pageNumber);
 
     Long getPageCount();
 }

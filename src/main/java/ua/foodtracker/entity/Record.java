@@ -9,11 +9,13 @@ public class Record {
     private final Integer id;
     private final Meal meal;
     private final Date date;
+    private final Integer userId;
 
     public Record(Builder builder) {
         this.id = builder.id;
         this.meal = builder.meal;
         this.date = builder.date;
+        this.userId = builder.userId;
     }
 
     public Integer getId() {
@@ -28,6 +30,10 @@ public class Record {
         return date;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
@@ -36,8 +42,10 @@ public class Record {
         private Integer id;
         private Meal meal;
         private Date date;
+        private Integer userId;
 
-        private Builder(){ }
+        private Builder() {
+        }
 
         public Builder withId(Integer id) {
             this.id = id;
@@ -51,6 +59,11 @@ public class Record {
 
         public Builder withDate(Date date) {
             this.date = date;
+            return this;
+        }
+
+        public Builder withUserId(Integer userId) {
+            this.userId = userId;
             return this;
         }
 

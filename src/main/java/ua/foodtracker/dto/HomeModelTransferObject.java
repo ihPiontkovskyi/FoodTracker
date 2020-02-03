@@ -49,7 +49,7 @@ public class HomeModelTransferObject {
         List<Date> dateList = new ArrayList<>();
         LocalDate start = LocalDate.parse(new Date(System.currentTimeMillis() - WEEK_IN_MILLISECONDS).toString());
         LocalDate end = LocalDate.now();
-        DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("dd MMM", Locale.ENGLISH);
+        DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("dd.MM");
         while (!start.isAfter(end)) {
             labels.add(dtf2.format(start));
             dateList.add(Date.valueOf(start));

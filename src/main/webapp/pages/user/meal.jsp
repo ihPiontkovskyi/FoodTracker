@@ -54,7 +54,10 @@
                         <a class="nav-link" href="logout"><em class="fa fa-power -off"></em>Logout</a>
                     </div>
                 </div>
-
+                <div class="lang-block">
+                    <a href="?lang=en">EN</a>
+                    <a href="?lang=ru">RU</a>
+                </div>
             </div>
         </div>
     </header>
@@ -111,15 +114,6 @@
             </div>
         </div>
     </div>
-    <footer class="page-footer fixed-bottom">
-        <div class="footer-inner bg-white">
-            <div class="row">
-                <div class="col-lg-12 text-right">
-                    Designed by <a href="https://github.com/ihPiontkovskyi/">Ihor Piontkovskyi</a>
-                </div>
-            </div>
-        </div>
-    </footer>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

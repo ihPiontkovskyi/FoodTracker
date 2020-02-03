@@ -91,7 +91,7 @@ public class EntityMapperTest {
         mockResultSetForRecord();
         Record record = EntityMapper.extractRecordFromResultSet(resultSet);
         assertNotNull(record);
-        verify(resultSet, times(19)).getInt(any());
+        verify(resultSet, times(20)).getInt(any());
         verify(resultSet, times(2)).getDate(any());
         verify(resultSet, times(5)).getString(any());
     }
@@ -151,5 +151,6 @@ public class EntityMapperTest {
         mockResultSetForMeal();
         when(resultSet.getInt("id")).thenReturn(1);
         when(resultSet.getDate("date")).thenReturn(new Date(System.currentTimeMillis()));
+        when(resultSet.getInt("user_id")).thenReturn(1);
     }
 }

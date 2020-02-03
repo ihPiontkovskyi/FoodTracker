@@ -1,4 +1,4 @@
-package ua.foodtracker.servlet.record;
+package ua.foodtracker.servlet.user;
 
 import ua.foodtracker.constant.Constants;
 import ua.foodtracker.servlet.AbstractServlet;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(Constants.URI.DELETE_DIARY_RECORD_URI)
-public class DiaryRecordDeleteServlet extends AbstractServlet {
+public class RecordDeleteServlet extends AbstractServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

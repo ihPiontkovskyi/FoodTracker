@@ -14,7 +14,7 @@ public abstract class AbstractValidator implements Validator {
     private static final Logger LOGGER = Logger.getLogger(AbstractValidator.class);
 
     private static final String BUNDLE_PATH = "locale/validate_messages";
-    private static final Pattern TEMPLATE = Pattern.compile("^[a-zA-zа-яА-Я- ]+$");
+    private static final Pattern TEMPLATE = Pattern.compile("^[a-zA-zа-яА-Я]+$");
     protected static final Integer MIN_LENGTH = 3;
     protected static final Integer MAX_LENGTH = 32;
 
@@ -48,7 +48,7 @@ public abstract class AbstractValidator implements Validator {
 
         if (bundle != null) {
             LOGGER.debug(String.format("Put message %s", message));
-            errMessages.put(key, bundle.getString(message));
+            errMessages.put(key, message);
         }
     }
 
@@ -73,8 +73,8 @@ public abstract class AbstractValidator implements Validator {
     }
 
     protected String validateDate(Date date) {
-        if (date == null || date.compareTo(new Date(System.currentTimeMillis())) > 0) {
-            return bundle.getString("cant.set.future.date");
+        if (date == null || date.compareTo(new Date(System.currentTimeMillis())) >= 0) {
+            return bundle.getString("cant.set.date");
         }
         return null;
     }

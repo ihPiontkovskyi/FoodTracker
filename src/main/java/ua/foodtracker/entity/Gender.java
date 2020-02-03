@@ -10,6 +10,9 @@ public enum Gender {
     NOT_SELECTED;
 
     public static Gender getGenderById(Integer id) {
+        if (id == null) {
+            return NOT_SELECTED;
+        }
         switch (id) {
             case 1:
                 return MALE;

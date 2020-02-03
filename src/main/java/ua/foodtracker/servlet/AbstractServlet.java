@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.Date;
+import java.nio.charset.StandardCharsets;
 
 public abstract class AbstractServlet extends HttpServlet {
 
@@ -56,7 +56,7 @@ public abstract class AbstractServlet extends HttpServlet {
     }
 
     protected String getStringParam(HttpServletRequest request, String param) {
-        String paramValue = request.getParameter(param);
+        String paramValue = decodeParameter(request.getParameter(param));
         if (paramValue == null) {
             return null;
         }
@@ -91,5 +91,9 @@ public abstract class AbstractServlet extends HttpServlet {
             LOGGER.warn(ERROR_REDIRECT_MESSAGE, request.getRequestURI(), e);
             throw new ResponseProcessingError(ERROR_REDIRECT_MESSAGE, e);
         }
+    }
+
+    protected String decodeParameter(String parameter) {
+        return new String(parameter.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
     }
 }

@@ -16,4 +16,8 @@ public class LogoutServlet extends AbstractServlet {
         unsetCurrentUser(request);
         redirectTo(Constants.Pages.LOGIN_PAGE, request, response);
     }
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doPost(request,response);
+    }
 }

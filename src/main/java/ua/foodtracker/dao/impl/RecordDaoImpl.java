@@ -77,11 +77,12 @@ public class RecordDaoImpl extends AbstractDaoImpl<Record> implements RecordDao 
     protected void prepareData(Record record, PreparedStatement ps) throws SQLException {
         ps.setObject(1, record.getMeal().getId());
         ps.setObject(2, record.getDate());
+        ps.setObject(3, record.getUserId());
     }
 
     @Override
     protected void prepareDataWithId(Record record, PreparedStatement ps) throws SQLException {
         prepareData(record,ps);
-        ps.setObject(3,record.getId());
+        ps.setObject(4,record.getId());
     }
 }

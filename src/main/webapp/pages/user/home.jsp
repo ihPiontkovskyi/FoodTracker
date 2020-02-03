@@ -1,5 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" errorPage="/pages/error.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="locale/messages"/>
 <!doctype html>
 <html class="no-js" lang="">
 <head>
@@ -18,13 +21,13 @@
         <div id="main-menu" class="main-menu collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="home"> <em class="menu-icon fa fa-bar-chart"></em>Highlights</a>
+                    <a href="home"> <em class="menu-icon fa fa-bar-chart"></em><fmt:message key="highlights.btn"/></a>
                 </li>
                 <li>
-                    <a href="records.jsp"> <em class="menu-icon fa fa-calendar"></em>Diary</a>
+                    <a href="records.jsp"> <em class="menu-icon fa fa-calendar"></em><fmt:message key="diary.btn"/></a>
                 </li>
                 <li>
-                    <a href="meal"> <em class="menu-icon fa fa-cutlery"></em>Meals</a>
+                    <a href="meal"> <em class="menu-icon fa fa-cutlery"></em><fmt:message key="meals.btn"/></a>
                 </li>
             </ul>
         </div>
@@ -45,10 +48,17 @@
                         <em class="fa fa-user-circle"></em>
                     </a>
                     <div class="user-menu dropdown-menu">
-                        <a class="nav-link" href="settings"><em class="fa fa -cog"></em>Settings</a>
+                        <a class="nav-link" href="settings"><em class="fa fa -cog"></em><fmt:message
+                                key="settings.btn"/></a>
 
-                        <a class="nav-link" href="logout"><em class="fa fa-power -off"></em>Logout</a>
+                        <a class="nav-link" href="logout"><em class="fa fa-power -off"></em><fmt:message
+                                key="logout.btn"/></a>
                     </div>
+                </div>
+
+                <div class="lang-block">
+                    <a href="?lang=en">EN</a>
+                    <a href="?lang=ru">RU</a>
                 </div>
             </div>
         </div>
@@ -67,9 +77,9 @@
                                     <div class="text-left dib">
                                         <div class="stat-text">
                                             <span class="count">${requestScope.homeModel.dsto.sumEnergy}</span>
-                                            kcal
+                                            <fmt:message key="kcal.field"/>
                                         </div>
-                                        <div class="stat-heading">Energy</div>
+                                        <div class="stat-heading"><fmt:message key="energy.label"/></div>
                                     </div>
                                 </div>
                             </div>
@@ -88,9 +98,9 @@
                                     <div class="text-left dib">
                                         <div class="stat-text"><span
                                                 class="count">${requestScope.homeModel.dsto.sumProtein}</span>
-                                            g
+                                            <fmt:message key="weight.label"/>
                                         </div>
-                                        <div class="stat-heading">Protein</div>
+                                        <div class="stat-heading"><fmt:message key="protein.label"/></div>
                                     </div>
                                 </div>
                             </div>
@@ -109,9 +119,9 @@
                                     <div class="text-left dib">
                                         <div class="stat-text"><span
                                                 class="count">${requestScope.homeModel.dsto.sumCarbohydrates}</span>
-                                            g
+                                            <fmt:message key="weight.label"/>
                                         </div>
-                                        <div class="stat-heading">Carbohydrate</div>
+                                        <div class="stat-heading"><fmt:message key="carbohydrate.label"/></div>
                                     </div>
                                 </div>
                             </div>
@@ -130,9 +140,9 @@
                                     <div class="text-left dib">
                                         <div class="stat-text"><span
                                                 class="count">${requestScope.homeModel.dsto.sumWater}</span>
-                                            ml
+                                            <fmt:message key="volume.label"/>
                                         </div>
-                                        <div class="stat-heading">Water</div>
+                                        <div class="stat-heading"><fmt:message key="water.label"/></div>
                                     </div>
                                 </div>
                             </div>
@@ -144,7 +154,7 @@
                 <div class="col-xl-8">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="box-title">Last week</h4>
+                            <h4 class="box-title"><fmt:message key="last.week.label"/></h4>
                         </div>
                         <div class="row">
                             <div class="col-lg-8">
@@ -158,10 +168,10 @@
                 <div class="col-xl-4">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="box-title">Daily goal</h4>
+                            <h4 class="box-title"><fmt:message key="daily.goal.label"/></h4>
                             <div class="card-body">
                                 <div class="progress-box progress-1">
-                                    <h4 class="por-title">Energy</h4>
+                                    <h4 class="por-title"><fmt:message key="energy.label"/></h4>
                                     <div class="progress mb-2" style="height: 5px;">
                                         <div class="progress-bar bg-flat-color-1" role="progressbar"
                                              style="width:${requestScope.homeModel.dailyEnergyGoal}%"
@@ -169,7 +179,7 @@
                                     </div>
                                 </div>
                                 <div class="progress-box progress-2">
-                                    <h4 class="por-title">Water</h4>
+                                    <h4 class="por-title"><fmt:message key="water.label"/></h4>
                                     <div class="progress mb-2" style="height: 5px;">
                                         <div class="progress-bar bg-flat-color-2" role="progressbar"
                                              style="width: ${requestScope.homeModel.dailyWaterGoal}%"
@@ -177,7 +187,7 @@
                                     </div>
                                 </div>
                                 <div class="progress-box progress-2">
-                                    <h4 class="por-title">Carbohydrate</h4>
+                                    <h4 class="por-title"><fmt:message key="carbohydrate.label"/></h4>
                                     <div class="progress mb-2" style="height: 5px;">
                                         <div class="progress-bar bg-flat-color-3" role="progressbar"
                                              style="width: ${requestScope.homeModel.dailyCarbohydratesGoal}%"
@@ -185,7 +195,7 @@
                                     </div>
                                 </div>
                                 <div class="progress-box progress-2">
-                                    <h4 class="por-title">Protein</h4>
+                                    <h4 class="por-title"><fmt:message key="protein.label"/></h4>
                                     <div class="progress mb-2" style="height: 5px;">
                                         <div class="progress-bar bg-flat-color-4" role="progressbar"
                                              style="width: ${requestScope.homeModel.dailyProteinGoal}%"
@@ -193,7 +203,7 @@
                                     </div>
                                 </div>
                                 <div class="progress-box progress-2">
-                                    <h4 class="por-title">Fat</h4>
+                                    <h4 class="por-title"><fmt:message key="fat.label"/></h4>
                                     <div class="progress mb-2" style="height: 5px;">
                                         <div class="progress-bar bg-flat-color-5" role="progressbar"
                                              style="width: ${requestScope.homeModel.dailyFatGoal}%"
@@ -207,15 +217,6 @@
             </div>
         </div>
     </div>
-    <footer class="page-footer fixed-bottom">
-        <div class="footer-inner bg-white">
-            <div class="row">
-                <div class="col-lg-12 text-right">
-                    Designed by <a href="https://github.com/ihPiontkovskyi/">Ihor Piontkovskyi</a>
-                </div>
-            </div>
-        </div>
-    </footer>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

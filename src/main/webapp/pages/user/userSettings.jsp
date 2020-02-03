@@ -15,6 +15,10 @@
 <body>
 <div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
     <div class="wrapper wrapper--w680">
+        <div class="lang-block">
+            <a href="?lang=en">EN</a>
+            <a href="?lang=ru">RU</a>
+        </div>
         <div class="card card-4">
             <div class="card-body">
                 <h2 class="title"></h2>

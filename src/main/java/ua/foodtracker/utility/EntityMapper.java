@@ -80,6 +80,7 @@ public class EntityMapper {
                 .withId(resultSet.getInt("id"))
                 .withMeal(extractMealFromResultSet(resultSet))
                 .withDate(resultSet.getDate("date"))
+                .withUserId(resultSet.getInt("user_id"))
                 .build();
         if (record.getId().equals(0)) {
             throw new DatabaseInteractionException(ERROR_MESSAGE);

@@ -16,6 +16,9 @@ public final class Constants {
         public static final String CURRENT_USER = "currentUser";
         public static final String SERVLET_EXCEPTION = "javax.servlet.error.exception";
         public static final String ERROR_MESSAGE = "javax.servlet.error.message";
+        public static final String LANG = "lang";
+        public static final String DEFAULT_LOCALE = "en";
+        public static final String LOCALE = "locale";
     }
 
     public static final class Parameters {

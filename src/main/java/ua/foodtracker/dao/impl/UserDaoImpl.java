@@ -110,20 +110,10 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao {
     @Override
     public boolean update(User user) {
         String query = getQuery(UPDATE_GOAL_QUERY);
-        try (PreparedStatement ps = getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement ps = getConnection().prepareStatement(query)) {
             prepareDataWithId(user.getUserGoal(), ps);
             ps.execute();
-            int id = 0;
-            try (ResultSet rs = ps.getGeneratedKeys()) {
-                if (rs.next()) {
-                    id = rs.getInt(1);
-                }
-            }
-            if (id != 0) {
-                return update(user, UPDATE_QUERY_KEY);
-            } else {
-                throw new DatabaseInteractionException(getMessage(INSERT_GOAL_QUERY));
-            }
+            return update(user, UPDATE_QUERY_KEY);
         } catch (SQLException e) {
             LOGGER.warn(String.format(ERROR_MESSAGE, query, e));
             throw new DatabaseInteractionException(getMessage(query), e);

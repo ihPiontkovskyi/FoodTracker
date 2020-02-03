@@ -1,4 +1,4 @@
-package ua.foodtracker.servlet.record;
+package ua.foodtracker.servlet.user;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.util.List;
 
@@ -21,12 +22,13 @@ import java.util.List;
 public class DiaryLoadServlet extends AbstractServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Record> dailyRecords = getDiaryRecordService().getPage(getUserId(request), Date.valueOf(getStringParam(request, Constants.Parameters.RECORD_DATE)));
+        List<Record> dailyRecords = getDiaryRecordService().getPage(getUserId(request), new Date(Long.parseLong(getStringParam(request, Constants.Parameters.RECORD_DATE))));
         JsonArray result = new JsonArray();
         result.add(DailySumsTransferObject.build(dailyRecords).toJson());
         for (Record record : dailyRecords) {
             result.add(mapRecordToJson(record));
         }
+        response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
         out.write(result.toString());
         out.flush();

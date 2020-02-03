@@ -1,6 +1,10 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" errorPage="error.jsp" %>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="locale/messages"/>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="${sessionScope.locale}">
 
 <head>
     <meta charset="UTF-8">
@@ -13,21 +17,25 @@
 
 <body>
 <div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
+    <div class="lang-block">
+        <a href="?lang=en">EN</a>
+        <a href="?lang=ru">RU</a>
+    </div>
     <div class="wrapper wrapper--w680">
         <div class="card card-4">
             <div class="card-body">
-                <h2 class="title">Registration Form</h2>
+                <h2 class="title"><fmt:message key="registration.label"/></h2>
                 <form action="register" method="POST">
                     <div class="row row-space">
                         <div class="col-2">
                             <div class="input-group">
-                                <label class="label">first name</label>
+                                <label class="label"><fmt:message key="first.name.field"/> </label>
                                 <input class="input--style-4" type="text" name="first_name" required>
                             </div>
                         </div>
                         <div class="col-2">
                             <div class="input-group">
-                                <label class="label">last name</label>
+                                <label class="label"><fmt:message key="last.name.field"/></label>
                                 <input class="input--style-4" type="text" name="last_name" required>
                             </div>
                         </div>
@@ -35,7 +43,7 @@
                     <div class="row row-space">
                         <div class="col-2">
                             <div class="input-group">
-                                <label class="label">Birthday</label>
+                                <label class="label"><fmt:message key="birthday.field"/></label>
                                 <div class="input-group-icon">
                                     <input class="input--style-4 js-datepicker" type="text" name="birthday" required>
                                     <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
@@ -44,14 +52,18 @@
                         </div>
                         <div class="col-2">
                             <div class="input-group">
-                                <label class="label">Gender</label>
+                                <label class="label"><fmt:message key="gender.field"/></label>
                                 <div class="p-t-10">
-                                    <label class="radio-container m-r-45">Male
+                                    <label class="radio-container m-r-45"><fmt:message key="male.checkbox"/>
                                         <input value="1" type="radio" checked="checked" name="gender">
                                         <span class="checkmark"></span>
                                     </label>
-                                    <label class="radio-container">Female
-                                        <input value="0" type="radio" name="gender">
+                                    <label class="radio-container"><fmt:message key="female.checkbox"/>
+                                        <input value="2" type="radio" name="gender">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="radio-container"><fmt:message key="other.checkbox"/>
+                                        <input value="3" type="radio" name="gender">
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
@@ -61,49 +73,59 @@
                     <div class="row row-space">
                         <div class="col-2">
                             <div class="input-group">
-                                <label class="label">Email</label>
+                                <label class="label"><fmt:message key="username.field"/></label>
                                 <input class="input--style-4" type="email" name="email" required>
                             </div>
                         </div>
 
                         <div class="col-2">
                             <div class="input-group ">
-                                <label class="label">Password</label>
+                                <label class="label"><fmt:message key="password.field"/></label>
                                 <input class="input--style-4" type="password" name="pass" required>
                             </div>
                         </div>
                     </div>
                     <div class="row row-space">
                         <div class="col-2">
+                            <div class="input-group ">
+                                <label class="label"><fmt:message key="repeat.password.field"/></label>
+                                <input class="input--style-4" type="password" name="repeat-pass" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-space">
+                        <div class="col-2">
                             <div class="input-group">
-                                <label class="label">Weight</label>
+                                <label class="label"><fmt:message key="weight.field"/></label>
                                 <input class="input--style-4" type="number" name="weight" required>
                             </div>
                         </div>
                         <div class="col-2">
                             <div class="input-group">
-                                <label class="label">Height</label>
+                                <label class="label"><fmt:message key="height.field"/></label>
                                 <input class="input--style-4" type="number" name="height" required>
                             </div>
                         </div>
                     </div>
                     <div class="input-group">
-                        <label class="label">Lifestyle</label>
+                        <label class="label"><fmt:message key="lifestyle.select"/></label>
                         <div class="rs-select2 js-select-simple select--no-search">
                             <select name="lifestyle">
-                                <option value="0" disabled="disabled" selected="selected">Choose option</option>
-                                <option value="0">Sedentary: spend most of the day sitting</option>
-                                <option value="1">Lightly active: spend a good part of the day on your feet</option>
-                                <option value="2">Active: spend a good part of the day doing some physically activity
+                                <option value="0" disabled="disabled" selected="selected"><fmt:message
+                                        key="choose.option"/></option>
+                                <option value="0"><fmt:message key="sedentary.option"/></option>
+                                <option value="1"><fmt:message key="lightly.active.option"/></option>
+                                <option value="2"><fmt:message key="active.option"/>
                                 </option>
-                                <option value="3">Very active: spend most of the day doing some physically activity
+                                <option value="3"><fmt:message key="very.active.option"/>
                                 </option>
                             </select>
                             <div class="select-dropdown"></div>
                         </div>
                     </div>
                     <div class="p-t-15">
-                        <button class="btn btn--radius-2 btn--blue" type="submit">Submit</button>
+                        <button class="btn btn--radius-2 btn--blue" type="submit"><fmt:message
+                                key="submit.btn"/></button>
                     </div>
                 </form>
             </div>
@@ -121,14 +143,45 @@
 <script>
     (function ($) {
         'use strict';
+        let locale_lang;
+        if ("ru" === "${param.lang}") {
+            locale_lang = {
+                format: 'YYYY-MM-DD',
+                "daysOfWeek": [
+                    "Вс",
+                    "Пн",
+                    "Вт",
+                    "Ср",
+                    "Чт",
+                    "Пт",
+                    "Сб"
+                ],
+                "monthNames": [
+                    "Январь",
+                    "Февраль",
+                    "Март",
+                    "Апрель",
+                    "Май",
+                    "Июнь",
+                    "Июль",
+                    "Август",
+                    "Сентябрь",
+                    "Октябрь",
+                    "Ноябрь",
+                    "Декабрь"
+                ],
+            }
+        } else {
+            locale_lang = {
+                format: 'YYYY-MM-DD'
+            }
+        }
         try {
             $('.js-datepicker').daterangepicker({
                 "singleDatePicker": true,
                 "showDropdowns": true,
                 "autoUpdateInput": false,
-                locale: {
-                    format: 'YYYY-MM-DD'
-                },
+                locale: locale_lang,
             });
             var myCalendar = $('.js-datepicker');
             var isClick = 0;

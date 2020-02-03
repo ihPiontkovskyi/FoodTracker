@@ -2,7 +2,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<fmt:setBundle basename="messages" scope="request"/>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="locale/messages"/>
 <!doctype html>
 <html class="no-js" lang="">
 <head>
@@ -21,13 +22,13 @@
         <div id="main-menu" class="main-menu collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="home"> <em class="menu-icon fa fa-bar-chart"></em>Highlights</a>
+                    <a href="home"> <em class="menu-icon fa fa-bar-chart"></em><fmt:message key="highlights.btn"/></a>
                 </li>
                 <li>
-                    <a href="records.jsp"> <em class="menu-icon fa fa-calendar"></em>Diary</a>
+                    <a href="records.jsp"> <em class="menu-icon fa fa-calendar"></em><fmt:message key="diary.btn"/></a>
                 </li>
                 <li>
-                    <a href="meal"> <em class="menu-icon fa fa-cutlery"></em>Meals</a>
+                    <a href="meal"> <em class="menu-icon fa fa-cutlery"></em><fmt:message key="meals.btn"/></a>
                 </li>
             </ul>
         </div>
@@ -49,12 +50,17 @@
                     </a>
 
                     <div class="user-menu dropdown-menu">
-                        <a class="nav-link" href="settings"><em class="fa fa -cog"></em>Settings</a>
+                        <a class="nav-link" href="settings"><em class="fa fa -cog"></em><fmt:message
+                                key="settings.btn"/></a>
 
-                        <a class="nav-link" href="logout" ><em class="fa fa-power -off"></em>Logout</a>
+                        <a class="nav-link" href="logout"><em class="fa fa-power -off"></em><fmt:message
+                                key="logout.btn"/></a>
                     </div>
                 </div>
-
+                <div class="lang-block">
+                    <a href="?lang=en">EN</a>
+                    <a href="?lang=ru">RU</a>
+                </div>
             </div>
         </div>
     </header>
@@ -72,9 +78,9 @@
                                     <div class="text-left dib">
                                         <div class="stat-text">
                                             <span id="energy" class="count"></span>
-                                            kcal
+                                            <fmt:message key="kcal.field"/>
                                         </div>
-                                        <div class="stat-heading">Energy</div>
+                                        <div class="stat-heading"><fmt:message key="energy.label"/></div>
                                     </div>
                                 </div>
                             </div>
@@ -93,9 +99,9 @@
                                     <div class="text-left dib">
                                         <div class="stat-text"><span id="protein"
                                                                      class="count"></span>
-                                            g
+                                            <fmt:message key="weight.label"/>
                                         </div>
-                                        <div class="stat-heading">Protein</div>
+                                        <div class="stat-heading"><fmt:message key="protein.label"/></div>
                                     </div>
                                 </div>
                             </div>
@@ -113,9 +119,10 @@
                                 <div class="stat-content">
                                     <div class="text-left dib">
                                         <div class="stat-text"><span id="carb"
-                                                                     class="count"></span> g
+                                                                     class="count"></span> <fmt:message
+                                                key="weight.label"/>
                                         </div>
-                                        <div class="stat-heading">Carbohydrates</div>
+                                        <div class="stat-heading"><fmt:message key="carbohydrate.label"/></div>
                                     </div>
                                 </div>
                             </div>
@@ -134,9 +141,9 @@
                                     <div class="text-left dib">
                                         <div class="stat-text"><span id="water"
                                                                      class="count"></span>
-                                            ml
+                                            <fmt:message key="volume.label"/>
                                         </div>
-                                        <div class="stat-heading">Water</div>
+                                        <div class="stat-heading"><fmt:message key="water.label"/></div>
                                     </div>
                                 </div>
                             </div>
@@ -168,18 +175,17 @@
                                     <table class="table ">
                                         <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Protein</th>
-                                            <th>Carbohydrates</th>
-                                            <th>Fat</th>
-                                            <th>Energy</th>
-                                            <th>Weight</th>
-                                            <th>Water</th>
-                                            <th>Action</th>
+                                            <th><fmt:message key="name.label"/></th>
+                                            <th><fmt:message key="protein.label"/></th>
+                                            <th><fmt:message key="carbohydrate.label"/></th>
+                                            <th><fmt:message key="fat.label"/></th>
+                                            <th><fmt:message key="energy.label"/></th>
+                                            <th><fmt:message key="weight.column.label"/></th>
+                                            <th><fmt:message key="water.label"/></th>
+                                            <th><fmt:message key="action.label"/></th>
                                         </tr>
                                         </thead>
                                         <tbody id="tb">
-
                                         </tbody>
                                     </table>
                                 </div>
@@ -190,15 +196,6 @@
             </div>
         </div>
     </div>
-    <footer class="page-footer fixed-bottom">
-        <div class="footer-inner bg-white">
-            <div class="row">
-                <div class="col-lg-12 text-right">
-                    Designed by <a href="https://github.com/ihPiontkovskyi/">Ihor Piontkovskyi</a>
-                </div>
-            </div>
-        </div>
-    </footer>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -215,10 +212,10 @@
             let id = $(row).find('.recordId').html();
             $.ajax({
                 type: "POST",
-                url: '/pages/authenticated/deleteRecord',
+                url: 'deleteRecord',
                 data: {recordId: id},
                 success: function () {
-                    row.remove();
+                    setContentByDate();
                 }
             });
         });
@@ -226,9 +223,14 @@
 
     function setContentByDate() {
         jQuery(function ($) {
-            $.post('/pages/authenticated/getRecordsByDate', {recordsByDate: date.getTime()}, function (data) {
+            $(document).find('#tb').html('');
+            $.ajax({
+                type: "POST",
+                url: "getRecordsByDate",
+                data: {recordsByDate: date.getTime()},
+                success: function (data) {
                     let json = JSON.parse(data);
-                    $(document).find('#title').html('Daily energy, ' + date.toJSON().slice(0, 10).split('-').reverse().join('/'));
+                    $(document).find('#title').html(("ru" === "${sessionScope.locale}" ? 'Дневная энергия, ' : 'Daily energy, ') + date.toJSON().slice(0, 10).split('-').reverse().join('/'));
                     $(document).find('#energy').html(json[0].sumEnergy);
                     $(document).find('#protein').html(json[0].sumProtein);
                     $(document).find('#carb').html(json[0].sumCarbohydrates);
@@ -263,11 +265,11 @@
                         let carb = document.createElement('span');
                         carb.className = 'text';
                         carb.className = 'count';
-                        $(carb).html(json[i].carb);
+                        $(carb).html(json[i].carbohydrate);
                         $(tdCarb).append(carb);
                         $(rt).append(tdCarb);
                         //meal fat
-                        let tdFat= document.createElement('td');
+                        let tdFat = document.createElement('td');
                         let fat = document.createElement('span');
                         fat.className = 'text';
                         fat.className = 'count';
@@ -275,7 +277,7 @@
                         $(tdFat).append(fat);
                         $(rt).append(tdFat);
                         //meal energy
-                        let tdEnergy= document.createElement('td');
+                        let tdEnergy = document.createElement('td');
                         let energy = document.createElement('span');
                         energy.className = 'text';
                         energy.className = 'count';
@@ -283,7 +285,7 @@
                         $(tdEnergy).append(energy);
                         $(rt).append(tdEnergy);
                         //meal weight
-                        let tdWeight= document.createElement('td');
+                        let tdWeight = document.createElement('td');
                         let weight = document.createElement('span');
                         weight.className = 'text';
                         weight.className = 'count';
@@ -312,7 +314,7 @@
                         $(document).find('#tb').append(rt);
                     }
                 }
-            )
+            });
         });
     }
 

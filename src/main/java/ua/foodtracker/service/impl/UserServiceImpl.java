@@ -1,6 +1,5 @@
 package ua.foodtracker.service.impl;
 
-import org.mindrot.jbcrypt.BCrypt;
 import ua.foodtracker.annotation.Autowired;
 import ua.foodtracker.annotation.Service;
 import ua.foodtracker.dao.Page;
@@ -29,7 +28,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean register(User user) {
-        return dao.save(user) != 0;
+        Integer id = dao.save(user);
+        return id != null && id != 0;
     }
 
     @Override
@@ -48,13 +48,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getPage(Page page) {
-        return dao.findAll(page);
+    public List<User> getPage(Integer pageNumber) {
+        return dao.findAll(new Page(pageNumber, ITEMS_PER_PAGE));
     }
 
     @Override
     public Long getPageCount() {
         Long count = dao.count();
-        return count % ITEMS_PER_PAGE == 0 ? count : count + 1;
+        return count % ITEMS_PER_PAGE == 0 ? count / ITEMS_PER_PAGE : count / ITEMS_PER_PAGE + 1;
     }
 }

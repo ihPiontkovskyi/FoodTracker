@@ -146,10 +146,12 @@ public class RecordDaoImplTest {
                 .withId(3)
                 .withMeal(containedMeal)
                 .withDate(Date.valueOf("2020-01-27"))
+                .withUserId(2)
                 .build();
         recordForTest = Record.builder()
                 .withId(0)
                 .withMeal(containedMeal)
+                .withUserId(2)
                 .withDate(Date.valueOf("2020-01-27"))
                 .build();
     }
