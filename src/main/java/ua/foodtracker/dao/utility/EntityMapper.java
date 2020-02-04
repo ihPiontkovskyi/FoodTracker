@@ -1,4 +1,4 @@
-package ua.foodtracker.utility;
+package ua.foodtracker.dao.utility;
 
 import ua.foodtracker.entity.Gender;
 import ua.foodtracker.entity.Lifestyle;

@@ -1,15 +1,18 @@
 package ua.foodtracker.validator.impl;
 
+import ua.foodtracker.annotation.ValidatorClass;
 import ua.foodtracker.entity.Meal;
+import ua.foodtracker.entity.User;
+import ua.foodtracker.validator.Validator;
 
-import java.util.Locale;
+@ValidatorClass
+public class MealValidator extends AbstractValidator<Meal> {
 
-public class MealValidator extends AbstractValidator {
-
-    public MealValidator(Meal meal, Locale locale) {
-        super(locale);
+    @Override
+    public void validate(Meal meal) {
+        getMessages().clear();
         if (meal == null) {
-            putIssue("object", bundle.getString("is.null.message"));
+            putIssue("object", "is.null.message");
             return;
         }
         putIssue("name", validateName(meal.getName()));
@@ -18,7 +21,9 @@ public class MealValidator extends AbstractValidator {
         putIssue("fat", validateInteger(meal.getFat()));
         putIssue("weight", validateInteger(meal.getWeight()));
         putIssue("water", validateInteger(meal.getWater()));
-        new UserValidator(meal.getUser(), locale)
-                .getMessages().forEach((key, value) -> putIssue("user by meal: " + key, value));
+
+        Validator<User> userValidator = new UserValidator();
+        userValidator.validate(meal.getUser());
+        userValidator.getMessages().forEach((key, value) -> putIssue("user by meal: " + key, value));
     }
 }

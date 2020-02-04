@@ -16,7 +16,7 @@ public final class ContextLoadListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         loader = new ContextLoader(
                 new ThreadLocalConnectionHolder(), new HikariCPManager(DB_FILENAME), sce.getServletContext());
-        loader.load("ua.foodtracker.dao", "ua.foodtracker.service");
+        loader.load("ua.foodtracker.dao", "ua.foodtracker.service","ua.foodtracker.validator");
     }
 
     @Override

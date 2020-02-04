@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-@WebServlet(Constants.URI.USER_SETTINGS_URI)
+@WebServlet(Constants.URL.USER_SETTINGS_URL)
 public class UserSettingsPageServlet extends AbstractServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -5,8 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.foodtracker.constant.Constants;
 import ua.foodtracker.entity.User;
-import ua.foodtracker.exception.RequestProcessingException;
-import ua.foodtracker.exception.ResponseProcessingError;
 import ua.foodtracker.service.MealService;
 import ua.foodtracker.service.RecordService;
 import ua.foodtracker.service.UserService;
@@ -18,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 
 public abstract class AbstractServlet extends HttpServlet {
 
@@ -55,6 +54,18 @@ public abstract class AbstractServlet extends HttpServlet {
         }
     }
 
+    protected Integer getIntParamOrDefault(HttpServletRequest request, String param, Integer defaultInt) {
+        String paramValue = request.getParameter(param);
+        if (paramValue == null) {
+            return defaultInt;
+        }
+        try {
+            return Integer.parseInt(paramValue);
+        } catch (NumberFormatException e) {
+            return defaultInt;
+        }
+    }
+
     protected String getStringParam(HttpServletRequest request, String param) {
         String paramValue = decodeParameter(request.getParameter(param));
         if (paramValue == null) {
@@ -71,8 +82,15 @@ public abstract class AbstractServlet extends HttpServlet {
         return (RecordService) getServletContext().getAttribute(Constants.Attributes.DIARY_RECORD_SERVICE);
     }
 
-    protected UserService getUserService() {
-        return (UserService) getServletContext().getAttribute(Constants.Attributes.USER_SERVICE);
+    protected UserService getUserService(HttpServletRequest request) {
+        UserService service = (UserService) getServletContext().getAttribute(Constants.Attributes.USER_SERVICE);
+        service.setLocale(getLocale(request));
+        return service;
+    }
+
+    private Locale getLocale(HttpServletRequest request) {
+        //handle nullptr
+        return Locale.forLanguageTag(request.getSession(false).getAttribute("lang").toString());
     }
 
     protected void forward(String page, HttpServletRequest request, HttpServletResponse response) {
@@ -80,7 +98,6 @@ public abstract class AbstractServlet extends HttpServlet {
             request.getRequestDispatcher(page).forward(request, response);
         } catch (ServletException | IOException e) {
             LOGGER.warn(ERROR_FORWARD_MESSAGE, request.getRequestURI(), e);
-            throw new RequestProcessingException(ERROR_FORWARD_MESSAGE, e);
         }
     }
 
@@ -89,7 +106,6 @@ public abstract class AbstractServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + uri);
         } catch (IOException e) {
             LOGGER.warn(ERROR_REDIRECT_MESSAGE, request.getRequestURI(), e);
-            throw new ResponseProcessingError(ERROR_REDIRECT_MESSAGE, e);
         }
     }
 

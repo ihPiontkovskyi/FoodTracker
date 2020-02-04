@@ -5,8 +5,6 @@ import ua.foodtracker.entity.Gender;
 import ua.foodtracker.entity.Lifestyle;
 import ua.foodtracker.entity.User;
 import ua.foodtracker.servlet.AbstractServlet;
-import ua.foodtracker.validator.Validator;
-import ua.foodtracker.validator.impl.UserValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +14,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.Optional;
 
-@WebServlet(Constants.URI.UPDATE_USER_URI)
+@WebServlet(Constants.URL.UPDATE_USER_URL)
 public class UpdateUserServlet extends AbstractServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,13 +34,10 @@ public class UpdateUserServlet extends AbstractServlet {
                     .withLifestyle(Lifestyle.getLifestyleById(getIntParam(request, Constants.Parameters.LIFESTYLE_ID)))
                     .withRole(currentUser.getRole())
                     .build();
-            Validator validator = new UserValidator(userForUpdate, request.getLocale());
-            if (!validator.hasErrors()) {
-                if (getUserService().modify(userForUpdate)) {
-                    redirectTo(Constants.Pages.HOME_PAGE_REQUSET, request, response);
-                } else {
-                    response.sendError(406, Constants.Error.USER_PROCESSING_CAUSE);
-                }
+            if (getUserService().modify(userForUpdate)) {
+                redirectTo(Constants.Pages.HOME_PAGE_REQUSET, request, response);
+            } else {
+                response.sendError(406, Constants.Error.USER_PROCESSING_CAUSE);
             }
         } else {
             response.sendError(401, Constants.Error.USER_IS_UNAVAILABLE);

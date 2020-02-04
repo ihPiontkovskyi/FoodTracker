@@ -1,6 +1,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" errorPage="error.jsp" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" errorPage="error.jsp" %>
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale/messages"/>
 <!DOCTYPE html>
@@ -29,25 +29,29 @@
                     <div class="row row-space">
                         <div class="col-2">
                             <div class="input-group">
-                                <label class="label"><fmt:message key="first.name.field"/> </label>
-                                <input class="input--style-4" type="text" name="first_name" required>
+                                <label class="label"><fmt:message key="first.name.field"/>
+                                    <input class="input--style-4" type="text" name="first_name" required>
+                                </label>
                             </div>
                         </div>
                         <div class="col-2">
                             <div class="input-group">
-                                <label class="label"><fmt:message key="last.name.field"/></label>
-                                <input class="input--style-4" type="text" name="last_name" required>
+                                <label class="label"><fmt:message key="last.name.field"/>
+                                    <input class="input--style-4" type="text" name="last_name" required>
+                                </label>
                             </div>
                         </div>
                     </div>
                     <div class="row row-space">
                         <div class="col-2">
                             <div class="input-group">
-                                <label class="label"><fmt:message key="birthday.field"/></label>
-                                <div class="input-group-icon">
-                                    <input class="input--style-4 js-datepicker" type="text" name="birthday" required>
-                                    <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
-                                </div>
+                                <label class="label"><fmt:message key="birthday.field"/>
+                                    <div class="input-group-icon">
+                                        <input class="input--style-4 js-datepicker" type="text" name="birthday"
+                                               required>
+                                        <em class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></em>
+                                    </div>
+                                </label>
                             </div>
                         </div>
                         <div class="col-2">
@@ -73,55 +77,61 @@
                     <div class="row row-space">
                         <div class="col-2">
                             <div class="input-group">
-                                <label class="label"><fmt:message key="username.field"/></label>
-                                <input class="input--style-4" type="email" name="email" required>
+                                <label class="label"><fmt:message key="username.field"/>
+                                    <input class="input--style-4" type="email" name="email" required>
+                                </label>
                             </div>
                         </div>
 
                         <div class="col-2">
                             <div class="input-group ">
-                                <label class="label"><fmt:message key="password.field"/></label>
-                                <input class="input--style-4" type="password" name="pass" required>
+                                <label class="label"><fmt:message key="password.field"/>
+                                    <input class="input--style-4" type="password" name="pass" required>
+                                </label>
                             </div>
                         </div>
                     </div>
                     <div class="row row-space">
                         <div class="col-2">
                             <div class="input-group ">
-                                <label class="label"><fmt:message key="repeat.password.field"/></label>
-                                <input class="input--style-4" type="password" name="repeat-pass" required>
+                                <label class="label"><fmt:message key="repeat.password.field"/>
+                                    <input class="input--style-4" type="password" name="repeat-pass" required>
+                                </label>
                             </div>
                         </div>
                     </div>
                     <div class="row row-space">
                         <div class="col-2">
                             <div class="input-group">
-                                <label class="label"><fmt:message key="weight.field"/></label>
-                                <input class="input--style-4" type="number" name="weight" required>
+                                <label class="label"><fmt:message key="weight.field"/>
+                                    <input class="input--style-4" type="number" name="weight" required>
+                                </label>
                             </div>
                         </div>
                         <div class="col-2">
                             <div class="input-group">
-                                <label class="label"><fmt:message key="height.field"/></label>
-                                <input class="input--style-4" type="number" name="height" required>
+                                <label class="label"><fmt:message key="height.field"/>
+                                    <input class="input--style-4" type="number" name="height" required>
+                                </label>
                             </div>
                         </div>
                     </div>
                     <div class="input-group">
-                        <label class="label"><fmt:message key="lifestyle.select"/></label>
-                        <div class="rs-select2 js-select-simple select--no-search">
-                            <select name="lifestyle">
-                                <option value="0" disabled="disabled" selected="selected"><fmt:message
-                                        key="choose.option"/></option>
-                                <option value="0"><fmt:message key="sedentary.option"/></option>
-                                <option value="1"><fmt:message key="lightly.active.option"/></option>
-                                <option value="2"><fmt:message key="active.option"/>
-                                </option>
-                                <option value="3"><fmt:message key="very.active.option"/>
-                                </option>
-                            </select>
-                            <div class="select-dropdown"></div>
-                        </div>
+                        <label class="label"><fmt:message key="lifestyle.select"/>
+                            <div class="rs-select2 js-select-simple select--no-search">
+                                <select name="lifestyle">
+                                    <option value="0" disabled="disabled" selected="selected"><fmt:message
+                                            key="choose.option"/></option>
+                                    <option value="0"><fmt:message key="sedentary.option"/></option>
+                                    <option value="1"><fmt:message key="lightly.active.option"/></option>
+                                    <option value="2"><fmt:message key="active.option"/>
+                                    </option>
+                                    <option value="3"><fmt:message key="very.active.option"/>
+                                    </option>
+                                </select>
+                                <div class="select-dropdown"></div>
+                            </div>
+                        </label>
                     </div>
                     <div class="p-t-15">
                         <button class="btn btn--radius-2 btn--blue" type="submit"><fmt:message
@@ -183,8 +193,8 @@
                 "autoUpdateInput": false,
                 locale: locale_lang,
             });
-            var myCalendar = $('.js-datepicker');
-            var isClick = 0;
+            let myCalendar = $('.js-datepicker');
+            let isClick = 0;
             $(window).on('click', function () {
                 isClick = 0;
             });
@@ -212,11 +222,11 @@
             console.log(er);
         }
         try {
-            var selectSimple = $('.js-select-simple');
+            let selectSimple = $('.js-select-simple');
             selectSimple.each(function () {
-                var that = $(this);
-                var selectBox = that.find('select');
-                var selectDropdown = that.find('.select-dropdown');
+                let that = $(this);
+                let selectBox = that.find('select');
+                let selectDropdown = that.find('.select-dropdown');
                 selectBox.select2({
                     dropdownParent: selectDropdown
                 });

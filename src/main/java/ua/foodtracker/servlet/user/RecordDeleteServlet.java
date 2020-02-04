@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(Constants.URI.DELETE_DIARY_RECORD_URI)
+@WebServlet(Constants.URL.DELETE_DIARY_RECORD_URL)
 public class RecordDeleteServlet extends AbstractServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

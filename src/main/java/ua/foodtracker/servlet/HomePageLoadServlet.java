@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-@WebServlet(Constants.URI.HOME_URI)
+@WebServlet(Constants.URL.HOME_URL)
 public class HomePageLoadServlet extends AbstractServlet {
 
     @Override

@@ -1,10 +1,10 @@
 package ua.foodtracker.service;
 
 import ua.foodtracker.annotation.Transactional;
-import ua.foodtracker.dao.Page;
 import ua.foodtracker.entity.User;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 public interface UserService {
@@ -20,7 +20,9 @@ public interface UserService {
 
     boolean delete(Integer id);
 
-    List<User> getPage(Integer pageNumber);
+    List<User> getPage(String pageNumber);
 
-    Long getPageCount();
+    long getPageCount();
+
+    void setLocale(Locale locale);
 }

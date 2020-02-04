@@ -5,10 +5,11 @@ import ua.foodtracker.entity.User;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 public interface RecordService {
-    List<Record> getPage(Integer userId, Date date);
+    List<Record> getRecordsByDate(Integer userId, Date date);
 
     boolean add(Record record);
 
@@ -17,4 +18,6 @@ public interface RecordService {
     boolean modify(Record record);
 
     Optional<Record> findById(Integer id);
+
+    void setLocale(Locale locale);
 }

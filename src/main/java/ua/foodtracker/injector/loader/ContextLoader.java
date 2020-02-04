@@ -4,9 +4,11 @@ import org.apache.log4j.Logger;
 import ua.foodtracker.annotation.Autowired;
 import ua.foodtracker.annotation.Dao;
 import ua.foodtracker.annotation.Service;
+import ua.foodtracker.annotation.ValidatorClass;
 import ua.foodtracker.dao.AnnotationHandler;
 import ua.foodtracker.dao.db.holder.ConnectionHolder;
 import ua.foodtracker.dao.db.manager.HikariCPManager;
+import ua.foodtracker.validator.impl.AbstractValidator;
 
 import javax.servlet.ServletContext;
 import java.io.IOException;
@@ -45,18 +47,22 @@ public class ContextLoader extends AbstractContextLoader {
     }
 
     @Override
-    protected void loadBean(Class<?> c) throws ReflectiveOperationException {
-        if (c.isAnnotationPresent(Dao.class)) {
-            loadDao(c);
+    protected void loadBean(Class<?> clazz) throws ReflectiveOperationException {
+        if (clazz.isAnnotationPresent(Dao.class)) {
+            loadDao(clazz);
             return;
         }
-        if (c.isAnnotationPresent(Service.class)) {
-            loadService(c);
+        if (clazz.isAnnotationPresent(Service.class)) {
+            loadService(clazz);
+            return;
+        }
+        if (clazz.isAnnotationPresent(ValidatorClass.class)) {
+            loadValidator(clazz);
         }
     }
 
-    private void loadDao(Class<?> c) throws ReflectiveOperationException {
-        Constructor<?> constructor = c.getConstructor(ConnectionHolder.class);
+    private void loadDao(Class<?> clazz) throws ReflectiveOperationException {
+        Constructor<?> constructor = clazz.getConstructor(ConnectionHolder.class);
         Object o = constructor.newInstance(connectionHolder);
         String s = null;
         for (Object obj : o.getClass().getInterfaces()) {
@@ -72,8 +78,8 @@ public class ContextLoader extends AbstractContextLoader {
         }
     }
 
-    private void loadService(Class<?> c) throws IllegalAccessException, InstantiationException {
-        Object o = c.newInstance();
+    private void loadService(Class<?> clazz) throws IllegalAccessException, InstantiationException {
+        Object o = clazz.newInstance();
         String s = null;
         for (Object obj : o.getClass().getInterfaces()) {
             if (obj.toString().contains("Service")) {
@@ -86,6 +92,15 @@ public class ContextLoader extends AbstractContextLoader {
             return;
         }
         LOGGER.debug(String.format("Service %s wasn't logged Because its not repository", o));
+    }
+
+    private void loadValidator(Class<?> clazz) throws IllegalAccessException, InstantiationException {
+        Object o = clazz.newInstance();
+        if (o.getClass().getSuperclass() == AbstractValidator.class) {
+            services.put(o.getClass().getName(), o);
+            return;
+        }
+        LOGGER.debug(String.format("Validator %s wasn't logged Because its not repository", o));
     }
 
     private void autowireBeans() throws IllegalAccessException {

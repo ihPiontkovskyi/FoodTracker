@@ -1,8 +1,5 @@
 package ua.foodtracker.dao;
 
-/**
- * Class contains information about page see {@link PageableDao}
- */
 public class Page {
     private final Integer pageNumber;
     private final Long recordNumber;

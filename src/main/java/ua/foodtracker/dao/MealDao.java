@@ -7,5 +7,5 @@ import java.util.List;
 public interface MealDao extends BaseDao<Meal> {
     List<Meal> findAll(Page page);
 
-    Long count();
+    long count();
 }

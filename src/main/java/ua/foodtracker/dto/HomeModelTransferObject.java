@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class HomeModelTransferObject {
     private static final long WEEK_IN_MILLISECONDS = 604800000L;
@@ -26,7 +25,7 @@ public class HomeModelTransferObject {
     private List<Integer> waterWeeklyStat;
 
     private HomeModelTransferObject(User user, RecordService service) {
-        dsto = DailySumsTransferObject.build(service.getPage(user.getId(), new Date(System.currentTimeMillis())));
+        dsto = DailySumsTransferObject.build(service.getRecordsByDate(user.getId(), new Date(System.currentTimeMillis())));
         calculateDailyGoals(user);
         labels = new ArrayList<>();
         energyWeeklyStat = new ArrayList<>();
@@ -56,7 +55,7 @@ public class HomeModelTransferObject {
             start = start.plusDays(1);
         }
         for (Date date : dateList) {
-            DailySumsTransferObject ddsto = DailySumsTransferObject.build(service.getPage(user.getId(), date));
+            DailySumsTransferObject ddsto = DailySumsTransferObject.build(service.getRecordsByDate(user.getId(), date));
             energyWeeklyStat.add(ddsto.getSumEnergy());
             proteinWeeklyStat.add(ddsto.getSumProtein());
             fatWeeklyStat.add(ddsto.getSumFat());

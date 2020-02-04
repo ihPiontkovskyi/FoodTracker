@@ -8,13 +8,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(Constants.URI.LOGIN_URI)
+@WebServlet(Constants.URL.LOGIN_URL)
 public class LoginServlet extends AbstractServlet {
 
     @Override
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response) throws ServletException, java.io.IOException {
-        User user = getUserService().login(getStringParam(request, Constants.Parameters.USERNAME), getStringParam(request, Constants.Parameters.PASSWORD));
+        User user = getUserService().login(getStringParam(request, Constants.Parameters.USERNAME),
+                getStringParam(request, Constants.Parameters.PASSWORD));
         if (user != null) {
             setCurrentUser(request, user);
             redirectTo(Constants.Pages.HOME_PAGE_REQUSET, request, response);

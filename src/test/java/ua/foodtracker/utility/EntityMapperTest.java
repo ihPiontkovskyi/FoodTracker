@@ -7,6 +7,7 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import ua.foodtracker.dao.utility.EntityMapper;
 import ua.foodtracker.entity.Meal;
 import ua.foodtracker.entity.Record;
 import ua.foodtracker.entity.User;

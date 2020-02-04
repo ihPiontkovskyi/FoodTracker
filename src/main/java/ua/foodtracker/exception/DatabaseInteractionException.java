@@ -8,10 +8,10 @@ public class DatabaseInteractionException extends RuntimeException {
      * Creates a new {@code DatabaseInteractionException} object with a specified message and cause.
      *
      * @param description message of the exception
-     * @param e           cause of the exception
+     * @param exceptionCause           cause of the exception
      */
-    public DatabaseInteractionException(String description, Throwable e) {
-        super(description, e);
+    public DatabaseInteractionException(String description, Throwable exceptionCause) {
+        super(description, exceptionCause);
     }
 
     /**

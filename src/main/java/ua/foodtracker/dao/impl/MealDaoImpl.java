@@ -12,16 +12,16 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-import static ua.foodtracker.utility.EntityMapper.extractMealFromResultSet;
+import static ua.foodtracker.dao.utility.EntityMapper.extractMealFromResultSet;
 
 @Dao
 public class MealDaoImpl extends AbstractDaoImpl<Meal> implements MealDao {
-    private static final String FIND_PAGE_QUERY_KEY = "meals.find.page";
-    private static final String COUNT_RECORD_QUERY_KEY = "meals.get.count";
-    private static final String FIND_BY_ID_QUERY_KEY = "meals.find.by.id";
-    private static final String DELETE_QUERY_KEY = "meals.delete.by.id";
-    private static final String INSERT_QUERY_KEY = "meals.insert";
-    private static final String UPDATE_QUERY_KEY = "meals.update";
+    private static final String FIND_PAGE_QUERY = "SELECT * FROM meals LEFT JOIN users ON meals.user_id=users.id LEFT JOIN user_goals ON users.id=user_goals.id LIMIT ? OFFSET ?";
+    private static final String COUNT_RECORD_QUERY = "SELECT COUNT(1) FROM meals";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM meals LEFT JOIN users ON meals.user_id=users.id LEFT JOIN user_goals ON users.id=user_goals.id WHERE meals.id=?";
+    private static final String DELETE_QUERY = "DELETE FROM meals WHERE id=?";
+    private static final String INSERT_QUERY = "INSERT INTO meals VALUES (DEFAULT,?,?,?,?,?,?,?)";
+    private static final String UPDATE_QUERY_KEY = "UPDATE meals SET user_id=?,fat=?,protein=?,carbohydrate=?,water=?,weight=?,name=? WHERE id=?";
 
     public MealDaoImpl(ConnectionHolder connectionHolder) {
         super(connectionHolder);
@@ -34,22 +34,22 @@ public class MealDaoImpl extends AbstractDaoImpl<Meal> implements MealDao {
 
     @Override
     public List<Meal> findAll(Page page) {
-        return findAll(FIND_PAGE_QUERY_KEY, page);
+        return findAll(FIND_PAGE_QUERY, page);
     }
 
     @Override
-    public Long count() {
-        return count(COUNT_RECORD_QUERY_KEY);
+    public long count() {
+        return count(COUNT_RECORD_QUERY);
     }
 
     @Override
     public Integer save(Meal meal) {
-        return save(meal, INSERT_QUERY_KEY);
+        return save(meal, INSERT_QUERY);
     }
 
     @Override
     public Optional<Meal> findById(Integer id) {
-        return findByParam(id, FIND_BY_ID_QUERY_KEY);
+        return findByParam(id, FIND_BY_ID_QUERY);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class MealDaoImpl extends AbstractDaoImpl<Meal> implements MealDao {
 
     @Override
     public boolean deleteById(Integer id) {
-        return delete(id, DELETE_QUERY_KEY);
+        return delete(id, DELETE_QUERY);
     }
 
     @Override

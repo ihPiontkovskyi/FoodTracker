@@ -5,17 +5,14 @@ import ua.foodtracker.entity.Gender;
 import ua.foodtracker.entity.Lifestyle;
 import ua.foodtracker.entity.Role;
 import ua.foodtracker.entity.User;
-import ua.foodtracker.validator.Validator;
-import ua.foodtracker.validator.impl.UserValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
-import java.util.Locale;
 
-@WebServlet(Constants.URI.REGISTER_URI)
+@WebServlet(Constants.URL.REGISTER_URL)
 public class RegisterServlet extends AbstractServlet {
     @Override
     protected void doPost(HttpServletRequest request,
@@ -32,13 +29,11 @@ public class RegisterServlet extends AbstractServlet {
                 .withGender(Gender.getGenderById(getIntParam(request, Constants.Parameters.GENDER)))
                 .withRole(Role.USER)
                 .build();
-        Validator validator = new UserValidator(newUser, Locale.forLanguageTag(request.getSession(false).getAttribute(Constants.Attributes.LOCALE).toString()));
-        if (!validator.hasErrors()) {
-            if (getUserService().register(newUser)) {
-                redirectTo(Constants.Pages.LOGIN_PAGE, request, response);
-            } else {
-                response.sendError(403, Constants.Error.DATA_PROCESSING_CAUSE);
-            }
+        if (getUserService().register(newUser)) {
+            redirectTo(Constants.Pages.LOGIN_PAGE, request, response);
+        } else {
+            response.sendError(403, Constants.Error.DATA_PROCESSING_CAUSE);
         }
     }
 }
+

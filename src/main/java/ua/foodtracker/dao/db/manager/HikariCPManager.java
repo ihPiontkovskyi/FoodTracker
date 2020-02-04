@@ -20,7 +20,7 @@ public class HikariCPManager implements ConnectionManager {
     private static final String ERROR_MESSAGE = "Connection wasn't set %s";
 
     private static HikariConfig config = new HikariConfig();
-    private HikariDataSource ds;
+    private HikariDataSource dataSource;
 
     public HikariCPManager(String filename) {
         ResourceBundle resource = ResourceBundle.getBundle(filename);
@@ -28,22 +28,26 @@ public class HikariCPManager implements ConnectionManager {
         config.setJdbcUrl(resource.getString(DB_URL));
         config.setUsername(resource.getString(DB_USERNAME));
         config.setPassword(resource.getString(DB_PASS));
-        config.setMaximumPoolSize(Integer.parseInt(resource.getString(DB_POOL_SIZE)));
-        config.setConnectionTimeout(Integer.parseInt(resource.getString(DB_TIMEOUT)));
-        this.ds = new HikariDataSource(config);
+        config.setMaximumPoolSize(getIntProperty(resource, DB_POOL_SIZE));
+        config.setConnectionTimeout(getIntProperty(resource, DB_TIMEOUT));
+        this.dataSource = new HikariDataSource(config);
+    }
+
+    private int getIntProperty(ResourceBundle resource, String dbPoolSize) {
+        return Integer.parseInt(resource.getString(dbPoolSize));
     }
 
     public Connection getConnection() {
         try {
-            return ds.getConnection();
+            return dataSource.getConnection();
         } catch (SQLException e) {
-            LOGGER.error(String.format(ERROR_MESSAGE, e.getMessage()));
+            LOGGER.error(ERROR_MESSAGE, e);
             throw new IllegalStateException(String.format(ERROR_MESSAGE, ""), e);
         }
     }
 
     @Override
     public void shutdown() {
-        ds.close();
+        dataSource.close();
     }
 }

@@ -8,10 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(Constants.URI.ERROR_URI)
+@WebServlet(Constants.URL.ERROR_URL)
 public class ErrorHandler extends AbstractServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Throwable throwable = (Throwable)
                 request.getAttribute(Constants.Attributes.SERVLET_EXCEPTION);
         if (throwable != null) {
@@ -20,11 +20,5 @@ public class ErrorHandler extends AbstractServlet {
             request.setAttribute(Constants.Parameters.CAUSE, request.getAttribute(Constants.Attributes.ERROR_MESSAGE));
         }
         forward(Constants.Pages.ERROR_PAGE, request, response);
-    }
-
-    @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        doGet(request, response);
     }
 }

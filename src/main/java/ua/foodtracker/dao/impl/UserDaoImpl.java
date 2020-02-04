@@ -17,21 +17,20 @@ import java.util.Optional;
 
 import static org.mindrot.jbcrypt.BCrypt.gensalt;
 import static org.mindrot.jbcrypt.BCrypt.hashpw;
-import static ua.foodtracker.utility.EntityMapper.extractUserFromResultSet;
-import static ua.foodtracker.utility.Query.getQuery;
+import static ua.foodtracker.dao.utility.EntityMapper.extractUserFromResultSet;
 
 @Dao
 public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao {
-    private static final String FIND_BY_EMAIL_QUERY_KEY = "users.find.by.email";
-    private static final String FIND_PAGE_QUERY_KEY = "users.find.page";
-    private static final String COUNT_RECORD_QUERY_KEY = "users.get.count";
-    private static final String FIND_BY_ID_QUERY_KEY = "users.find.by.id";
-    private static final String DELETE_QUERY_KEY = "users.delete.by.id";
-    private static final String INSERT_QUERY_KEY = "users.insert";
-    private static final String UPDATE_QUERY_KEY = "users.update";
+    private static final String FIND_BY_EMAIL_QUERY = "SELECT * FROM users LEFT JOIN user_goals ON users.user_goal_id=user_goals.id WHERE email=?";
+    private static final String FIND_PAGE_QUERY = "SELECT * FROM users LEFT JOIN user_goals ON users.user_goal_id=user_goals.id LIMIT ? OFFSET ?";
+    private static final String COUNT_RECORD_QUERY = "SELECT COUNT(1) FROM users";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM users LEFT JOIN user_goals ON users.user_goal_id=user_goals.id WHERE users.id=?";
+    private static final String DELETE_QUERY = "DELETE FROM users WHERE id=?";
+    private static final String INSERT_QUERY = "INSERT INTO users VALUES (DEFAULT,?,?,?,?,?,?,?,?,?,?,?)";
+    private static final String UPDATE_QUERY = "UPDATE users SET email=?,password=?,first_name=?,last_name=?,height=?,weight=?,birthday=?,gender=?,user_goal_id=?,lifestyle=?,role=? WHERE id=?";
 
-    private static final String INSERT_GOAL_QUERY = "users.goals.insert";
-    private static final String UPDATE_GOAL_QUERY = "users.goals.update";
+    private static final String INSERT_GOAL_QUERY = "INSERT INTO user_goals VALUES(DEFAULT,?,?,?,?,?)";
+    private static final String UPDATE_GOAL_QUERY = "UPDATE user_goals SET daily_energy=?,daily_fat=?,daily_protein=?,daily_water=?,daily_carbohydrate=? WHERE id=?";
 
     public UserDaoImpl(ConnectionHolder connectionHolder) {
         super(connectionHolder);
@@ -44,23 +43,22 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao {
 
     @Override
     public Optional<User> findByEmail(String email) {
-        return findByParam(email, FIND_BY_EMAIL_QUERY_KEY);
+        return findByParam(email, FIND_BY_EMAIL_QUERY);
     }
 
     @Override
     public List<User> findAll(Page page) {
-        return findAll(FIND_PAGE_QUERY_KEY, page);
+        return findAll(FIND_PAGE_QUERY, page);
     }
 
     @Override
-    public Long count() {
-        return count(COUNT_RECORD_QUERY_KEY);
+    public long count() {
+        return count(COUNT_RECORD_QUERY);
     }
 
     @Override
     public Integer save(User user) {
-        String query = getQuery(INSERT_GOAL_QUERY);
-        try (PreparedStatement ps = getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement ps = getConnection().prepareStatement(INSERT_GOAL_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             prepareData(user.getUserGoal(), ps);
             ps.execute();
             int id = 0;
@@ -92,37 +90,36 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao {
                         .withRole(user.getRole())
                         .withWeight(user.getWeight())
                         .build();
-                return save(userForSave, INSERT_QUERY_KEY);
+                return save(userForSave, INSERT_QUERY);
             } else {
                 throw new DatabaseInteractionException(getMessage(INSERT_GOAL_QUERY));
             }
         } catch (SQLException e) {
-            LOGGER.warn(String.format(ERROR_MESSAGE, query, e));
-            throw new DatabaseInteractionException(getMessage(query), e);
+            LOGGER.warn(String.format(ERROR_MESSAGE, INSERT_GOAL_QUERY, e));
+            throw new DatabaseInteractionException(getMessage(INSERT_GOAL_QUERY), e);
         }
     }
 
     @Override
     public Optional<User> findById(Integer id) {
-        return findByParam(id, FIND_BY_ID_QUERY_KEY);
+        return findByParam(id, FIND_BY_ID_QUERY);
     }
 
     @Override
     public boolean update(User user) {
-        String query = getQuery(UPDATE_GOAL_QUERY);
-        try (PreparedStatement ps = getConnection().prepareStatement(query)) {
+        try (PreparedStatement ps = getConnection().prepareStatement(UPDATE_GOAL_QUERY)) {
             prepareDataWithId(user.getUserGoal(), ps);
             ps.execute();
-            return update(user, UPDATE_QUERY_KEY);
+            return update(user, UPDATE_QUERY);
         } catch (SQLException e) {
-            LOGGER.warn(String.format(ERROR_MESSAGE, query, e));
-            throw new DatabaseInteractionException(getMessage(query), e);
+            LOGGER.warn(String.format(ERROR_MESSAGE, UPDATE_GOAL_QUERY, e));
+            throw new DatabaseInteractionException(getMessage(UPDATE_GOAL_QUERY), e);
         }
     }
 
     @Override
     public boolean deleteById(Integer id) {
-        return delete(id, DELETE_QUERY_KEY);
+        return delete(id, DELETE_QUERY);
     }
 
     @Override

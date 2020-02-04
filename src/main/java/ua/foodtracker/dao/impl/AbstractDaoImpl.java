@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static ua.foodtracker.utility.Query.getQuery;
-
 public abstract class AbstractDaoImpl<E> implements BaseDao<E> {
     protected static final Logger LOGGER = Logger.getLogger(AbstractDaoImpl.class);
 
@@ -32,8 +30,7 @@ public abstract class AbstractDaoImpl<E> implements BaseDao<E> {
         return connectionHolder.get();
     }
 
-    protected boolean delete(Integer id, String queryKey) {
-        String query = getQuery(queryKey);
+    protected boolean delete(Integer id, String query) {
         try (PreparedStatement ps = getConnection().prepareStatement(query)) {
             ps.setObject(1, id);
             return id != 0 && ps.executeUpdate() != 0;
@@ -43,8 +40,7 @@ public abstract class AbstractDaoImpl<E> implements BaseDao<E> {
         }
     }
 
-    protected Integer save(E entity, String queryKey) {
-        String query = getQuery(queryKey);
+    protected Integer save(E entity, String query) {
         try (PreparedStatement ps = getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             prepareData(entity, ps);
             ps.execute();
@@ -60,8 +56,7 @@ public abstract class AbstractDaoImpl<E> implements BaseDao<E> {
         throw new DatabaseInteractionException(getMessage(query));
     }
 
-    protected boolean update(E entity, String queryKey) {
-        String query = getQuery(queryKey);
+    protected boolean update(E entity, String query) {
         try (PreparedStatement ps = getConnection().prepareStatement(query)) {
             prepareDataWithId(entity, ps);
             if (ps.executeUpdate() > 0) {
@@ -74,8 +69,7 @@ public abstract class AbstractDaoImpl<E> implements BaseDao<E> {
         return false;
     }
 
-    protected <P> Optional<E> findByParam(P param, String queryKey) {
-        String query = getQuery(queryKey);
+    protected <P> Optional<E> findByParam(P param, String query) {
         try (final PreparedStatement ps = getConnection().prepareStatement(query)) {
             ps.setObject(1, param);
             try (final ResultSet resultSet = ps.executeQuery()) {
@@ -90,8 +84,7 @@ public abstract class AbstractDaoImpl<E> implements BaseDao<E> {
         return Optional.empty();
     }
 
-    protected List<E> findAll(String queryKey, Page page) {
-        String query = getQuery(queryKey);
+    protected List<E> findAll(String query, Page page) {
         try (PreparedStatement ps = getConnection().prepareStatement(query)) {
             ps.setObject(1, page.getRecordNumber());
             ps.setObject(2, page.getPageNumber());
@@ -108,8 +101,7 @@ public abstract class AbstractDaoImpl<E> implements BaseDao<E> {
         }
     }
 
-    protected Long count(String queryKey) {
-        String query = getQuery(queryKey);
+    protected long count(String query) {
         try (Statement st = getConnection().createStatement()) {
             try (ResultSet rs = st.executeQuery(query)) {
                 if (rs.next()) {

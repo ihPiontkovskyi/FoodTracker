@@ -9,7 +9,6 @@ public final class Constants {
         private Attributes() {
         }
 
-        public static final String CONNECTION_MANAGER = "connectionManager";
         public static final String USER_SERVICE = "ua.foodtracker.service.UserService";
         public static final String DIARY_RECORD_SERVICE = "ua.foodtracker.service.RecordService";
         public static final String MEAL_SERVICE = "ua.foodtracker.service.MealService";
@@ -55,21 +54,21 @@ public final class Constants {
         public static final String ERROR_PAGE = "/pages/error.jsp";
     }
 
-    public static final class URI {
-        private URI() {
+    public static final class URL {
+        private URL() {
         }
 
-        public static final String LOGIN_URI = "/pages/login";
-        public static final String LOGOUT_URI = "/pages/user/logout";
-        public static final String REGISTER_URI = "/pages/register";
-        public static final String HOME_URI = "/pages/user/home";
-        public static final String UPDATE_USER_URI = "/pages/user/updateUser";
-        public static final String DELETE_USER_URI = "/pages/user/deleteUser";
-        public static final String USER_SETTINGS_URI = "/pages/user/settings";
-        public static final String DIARY_RECORD_URI = "/pages/user/getRecordsByDate";
-        public static final String DELETE_DIARY_RECORD_URI = "/pages/user/deleteRecord";
-        public static final String AUTHENTICATION_FILTER_URI = "/pages/user/*";
-        public static final String ERROR_URI = "/pages/error";
+        public static final String LOGIN_URL = "/pages/login";
+        public static final String LOGOUT_URL = "/pages/user/logout";
+        public static final String REGISTER_URL = "/pages/register";
+        public static final String HOME_URL = "/pages/user/home";
+        public static final String UPDATE_USER_URL = "/pages/user/updateUser";
+        public static final String DELETE_USER_URL = "/pages/user/deleteUser";
+        public static final String USER_SETTINGS_URL = "/pages/user/settings";
+        public static final String DIARY_RECORD_URL = "/pages/user/getRecordsByDate";
+        public static final String DELETE_DIARY_RECORD_URL = "/pages/user/deleteRecord";
+        public static final String MEAL_PAGE_URL = "/pages/user/meal";
+        public static final String ERROR_URL = "/pages/error";
     }
 
     public static final class Error {

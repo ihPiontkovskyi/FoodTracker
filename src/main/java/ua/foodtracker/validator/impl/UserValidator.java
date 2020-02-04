@@ -1,18 +1,20 @@
 package ua.foodtracker.validator.impl;
 
+import ua.foodtracker.annotation.ValidatorClass;
 import ua.foodtracker.entity.User;
 
-import java.util.Locale;
 import java.util.regex.Pattern;
 
-public class UserValidator extends AbstractValidator {
+@ValidatorClass
+public class UserValidator extends AbstractValidator<User> {
     private static final Pattern EMAIL_TEMPLATE = Pattern.compile("^\\w{4,}@\\w+.[a-zA-Z]+$");
     private static final Pattern PASSWORD_TEMPLATE = Pattern.compile("^[a-zA-Z0-9]+$");
 
-    public UserValidator(User user, Locale locale) {
-        super(locale);
+    @Override
+    public void validate(User user) {
+        getMessages().clear();
         if (user == null) {
-            putIssue("object", bundle.getString("is.null.message"));
+            putIssue("object", "is.null.message");
             return;
         }
         putIssue("first name", validateName(user.getFirstName()));
@@ -26,26 +28,26 @@ public class UserValidator extends AbstractValidator {
 
     private String validateEmail(String email) {
         if (email == null || email.isEmpty()) {
-            return bundle.getString("email.cant.be.empty");
+            return "email.cant.be.empty";
         }
         if (!EMAIL_TEMPLATE.matcher(email).matches()) {
-            return bundle.getString("email.should.match.email.pattern");
+            return "email.should.match.email.pattern";
         }
         if (email.length() < MIN_LENGTH || email.length() > MAX_LENGTH) {
-            return bundle.getString("email.length.should.be.in.range(3,32)");
+            return "email.length.should.be.in.range(3,32)";
         }
         return null;
     }
 
     private String validatePassword(String pass) {
         if (pass == null || pass.isEmpty()) {
-            return bundle.getString("pass.cant.be.empty");
+            return "pass.cant.be.empty";
         }
         if (!PASSWORD_TEMPLATE.matcher(pass).matches()) {
-            return bundle.getString("pass.should.match.pass.pattern");
+            return "pass.should.match.pass.pattern";
         }
         if (pass.length() < MIN_LENGTH || pass.length() > MAX_LENGTH) {
-            return bundle.getString("pass.length.should.be.in.range(3,32)");
+            return "pass.length.should.be.in.range(3,32)";
         }
         return null;
     }
