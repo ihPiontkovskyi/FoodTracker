@@ -115,6 +115,4 @@ public class HomeModelTransferObject {
     public static HomeModelTransferObject build(User user, RecordService service) {
         return new HomeModelTransferObject(user, service);
     }
-
-
 }

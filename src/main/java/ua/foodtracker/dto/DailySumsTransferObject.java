@@ -1,7 +1,5 @@
 package ua.foodtracker.dto;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import ua.foodtracker.entity.Meal;
 import ua.foodtracker.entity.Record;
 
@@ -49,15 +47,5 @@ public final class DailySumsTransferObject {
 
         }
         return dsto;
-    }
-
-    public JsonObject toJson() {
-        JsonObject dailySums = new JsonObject();
-        dailySums.add("sumEnergy", new JsonPrimitive(sumEnergy));
-        dailySums.add("sumProtein", new JsonPrimitive(sumProtein));
-        dailySums.add("sumFat", new JsonPrimitive(sumFat));
-        dailySums.add("sumCarbohydrates", new JsonPrimitive(sumCarbohydrates));
-        dailySums.add("sumWater", new JsonPrimitive(sumWater));
-        return dailySums;
     }
 }

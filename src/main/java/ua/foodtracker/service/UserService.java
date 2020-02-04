@@ -11,14 +11,14 @@ public interface UserService {
     User login(String email, String pass);
 
     @Transactional
-    boolean register(User user);
+    void register(User user);
 
     @Transactional
-    boolean modify(User user);
+    void modify(User user);
 
     Optional<User> findById(Integer id);
 
-    boolean delete(Integer id);
+    void delete(Integer id);
 
     List<User> getPage(String pageNumber);
 

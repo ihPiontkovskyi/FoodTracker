@@ -5,6 +5,7 @@ import ua.foodtracker.annotation.Service;
 import ua.foodtracker.dao.Page;
 import ua.foodtracker.dao.UserDao;
 import ua.foodtracker.entity.User;
+import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.exception.ValidationException;
 import ua.foodtracker.service.UserService;
 import ua.foodtracker.service.utility.ServiceUtility;
@@ -20,7 +21,8 @@ import static ua.foodtracker.service.utility.ServiceUtility.getPageNumberByStrin
 
 @Service
 public class UserServiceImpl implements UserService {
-    public static final Long ITEMS_PER_PAGE = 20L;
+    private static final Long ITEMS_PER_PAGE = 20L;
+    private static final String INCORRECT_DATA = "incorrect.data";
 
     @Autowired
     private UserDao userDao;
@@ -35,26 +37,32 @@ public class UserServiceImpl implements UserService {
             return userByEmail.get();
         } else {
             userValidator.putIssue("user", "login.incorrect.data");
-            throw new ValidationException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
+            throw new IncorrectDataException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
         }
     }
 
     @Override
-    public boolean register(User user) {
+    public void register(User user) {
         userValidator.validate(user);
         if (!userValidator.hasErrors()) {
             Integer id = userDao.save(user);
-            return id != null && id != 0;
+            if (id == null || id == 0) {
+                userValidator.putIssue("data", INCORRECT_DATA);
+                throw new IncorrectDataException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
+            }
         } else {
             throw new ValidationException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
         }
     }
 
     @Override
-    public boolean modify(User user) {
+    public void modify(User user) {
         userValidator.validate(user);
         if (!userValidator.hasErrors()) {
-            return userDao.update(user);
+            if (!userDao.update(user)) {
+                userValidator.putIssue("data", INCORRECT_DATA);
+                throw new IncorrectDataException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
+            }
         } else {
             throw new ValidationException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
         }
@@ -66,8 +74,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean delete(Integer id) {
-        return userDao.deleteById(id);
+    public void delete(Integer id) {
+        if (!userDao.deleteById(id)) {
+            userValidator.putIssue("data", INCORRECT_DATA);
+            throw new IncorrectDataException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
+        }
     }
 
     @Override

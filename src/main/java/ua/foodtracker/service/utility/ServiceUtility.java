@@ -33,7 +33,7 @@ public class ServiceUtility {
         ResourceBundle bundle = ResourceBundle.getBundle(ERROR_RESOURCES_FILENAME, locale);
         LOGGER.trace("Errors found while processing operation");
         StringBuilder error = new StringBuilder();
-        errorKeyToErrorCause.forEach((key, value) -> error.append(bundle.getString(key)).append(": ").append(bundle.getString(value)).append("\n"));
+        errorKeyToErrorCause.forEach((key, value) -> error.append(bundle.getString(value)).append(" "));
         return error.toString();
     }
 

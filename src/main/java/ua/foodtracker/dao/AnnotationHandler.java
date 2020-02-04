@@ -5,6 +5,8 @@ import ua.foodtracker.annotation.Transactional;
 import ua.foodtracker.dao.db.holder.ConnectionHolder;
 import ua.foodtracker.dao.db.manager.HikariCPManager;
 import ua.foodtracker.exception.DatabaseInteractionException;
+import ua.foodtracker.exception.IncorrectDataException;
+import ua.foodtracker.exception.ValidationException;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
@@ -47,6 +49,10 @@ public class AnnotationHandler implements InvocationHandler {
             connection.setAutoCommit(true);
             return method.invoke(serviceToInvoke, args);
         } catch (Exception e) {
+            if (e.getCause().getClass() == ValidationException.class ||
+                    e.getCause().getClass() == IncorrectDataException.class) {
+                throw new IncorrectDataException(e.getCause().getMessage());
+            }
             throw new DatabaseInteractionException(INVOCATION_FAILED, e);
         } finally {
             closeConnection(connection);
@@ -68,6 +74,10 @@ public class AnnotationHandler implements InvocationHandler {
             rollback(connection);
             throw new DatabaseInteractionException(COMMIT_FAILED, e);
         } catch (IllegalAccessException | InvocationTargetException e) {
+            if (e.getCause().getClass() == ValidationException.class ||
+                    e.getCause().getClass() == IncorrectDataException.class) {
+                throw new IncorrectDataException(e.getCause().getMessage());
+            }
             throw new DatabaseInteractionException(INVOCATION_FAILED, e);
         } finally {
             closeConnection(connection);

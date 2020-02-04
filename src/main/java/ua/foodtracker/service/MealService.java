@@ -11,11 +11,11 @@ public interface MealService {
 
     Long pageCount();
 
-    boolean add(Meal meal);
+    void add(Meal meal);
 
-    boolean delete(Integer id);
+    void delete(Integer id);
 
-    boolean modify(Meal meal);
+    void modify(Meal meal);
 
     Optional<Meal> findById(Integer id);
 

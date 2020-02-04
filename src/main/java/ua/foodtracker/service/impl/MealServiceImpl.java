@@ -5,6 +5,7 @@ import ua.foodtracker.annotation.Service;
 import ua.foodtracker.dao.MealDao;
 import ua.foodtracker.dao.Page;
 import ua.foodtracker.entity.Meal;
+import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.exception.ValidationException;
 import ua.foodtracker.service.MealService;
 import ua.foodtracker.validator.impl.MealValidator;
@@ -19,7 +20,8 @@ import static ua.foodtracker.service.utility.ServiceUtility.getPageNumberByStrin
 
 @Service
 public class MealServiceImpl implements MealService {
-    public static final Long ITEMS_PER_PAGE = 20L;
+    private static final Long ITEMS_PER_PAGE = 20L;
+    private static final String INCORRECT_DATA = "incorrect.data";
 
     @Autowired
     private MealDao mealDao;
@@ -38,28 +40,37 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public boolean add(Meal meal) {
+    public void add(Meal meal) {
         mealValidator.validate(meal);
         if (!mealValidator.hasErrors()) {
             Integer id = mealDao.save(meal);
-            return id != null && id != 0;
+            if (id != null && id != 0) {
+                mealValidator.putIssue("data", INCORRECT_DATA);
+                throw new IncorrectDataException(getErrorMessageByIssues(mealValidator.getMessages(), mealValidator.getLocale()));
+            }
         } else {
-            throw new ValidationException(getErrorMessageByIssues(mealValidator.getMessages(),mealValidator.getLocale()));
+            throw new ValidationException(getErrorMessageByIssues(mealValidator.getMessages(), mealValidator.getLocale()));
         }
     }
 
     @Override
-    public boolean delete(Integer id) {
-        return mealDao.deleteById(id);
+    public void delete(Integer id) {
+        if (mealDao.deleteById(id)) {
+            mealValidator.putIssue("data", INCORRECT_DATA);
+            throw new IncorrectDataException(getErrorMessageByIssues(mealValidator.getMessages(), mealValidator.getLocale()));
+        }
     }
 
     @Override
-    public boolean modify(Meal meal) {
+    public void modify(Meal meal) {
         mealValidator.validate(meal);
         if (!mealValidator.hasErrors()) {
-            return mealDao.update(meal);
+            if (mealDao.update(meal)) {
+                mealValidator.putIssue("data", INCORRECT_DATA);
+                throw new IncorrectDataException(getErrorMessageByIssues(mealValidator.getMessages(), mealValidator.getLocale()));
+            }
         } else {
-            throw new ValidationException(getErrorMessageByIssues(mealValidator.getMessages(),mealValidator.getLocale()));
+            throw new ValidationException(getErrorMessageByIssues(mealValidator.getMessages(), mealValidator.getLocale()));
         }
     }
 

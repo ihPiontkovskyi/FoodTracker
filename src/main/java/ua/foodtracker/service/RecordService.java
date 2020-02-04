@@ -11,11 +11,11 @@ import java.util.Optional;
 public interface RecordService {
     List<Record> getRecordsByDate(Integer userId, Date date);
 
-    boolean add(Record record);
+    void add(Record record);
 
-    boolean delete(Integer id);
+    void delete(Integer id);
 
-    boolean modify(Record record);
+    void modify(Record record);
 
     Optional<Record> findById(Integer id);
 
