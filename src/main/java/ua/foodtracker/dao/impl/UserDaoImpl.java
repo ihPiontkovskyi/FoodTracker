@@ -17,7 +17,7 @@ import java.util.Optional;
 
 import static org.mindrot.jbcrypt.BCrypt.gensalt;
 import static org.mindrot.jbcrypt.BCrypt.hashpw;
-import static ua.foodtracker.dao.utility.EntityMapper.extractUserFromResultSet;
+import static ua.foodtracker.dao.utility.ResultSetToEntityMapper.extractUserFromResultSet;
 
 @Dao
 public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao {

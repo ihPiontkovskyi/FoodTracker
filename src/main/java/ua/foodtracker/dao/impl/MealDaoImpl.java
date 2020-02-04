@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-import static ua.foodtracker.dao.utility.EntityMapper.extractMealFromResultSet;
+import static ua.foodtracker.dao.utility.ResultSetToEntityMapper.extractMealFromResultSet;
 
 @Dao
 public class MealDaoImpl extends AbstractDaoImpl<Meal> implements MealDao {

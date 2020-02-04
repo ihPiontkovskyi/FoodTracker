@@ -4,9 +4,9 @@ import ua.foodtracker.annotation.Autowired;
 import ua.foodtracker.annotation.Service;
 import ua.foodtracker.dao.RecordDao;
 import ua.foodtracker.dao.entity.Record;
-import ua.foodtracker.raw.type.entity.RawRecord;
 import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.exception.ValidationException;
+import ua.foodtracker.raw.type.entity.RawRecord;
 import ua.foodtracker.service.RecordService;
 import ua.foodtracker.validator.impl.RecordValidator;
 
@@ -50,8 +50,17 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
-    public void delete(Integer id) {
-        if (!recordDao.deleteById(id)) {
+    public void delete(String id) {
+        if (id == null) {
+            recordValidator.putIssue("data", INCORRECT_DATA);
+            throw new IncorrectDataException(getErrorMessageByIssues(recordValidator.getMessages(), recordValidator.getLocale()));
+        }
+        try {
+            if (!recordDao.deleteById(Integer.parseInt(id))) {
+                recordValidator.putIssue("data", INCORRECT_DATA);
+                throw new IncorrectDataException(getErrorMessageByIssues(recordValidator.getMessages(), recordValidator.getLocale()));
+            }
+        } catch (NumberFormatException ex) {
             recordValidator.putIssue("data", INCORRECT_DATA);
             throw new IncorrectDataException(getErrorMessageByIssues(recordValidator.getMessages(), recordValidator.getLocale()));
         }

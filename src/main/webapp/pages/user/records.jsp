@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" errorPage="/pages/error.jsp" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -25,7 +25,7 @@
                     <a href="home"> <em class="menu-icon fa fa-bar-chart"></em><fmt:message key="highlights.btn"/></a>
                 </li>
                 <li>
-                    <a href="records.jsp"> <em class="menu-icon fa fa-calendar"></em><fmt:message key="diary.btn"/></a>
+                    <a href="records"> <em class="menu-icon fa fa-calendar"></em><fmt:message key="diary.btn"/></a>
                 </li>
                 <li>
                     <a href="meal"> <em class="menu-icon fa fa-cutlery"></em><fmt:message key="meals.btn"/></a>
@@ -77,7 +77,7 @@
                                 <div class="stat-content">
                                     <div class="text-left dib">
                                         <div class="stat-text">
-                                            <span id="energy" class="count"></span>
+                                            <span id="energy" class="count">${requestScope.dateSums.sumEnergy}</span>
                                             <fmt:message key="kcal.field"/>
                                         </div>
                                         <div class="stat-heading"><fmt:message key="energy.label"/></div>
@@ -98,7 +98,7 @@
                                 <div class="stat-content">
                                     <div class="text-left dib">
                                         <div class="stat-text"><span id="protein"
-                                                                     class="count"></span>
+                                                                     class="count">${requestScope.dateSums.sumProtein}</span>
                                             <fmt:message key="weight.label"/>
                                         </div>
                                         <div class="stat-heading"><fmt:message key="protein.label"/></div>
@@ -119,8 +119,9 @@
                                 <div class="stat-content">
                                     <div class="text-left dib">
                                         <div class="stat-text"><span id="carb"
-                                                                     class="count"></span> <fmt:message
-                                                key="weight.label"/>
+                                                                     class="count">${requestScope.dateSums.sumCarbohydrates}</span>
+                                            <fmt:message
+                                                    key="weight.label"/>
                                         </div>
                                         <div class="stat-heading"><fmt:message key="carbohydrate.label"/></div>
                                     </div>
@@ -140,7 +141,7 @@
                                 <div class="stat-content">
                                     <div class="text-left dib">
                                         <div class="stat-text"><span id="water"
-                                                                     class="count"></span>
+                                                                     class="count">${requestScope.dateSums.sumWater}</span>
                                             <fmt:message key="volume.label"/>
                                         </div>
                                         <div class="stat-heading"><fmt:message key="water.label"/></div>
@@ -158,15 +159,21 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-lg-2">
-                                        <h4 class="box-title" id="title"></h4>
+                                        <h4 class="box-title" id="title">
+                                            <fmt:message key="daily.food"/> ${sessionScope.currentDate.toString()}:
+                                        </h4>
                                     </div>
                                     <div class="col-lg-10">
-                                        <a onclick="previous()" class="btn"><i class="fa fa-arrow-left"
-                                                                               aria-hidden="true"></i></a>
-                                        <a onclick="next()" class="btn"><i class="fa fa-arrow-right"
-                                                                           aria-hidden="true"></i></a>
-                                        <a class="btn float-right"><i class="fa fa-plus"
-                                                                      aria-hidden="true"></i></a>
+                                        <a
+                                                href="?date=${sessionScope.currentDate.minusDays(1)}" class="btn"><i
+                                                class="fa fa-arrow-left"
+                                                aria-hidden="true"></i></a>
+                                        <a
+                                                href="?date=${sessionScope.currentDate.plusDays(1)}" class="btn"><i
+                                                class="fa fa-arrow-right"
+                                                aria-hidden="true"></i></a>
+                                        <a href="../user/records/add" class="btn float-right"><i class="fa fa-plus"
+                                                                                                 aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -176,16 +183,39 @@
                                         <thead>
                                         <tr>
                                             <th><fmt:message key="name.label"/></th>
-                                            <th><fmt:message key="protein.label"/></th>
-                                            <th><fmt:message key="carbohydrate.label"/></th>
-                                            <th><fmt:message key="fat.label"/></th>
-                                            <th><fmt:message key="energy.label"/></th>
+                                            <th><fmt:message key="protein.label"/>, <fmt:message
+                                                    key="weight.label"/></th>
+                                            <th><fmt:message key="carbohydrate.label"/>, <fmt:message
+                                                    key="weight.label"/></th>
+                                            <th><fmt:message key="fat.label"/>, <fmt:message key="weight.label"/></th>
+                                            <th><fmt:message key="energy.label"/>, <fmt:message key="kcal.field"/></th>
                                             <th><fmt:message key="weight.column.label"/></th>
-                                            <th><fmt:message key="water.label"/></th>
+                                            <th><fmt:message key="water.label"/>, <fmt:message key="volume.label"/></th>
                                             <th><fmt:message key="action.label"/></th>
                                         </tr>
                                         </thead>
-                                        <tbody id="tb">
+                                        <tbody>
+                                        <c:forEach var="record" items="${requestScope.records}">
+                                            <tr>
+                                                <td hidden>${record.id}</td>
+                                                <td>${record.meal.name}</td>
+                                                <td>${record.meal.protein}</td>
+                                                <td>${record.meal.carbohydrate}</td>
+                                                <td>${record.meal.fat}</td>
+                                                <td>${record.meal.calculateEnergy()}</td>
+                                                <td>${record.meal.weight}</td>
+                                                <td>${record.meal.water}</td>
+                                                <td><a href="../user/records/delete?id=${record.id}"
+                                                       class="btn float-right"><i
+                                                        class="fa fa-minus"
+                                                        aria-hidden="true"></i></a>
+                                                    <a href="../user/records/edit?id=${record.id}"
+                                                       class="btn float-right"><i
+                                                            class="fa fa-pencil"
+                                                            aria-hidden="true"></i></a>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
                                         </tbody>
                                     </table>
                                 </div>
@@ -203,141 +233,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script src="https://use.fontawesome.com/59810e450d.js"></script>
 <script type="text/javascript">
-    let date;
-
-    function deleteRecord() {
-        let btnrow = event.target;
-        jQuery(function ($) {
-            let row = btnrow.closest('tr');
-            let id = $(row).find('.recordId').html();
-            $.ajax({
-                type: "POST",
-                url: 'deleteRecord',
-                data: {recordId: id},
-                success: function () {
-                    setContentByDate();
-                }
-            });
-        });
-    }
-
-    function setContentByDate() {
-        jQuery(function ($) {
-            $(document).find('#tb').html('');
-            $.ajax({
-                type: "POST",
-                url: "getRecordsByDate",
-                data: {recordsByDate: date.getTime()},
-                success: function (data) {
-                    let json = JSON.parse(data);
-                    $(document).find('#title').html(("ru" === "${sessionScope.locale}" ? 'Дневная энергия, ' : 'Daily energy, ') + date.toJSON().slice(0, 10).split('-').reverse().join('/'));
-                    $(document).find('#energy').html(json[0].sumEnergy);
-                    $(document).find('#protein').html(json[0].sumProtein);
-                    $(document).find('#carb').html(json[0].sumCarbohydrates);
-                    $(document).find('#water').html(json[0].sumWater);
-                    for (let i = 1; i < json.length; ++i) {
-                        //recordId
-                        let rt = document.createElement('tr');
-                        rt.className = 'pb-0';
-                        let tdid = document.createElement('td');
-                        $(tdid).attr('hidden', 'hidden');
-                        tdid.className = 'recordId';
-                        $(tdid).html(json[i].recordId);
-                        $(rt).append(tdid);
-                        //meal name
-                        let tdName = document.createElement('td');
-                        let name = document.createElement('span');
-                        name.className = 'text';
-                        name.className = 'count';
-                        $(name).html(json[i].name);
-                        $(tdName).append(name);
-                        $(rt).append(tdName);
-                        //meal protein
-                        let tdProtein = document.createElement('td');
-                        let protein = document.createElement('span');
-                        protein.className = 'text';
-                        protein.className = 'count';
-                        $(protein).html(json[i].protein);
-                        $(tdProtein).append(protein);
-                        $(rt).append(tdProtein);
-                        //meal carb
-                        let tdCarb = document.createElement('td');
-                        let carb = document.createElement('span');
-                        carb.className = 'text';
-                        carb.className = 'count';
-                        $(carb).html(json[i].carbohydrate);
-                        $(tdCarb).append(carb);
-                        $(rt).append(tdCarb);
-                        //meal fat
-                        let tdFat = document.createElement('td');
-                        let fat = document.createElement('span');
-                        fat.className = 'text';
-                        fat.className = 'count';
-                        $(fat).html(json[i].fat);
-                        $(tdFat).append(fat);
-                        $(rt).append(tdFat);
-                        //meal energy
-                        let tdEnergy = document.createElement('td');
-                        let energy = document.createElement('span');
-                        energy.className = 'text';
-                        energy.className = 'count';
-                        $(energy).html(json[i].energy);
-                        $(tdEnergy).append(energy);
-                        $(rt).append(tdEnergy);
-                        //meal weight
-                        let tdWeight = document.createElement('td');
-                        let weight = document.createElement('span');
-                        weight.className = 'text';
-                        weight.className = 'count';
-                        $(weight).html(json[i].weight);
-                        $(tdWeight).append(weight);
-                        $(rt).append(tdWeight);
-                        //meal water
-                        let tdWater = document.createElement('td');
-                        let water = document.createElement('span');
-                        water.className = 'text';
-                        water.className = 'count';
-                        $(water).html(json[i].water);
-                        $(tdWater).append(water);
-                        $(rt).append(tdWater);
-                        //action
-                        let td_d = document.createElement('td');
-                        let btn = document.createElement('a');
-                        btn.className = 'btn float-right';
-                        $(btn).on('click', deleteRecord);
-                        let icon = document.createElement('i');
-                        icon.className = 'fa fa-minus';
-                        $(icon).attr('aria-hidden', 'true');
-                        $(btn).append(icon);
-                        $(td_d).append(btn);
-                        $(rt).append(td_d);
-                        $(document).find('#tb').append(rt);
-                    }
-                }
-            });
-        });
-    }
-
-    jQuery(document).ready(function ($) {
-        date = new Date(Date.now());
-        setContentByDate();
-    });
-
-    function next() {
-        date.setTime(date.getTime() + 24 * 60 * 60 * 1000);
-        jQuery(function ($) {
-            $(document).find('#tb').html('');
-        });
-        setContentByDate();
-    }
-
-    function previous() {
-        date.setTime(date.getTime() - 24 * 60 * 60 * 1000);
-        jQuery(function ($) {
-            $(document).find('#tb').html('');
-        });
-        setContentByDate();
-    }
 </script>
 </body>
 </html>

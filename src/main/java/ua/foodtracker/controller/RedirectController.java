@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {"/pages/login", "/pages/register", "/pages/user/logout"})
+@WebServlet(urlPatterns = {"/pages/login", "/pages/register", "/pages/user/logout", "/pages/user/records/delete"})
 public class RedirectController extends AbstractController {
 
     @Override

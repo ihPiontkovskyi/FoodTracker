@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Locale;
 
 public interface Command {
@@ -51,6 +53,17 @@ public interface Command {
             return defaultValue;
         }
         return paramValue.trim();
+    }
+
+    default LocalDate getDateParamOrNov(HttpServletRequest request) {
+        if (request.getSession(false).getAttribute("currentDate") != null) {
+            try {
+                return (LocalDate)request.getSession(false).getAttribute("currentDate");
+            } catch (DateTimeParseException ex) {
+                return LocalDate.now();
+            }
+        }
+        return LocalDate.now();
     }
 
     default Locale getLocale(HttpServletRequest request) {

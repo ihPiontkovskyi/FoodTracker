@@ -15,11 +15,11 @@ import java.sql.SQLException;
 /**
  * Utility class , converts values from {@link ResultSet} to specified entity
  */
-public class EntityMapper {
+public class ResultSetToEntityMapper {
 
     private static final String ERROR_MESSAGE = "Cannot extract entity from result set";
 
-    private EntityMapper() {
+    private ResultSetToEntityMapper() {
     }
 
     public static UserGoal extractUserGoalsFromResultSet(ResultSet resultSet) throws SQLException {

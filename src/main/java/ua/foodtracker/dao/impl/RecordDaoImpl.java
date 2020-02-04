@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static ua.foodtracker.dao.utility.EntityMapper.extractRecordFromResultSet;
+import static ua.foodtracker.dao.utility.ResultSetToEntityMapper.extractRecordFromResultSet;
 
 @Dao
 public class RecordDaoImpl extends AbstractDaoImpl<Record> implements RecordDao {

@@ -25,7 +25,7 @@ ${param.put("page",1)}
                     <a href="home"> <em class="menu-icon fa fa-bar-chart"></em><fmt:message key="highlights.btn"/></a>
                 </li>
                 <li>
-                    <a href="records.jsp"> <em class="menu-icon fa fa-calendar"></em><fmt:message key="diary.btn"/> </a>
+                    <a href="records"> <em class="menu-icon fa fa-calendar"></em><fmt:message key="diary.btn"/> </a>
                 </li>
                 <li>
                     <a href="meal"> <em class="menu-icon fa fa-cutlery"></em><fmt:message key="meals.btn"/></a>
