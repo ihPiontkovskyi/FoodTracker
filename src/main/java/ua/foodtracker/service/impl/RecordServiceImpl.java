@@ -3,17 +3,20 @@ package ua.foodtracker.service.impl;
 import ua.foodtracker.annotation.Autowired;
 import ua.foodtracker.annotation.Service;
 import ua.foodtracker.dao.RecordDao;
-import ua.foodtracker.entity.Record;
+import ua.foodtracker.dao.entity.Record;
+import ua.foodtracker.raw.type.entity.RawRecord;
 import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.exception.ValidationException;
 import ua.foodtracker.service.RecordService;
 import ua.foodtracker.validator.impl.RecordValidator;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
+import static ua.foodtracker.dao.utility.EntityMapper.mapRawRecordToEntityRecord;
 import static ua.foodtracker.service.utility.ServiceUtility.getErrorMessageByIssues;
 
 @Service
@@ -28,15 +31,15 @@ public class RecordServiceImpl implements RecordService {
     private RecordValidator recordValidator;
 
     @Override
-    public List<Record> getRecordsByDate(Integer userId, Date date) {
-        return recordDao.findByUserIdAndDate(userId, date);
+    public List<Record> getRecordsByDate(Integer userId, LocalDate date) {
+        return recordDao.findByUserIdAndDate(userId, Date.valueOf(date));
     }
 
     @Override
-    public void add(Record record) {
+    public void add(RawRecord record) {
         recordValidator.validate(record);
         if (!recordValidator.hasErrors()) {
-            Integer id = recordDao.save(record);
+            Integer id = recordDao.save(mapRawRecordToEntityRecord(record));
             if (id == null || id == 0) {
                 recordValidator.putIssue("data", INCORRECT_DATA);
                 throw new IncorrectDataException(getErrorMessageByIssues(recordValidator.getMessages(), recordValidator.getLocale()));
@@ -55,10 +58,10 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
-    public void modify(Record record) {
+    public void modify(RawRecord record) {
         recordValidator.validate(record);
         if (!recordValidator.hasErrors()) {
-            if (!recordDao.update(record)) {
+            if (!recordDao.update(mapRawRecordToEntityRecord(record))) {
                 recordValidator.putIssue("data", INCORRECT_DATA);
                 throw new IncorrectDataException(getErrorMessageByIssues(recordValidator.getMessages(), recordValidator.getLocale()));
             }

@@ -1,9 +1,8 @@
 package ua.foodtracker.dto;
 
-import ua.foodtracker.entity.User;
+import ua.foodtracker.dao.entity.User;
 import ua.foodtracker.service.RecordService;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ public class HomeModelTransferObject {
     private List<Integer> waterWeeklyStat;
 
     private HomeModelTransferObject(User user, RecordService service) {
-        dsto = DailySumsTransferObject.build(service.getRecordsByDate(user.getId(), new Date(System.currentTimeMillis())));
+        dsto = DailySumsTransferObject.build(service.getRecordsByDate(user.getId(), LocalDate.now()));
         calculateDailyGoals(user);
         labels = new ArrayList<>();
         energyWeeklyStat = new ArrayList<>();
@@ -45,16 +44,16 @@ public class HomeModelTransferObject {
     }
 
     private void setStatistics(User user, RecordService service) {
-        List<Date> dateList = new ArrayList<>();
-        LocalDate start = LocalDate.parse(new Date(System.currentTimeMillis() - WEEK_IN_MILLISECONDS).toString());
+        List<LocalDate> dateList = new ArrayList<>();
+        LocalDate start = LocalDate.now().minusDays(7);
         LocalDate end = LocalDate.now();
         DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("dd.MM");
         while (!start.isAfter(end)) {
             labels.add(dtf2.format(start));
-            dateList.add(Date.valueOf(start));
+            dateList.add(start);
             start = start.plusDays(1);
         }
-        for (Date date : dateList) {
+        for (LocalDate date : dateList) {
             DailySumsTransferObject ddsto = DailySumsTransferObject.build(service.getRecordsByDate(user.getId(), date));
             energyWeeklyStat.add(ddsto.getSumEnergy());
             proteinWeeklyStat.add(ddsto.getSumProtein());

@@ -1,4 +1,4 @@
-package ua.foodtracker.servlet;
+package ua.foodtracker.controller;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

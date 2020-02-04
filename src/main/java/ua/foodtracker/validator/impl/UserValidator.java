@@ -1,17 +1,17 @@
 package ua.foodtracker.validator.impl;
 
 import ua.foodtracker.annotation.ValidatorClass;
-import ua.foodtracker.entity.User;
+import ua.foodtracker.raw.type.entity.RawUser;
 
 import java.util.regex.Pattern;
 
 @ValidatorClass
-public class UserValidator extends AbstractValidator<User> {
+public class UserValidator extends AbstractValidator<RawUser> {
     private static final Pattern EMAIL_TEMPLATE = Pattern.compile("^\\w{4,}@\\w+.[a-zA-Z]+$");
     private static final Pattern PASSWORD_TEMPLATE = Pattern.compile("^[a-zA-Z0-9]+$");
 
     @Override
-    public void validate(User user) {
+    public void validate(RawUser user) {
         getMessages().clear();
         if (user == null) {
             putIssue("object", "is.null.message");

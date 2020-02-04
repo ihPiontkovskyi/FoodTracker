@@ -4,7 +4,8 @@ import ua.foodtracker.annotation.Autowired;
 import ua.foodtracker.annotation.Service;
 import ua.foodtracker.dao.MealDao;
 import ua.foodtracker.dao.Page;
-import ua.foodtracker.entity.Meal;
+import ua.foodtracker.dao.entity.Meal;
+import ua.foodtracker.raw.type.entity.RawMeal;
 import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.exception.ValidationException;
 import ua.foodtracker.service.MealService;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
+import static ua.foodtracker.dao.utility.EntityMapper.mapRawMealToEntityMeal;
 import static ua.foodtracker.service.utility.ServiceUtility.getErrorMessageByIssues;
 import static ua.foodtracker.service.utility.ServiceUtility.getNumberOfPage;
 import static ua.foodtracker.service.utility.ServiceUtility.getPageNumberByString;
@@ -40,10 +42,10 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public void add(Meal meal) {
+    public void add(RawMeal meal) {
         mealValidator.validate(meal);
         if (!mealValidator.hasErrors()) {
-            Integer id = mealDao.save(meal);
+            Integer id = mealDao.save(mapRawMealToEntityMeal(meal));
             if (id != null && id != 0) {
                 mealValidator.putIssue("data", INCORRECT_DATA);
                 throw new IncorrectDataException(getErrorMessageByIssues(mealValidator.getMessages(), mealValidator.getLocale()));
@@ -62,10 +64,10 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public void modify(Meal meal) {
+    public void modify(RawMeal meal) {
         mealValidator.validate(meal);
         if (!mealValidator.hasErrors()) {
-            if (mealDao.update(meal)) {
+            if (mealDao.update(mapRawMealToEntityMeal(meal))) {
                 mealValidator.putIssue("data", INCORRECT_DATA);
                 throw new IncorrectDataException(getErrorMessageByIssues(mealValidator.getMessages(), mealValidator.getLocale()));
             }

@@ -1,4 +1,4 @@
-package ua.foodtracker.entity;
+package ua.foodtracker.dao.entity;
 
 import org.junit.Assert;
 import org.junit.Test;

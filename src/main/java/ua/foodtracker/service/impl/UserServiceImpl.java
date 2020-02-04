@@ -4,7 +4,8 @@ import ua.foodtracker.annotation.Autowired;
 import ua.foodtracker.annotation.Service;
 import ua.foodtracker.dao.Page;
 import ua.foodtracker.dao.UserDao;
-import ua.foodtracker.entity.User;
+import ua.foodtracker.dao.entity.User;
+import ua.foodtracker.raw.type.entity.RawUser;
 import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.exception.ValidationException;
 import ua.foodtracker.service.UserService;
@@ -16,6 +17,7 @@ import java.util.Locale;
 import java.util.Optional;
 
 import static org.mindrot.jbcrypt.BCrypt.checkpw;
+import static ua.foodtracker.dao.utility.EntityMapper.mapRawUserToEntityUser;
 import static ua.foodtracker.service.utility.ServiceUtility.getErrorMessageByIssues;
 import static ua.foodtracker.service.utility.ServiceUtility.getPageNumberByString;
 
@@ -42,10 +44,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void register(User user) {
+    public void register(RawUser user) {
         userValidator.validate(user);
+        if (userDao.findByEmail(user.getEmail()).isPresent()) {
+            userValidator.putIssue("email", "user.already.exist");
+            throw new IncorrectDataException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
+        }
         if (!userValidator.hasErrors()) {
-            Integer id = userDao.save(user);
+            Integer id = userDao.save(mapRawUserToEntityUser(user));
             if (id == null || id == 0) {
                 userValidator.putIssue("data", INCORRECT_DATA);
                 throw new IncorrectDataException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
@@ -56,10 +62,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void modify(User user) {
+    public void modify(RawUser user) {
         userValidator.validate(user);
         if (!userValidator.hasErrors()) {
-            if (!userDao.update(user)) {
+            if (!userDao.update(mapRawUserToEntityUser(user))) {
                 userValidator.putIssue("data", INCORRECT_DATA);
                 throw new IncorrectDataException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
             }

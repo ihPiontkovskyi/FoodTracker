@@ -1,7 +1,8 @@
 package ua.foodtracker.service;
 
 import ua.foodtracker.annotation.Transactional;
-import ua.foodtracker.entity.User;
+import ua.foodtracker.dao.entity.User;
+import ua.foodtracker.raw.type.entity.RawUser;
 
 import java.util.List;
 import java.util.Locale;
@@ -11,10 +12,10 @@ public interface UserService {
     User login(String email, String pass);
 
     @Transactional
-    void register(User user);
+    void register(RawUser user);
 
     @Transactional
-    void modify(User user);
+    void modify(RawUser user);
 
     Optional<User> findById(Integer id);
 

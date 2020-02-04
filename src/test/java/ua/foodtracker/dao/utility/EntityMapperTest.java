@@ -1,4 +1,4 @@
-package ua.foodtracker.utility;
+package ua.foodtracker.dao.utility;
 
 import org.junit.After;
 import org.junit.Rule;
@@ -7,11 +7,10 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import ua.foodtracker.dao.utility.EntityMapper;
-import ua.foodtracker.entity.Meal;
-import ua.foodtracker.entity.Record;
-import ua.foodtracker.entity.User;
-import ua.foodtracker.entity.UserGoal;
+import ua.foodtracker.dao.entity.Meal;
+import ua.foodtracker.dao.entity.Record;
+import ua.foodtracker.dao.entity.User;
+import ua.foodtracker.dao.entity.UserGoal;
 import ua.foodtracker.exception.DatabaseInteractionException;
 
 import java.sql.Date;

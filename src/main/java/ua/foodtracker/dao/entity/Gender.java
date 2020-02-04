@@ -1,4 +1,4 @@
-package ua.foodtracker.entity;
+package ua.foodtracker.dao.entity;
 
 /**
  * Enum which contain user genders

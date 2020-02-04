@@ -1,17 +1,14 @@
-package ua.foodtracker.entity;
+package ua.foodtracker.raw.type.entity;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
-/**
- * Entity class of Record
- */
-public class Record {
-    private final Integer id;
-    private final Meal meal;
-    private final Date date;
-    private final Integer userId;
+public class RawRecord {
+    private Integer id;
+    private RawMeal meal;
+    private LocalDate date;
+    private Integer userId;
 
-    public Record(Builder builder) {
+    public RawRecord(Builder builder) {
         this.id = builder.id;
         this.meal = builder.meal;
         this.date = builder.date;
@@ -22,11 +19,11 @@ public class Record {
         return id;
     }
 
-    public Meal getMeal() {
+    public RawMeal getMeal() {
         return meal;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
@@ -40,8 +37,8 @@ public class Record {
 
     public static class Builder {
         private Integer id;
-        private Meal meal;
-        private Date date;
+        private RawMeal meal;
+        private LocalDate date;
         private Integer userId;
 
         private Builder() {
@@ -52,12 +49,12 @@ public class Record {
             return this;
         }
 
-        public Builder withMeal(Meal meal) {
+        public Builder withMeal(RawMeal meal) {
             this.meal = meal;
             return this;
         }
 
-        public Builder withDate(Date date) {
+        public Builder withDate(LocalDate date) {
             this.date = date;
             return this;
         }
@@ -67,8 +64,8 @@ public class Record {
             return this;
         }
 
-        public Record build() {
-            return new Record(this);
+        public RawRecord build() {
+            return new RawRecord(this);
         }
     }
 }

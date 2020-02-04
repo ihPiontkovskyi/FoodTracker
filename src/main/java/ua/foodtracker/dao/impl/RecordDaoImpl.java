@@ -3,7 +3,7 @@ package ua.foodtracker.dao.impl;
 import ua.foodtracker.annotation.Dao;
 import ua.foodtracker.dao.RecordDao;
 import ua.foodtracker.dao.db.holder.ConnectionHolder;
-import ua.foodtracker.entity.Record;
+import ua.foodtracker.dao.entity.Record;
 import ua.foodtracker.exception.DatabaseInteractionException;
 
 import java.sql.Date;

@@ -3,7 +3,7 @@ package ua.foodtracker.validator.impl;
 import org.apache.log4j.Logger;
 import ua.foodtracker.validator.Validator;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -72,8 +72,8 @@ public abstract class AbstractValidator<E> implements Validator<E> {
         return null;
     }
 
-    protected String validateDate(Date date) {
-        if (date == null || date.compareTo(new Date(System.currentTimeMillis())) >= 0) {
+    protected String validateDate(LocalDate date) {
+        if (date == null || date.compareTo(LocalDate.now()) >= 0) {
             return "cant.set.date";
         }
         return null;

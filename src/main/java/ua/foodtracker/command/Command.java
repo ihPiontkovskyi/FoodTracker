@@ -1,7 +1,7 @@
 package ua.foodtracker.command;
 
 import org.apache.log4j.Logger;
-import ua.foodtracker.entity.User;
+import ua.foodtracker.dao.entity.User;
 import ua.foodtracker.service.MealService;
 import ua.foodtracker.service.RecordService;
 import ua.foodtracker.service.UserService;

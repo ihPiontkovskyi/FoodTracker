@@ -1,7 +1,7 @@
 package ua.foodtracker.dto;
 
-import ua.foodtracker.entity.Meal;
-import ua.foodtracker.entity.Record;
+import ua.foodtracker.dao.entity.Meal;
+import ua.foodtracker.dao.entity.Record;
 
 import java.util.List;
 

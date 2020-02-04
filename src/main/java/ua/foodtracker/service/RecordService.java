@@ -1,21 +1,21 @@
 package ua.foodtracker.service;
 
-import ua.foodtracker.entity.Record;
-import ua.foodtracker.entity.User;
+import ua.foodtracker.dao.entity.Record;
+import ua.foodtracker.raw.type.entity.RawRecord;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
 public interface RecordService {
-    List<Record> getRecordsByDate(Integer userId, Date date);
+    List<Record> getRecordsByDate(Integer userId, LocalDate date);
 
-    void add(Record record);
+    void add(RawRecord record);
 
     void delete(Integer id);
 
-    void modify(Record record);
+    void modify(RawRecord record);
 
     Optional<Record> findById(Integer id);
 

@@ -1,6 +1,6 @@
 package ua.foodtracker.dao;
 
-import ua.foodtracker.entity.Record;
+import ua.foodtracker.dao.entity.Record;
 
 import java.sql.Date;
 import java.util.List;

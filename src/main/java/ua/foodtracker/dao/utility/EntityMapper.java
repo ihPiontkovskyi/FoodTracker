@@ -1,12 +1,12 @@
 package ua.foodtracker.dao.utility;
 
-import ua.foodtracker.entity.Gender;
-import ua.foodtracker.entity.Lifestyle;
-import ua.foodtracker.entity.Meal;
-import ua.foodtracker.entity.Record;
-import ua.foodtracker.entity.Role;
-import ua.foodtracker.entity.User;
-import ua.foodtracker.entity.UserGoal;
+import ua.foodtracker.dao.entity.Gender;
+import ua.foodtracker.dao.entity.Lifestyle;
+import ua.foodtracker.dao.entity.Meal;
+import ua.foodtracker.dao.entity.Record;
+import ua.foodtracker.dao.entity.Role;
+import ua.foodtracker.dao.entity.User;
+import ua.foodtracker.dao.entity.UserGoal;
 import ua.foodtracker.exception.DatabaseInteractionException;
 
 import java.sql.ResultSet;
