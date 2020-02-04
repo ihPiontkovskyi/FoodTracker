@@ -18,8 +18,8 @@ import static ua.foodtracker.dao.utility.EntityMapper.extractRecordFromResultSet
 
 @Dao
 public class RecordDaoImpl extends AbstractDaoImpl<Record> implements RecordDao {
-    private static final String FIND_BY_USER_AND_DATE_QUERY = "SELECT * FROM records LEFT JOIN meals ON records.meal_id=meals.id LEFT JOIN users ON records.user_id=users.id LEFT JOIN user_goals ON users.user_goal_id=user_goals.id WHERE records.id=?";
-    private static final String FIND_BY_ID_QUERY = "SELECT * FROM records LEFT JOIN meals ON records.meal_id=meals.id LEFT JOIN users ON records.user_id=users.id LEFT JOIN user_goals ON users.user_goal_id=user_goals.id WHERE records.user_id=? AND date=?";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM records LEFT JOIN meals ON records.meal_id=meals.id LEFT JOIN users ON records.user_id=users.id LEFT JOIN user_goals ON users.user_goal_id=user_goals.id WHERE records.id=?";
+    private static final String FIND_BY_USER_AND_DATE_QUERY = "SELECT * FROM records LEFT JOIN meals ON records.meal_id=meals.id LEFT JOIN users ON records.user_id=users.id LEFT JOIN user_goals ON users.user_goal_id=user_goals.id WHERE records.user_id=? AND date=?";
     private static final String DELETE_QUERY = "DELETE FROM records WHERE id=?";
     private static final String INSERT_QUERY = "INSERT INTO records VALUES (DEFAULT,?,?,?)";
     private static final String UPDATE_QUERY = "UPDATE records SET meal_id=?,date=?, user_id=? WHERE id =?";

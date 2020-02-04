@@ -31,28 +31,32 @@ public class UserServiceImpl implements UserService {
     @Override
     public User login(String email, String pass) {
         Optional<User> userByEmail = userDao.findByEmail(email);
-        return userByEmail.isPresent() && checkpw(pass, userByEmail.get().getPassword()) ?
-                userByEmail.get() : null;
+        if (userByEmail.isPresent() && checkpw(pass, userByEmail.get().getPassword())) {
+            return userByEmail.get();
+        } else {
+            userValidator.putIssue("user", "login.incorrect.data");
+            throw new ValidationException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
+        }
     }
 
     @Override
     public boolean register(User user) {
         userValidator.validate(user);
-        if (userValidator.hasErrors()) {
+        if (!userValidator.hasErrors()) {
             Integer id = userDao.save(user);
             return id != null && id != 0;
         } else {
-            throw new ValidationException(getErrorMessageByIssues(userValidator.getMessages(),userValidator.getLocale()));
+            throw new ValidationException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
         }
     }
 
     @Override
     public boolean modify(User user) {
         userValidator.validate(user);
-        if (userValidator.hasErrors()) {
+        if (!userValidator.hasErrors()) {
             return userDao.update(user);
         } else {
-            throw new ValidationException(getErrorMessageByIssues(userValidator.getMessages(),userValidator.getLocale()));
+            throw new ValidationException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
         }
     }
 

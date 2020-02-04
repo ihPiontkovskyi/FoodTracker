@@ -14,8 +14,6 @@ public class ServiceUtility {
     public static final int DEFAULT_PAGE = 1;
     public static final String ERROR_RESOURCES_FILENAME = "locale/validate_messages";
 
-    private static ResourceBundle bundle;
-
     private ServiceUtility() {
     }
 
@@ -32,9 +30,11 @@ public class ServiceUtility {
     }
 
     public static String getErrorMessageByIssues(Map<String, String> errorKeyToErrorCause, Locale locale) {
-        bundle = ResourceBundle.getBundle(ERROR_RESOURCES_FILENAME, locale);
-        //build message here
-        return "";
+        ResourceBundle bundle = ResourceBundle.getBundle(ERROR_RESOURCES_FILENAME, locale);
+        LOGGER.trace("Errors found while processing operation");
+        StringBuilder error = new StringBuilder();
+        errorKeyToErrorCause.forEach((key, value) -> error.append(bundle.getString(key)).append(": ").append(bundle.getString(value)).append("\n"));
+        return error.toString();
     }
 
     private static Integer mapStringToInt(String value) {

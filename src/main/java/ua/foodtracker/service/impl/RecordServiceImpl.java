@@ -32,7 +32,7 @@ public class RecordServiceImpl implements RecordService {
     @Override
     public boolean add(Record record) {
         recordValidator.validate(record);
-        if (recordValidator.hasErrors()) {
+        if (!recordValidator.hasErrors()) {
             Integer id = recordDao.save(record);
             return id != null && id != 0;
         } else {
@@ -48,7 +48,7 @@ public class RecordServiceImpl implements RecordService {
     @Override
     public boolean modify(Record record) {
         recordValidator.validate(record);
-        if (recordValidator.hasErrors()) {
+        if (!recordValidator.hasErrors()) {
             return recordDao.update(record);
         } else {
             throw new ValidationException(getErrorMessageByIssues(recordValidator.getMessages(), recordValidator.getLocale()));
