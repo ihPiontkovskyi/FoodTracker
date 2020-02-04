@@ -21,7 +21,7 @@ public interface UserService {
 
     void delete(Integer id);
 
-    List<User> getPage(String pageNumber);
+    List<User> getPage(Integer pageNumber);
 
     long getPageCount();
 

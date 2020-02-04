@@ -9,7 +9,6 @@ import java.util.ResourceBundle;
 public class ServiceUtility {
     private static final Logger LOGGER = Logger.getLogger(ServiceUtility.class);
 
-    private static final Long ITEMS_PER_PAGE = 20L;
     private static final String ERROR_MESSAGE = "Page number is not valid!";
     public static final int DEFAULT_PAGE = 1;
     public static final String ERROR_RESOURCES_FILENAME = "locale/validate_messages";
@@ -17,12 +16,15 @@ public class ServiceUtility {
     private ServiceUtility() {
     }
 
-    public static long getNumberOfPage(long countOfRecords) {
-        return countOfRecords % ITEMS_PER_PAGE == 0 ? countOfRecords % ITEMS_PER_PAGE : countOfRecords % ITEMS_PER_PAGE + 1;
+    public static long getNumberOfPage(long countOfRecords, long itemsPerPage) {
+        return countOfRecords % itemsPerPage == 0 ? countOfRecords / itemsPerPage : countOfRecords / itemsPerPage + 1;
     }
 
     public static Integer getPageNumberByString(String pageNumber, long numberOfPage) {
-        int page = mapStringToInt(pageNumber);
+        if (pageNumber == null) {
+            return DEFAULT_PAGE;
+        }
+        int page = convertStringToInt(pageNumber);
         if (page > numberOfPage || page <= 0) {
             return DEFAULT_PAGE;
         }
@@ -37,7 +39,7 @@ public class ServiceUtility {
         return error.toString();
     }
 
-    private static Integer mapStringToInt(String value) {
+    private static Integer convertStringToInt(String value) {
         try {
             return Integer.parseInt(value);
         } catch (NumberFormatException ex) {

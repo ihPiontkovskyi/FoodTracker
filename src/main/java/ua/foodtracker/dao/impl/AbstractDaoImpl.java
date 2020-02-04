@@ -87,7 +87,7 @@ public abstract class AbstractDaoImpl<E> implements BaseDao<E> {
     protected List<E> findAll(String query, Page page) {
         try (PreparedStatement ps = getConnection().prepareStatement(query)) {
             ps.setObject(1, page.getRecordNumber());
-            ps.setObject(2, page.getPageNumber());
+            ps.setObject(2, page.getOffset());
             try (ResultSet resultSet = ps.executeQuery()) {
                 List<E> list = new ArrayList<>();
                 while (resultSet.next()) {

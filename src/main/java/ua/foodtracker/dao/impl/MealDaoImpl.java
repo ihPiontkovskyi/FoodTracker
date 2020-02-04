@@ -16,9 +16,9 @@ import static ua.foodtracker.dao.utility.ResultSetToEntityMapper.extractMealFrom
 
 @Dao
 public class MealDaoImpl extends AbstractDaoImpl<Meal> implements MealDao {
-    private static final String FIND_PAGE_QUERY = "SELECT * FROM meals LEFT JOIN users ON meals.user_id=users.id LEFT JOIN user_goals ON users.id=user_goals.id LIMIT ? OFFSET ?";
+    private static final String FIND_PAGE_QUERY = "SELECT * FROM meals LEFT JOIN users ON meals.user_id=users.id LEFT JOIN user_goals ON users.user_goal_id=user_goals.id LIMIT ? OFFSET ?";
     private static final String COUNT_RECORD_QUERY = "SELECT COUNT(1) FROM meals";
-    private static final String FIND_BY_ID_QUERY = "SELECT * FROM meals LEFT JOIN users ON meals.user_id=users.id LEFT JOIN user_goals ON users.id=user_goals.id WHERE meals.id=?";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM meals LEFT JOIN users ON meals.user_id=users.id LEFT JOIN user_goals ON users.user_goal_id=user_goals.id WHERE meals.id=?";
     private static final String DELETE_QUERY = "DELETE FROM meals WHERE id=?";
     private static final String INSERT_QUERY = "INSERT INTO meals VALUES (DEFAULT,?,?,?,?,?,?,?)";
     private static final String UPDATE_QUERY_KEY = "UPDATE meals SET user_id=?,fat=?,protein=?,carbohydrate=?,water=?,weight=?,name=? WHERE id=?";

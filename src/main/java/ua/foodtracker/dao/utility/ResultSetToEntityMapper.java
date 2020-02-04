@@ -67,7 +67,7 @@ public class ResultSetToEntityMapper {
                 .withProtein(resultSet.getInt("protein"))
                 .withWater(resultSet.getInt("water"))
                 .withWeight(resultSet.getInt("weight"))
-                .withUser(extractUserFromResultSet(resultSet))
+                .withUser(resultSet.getInt("user_id") == 0 ? null : extractUserFromResultSet(resultSet))
                 .build();
         if (meal.getId().equals(0)) {
             throw new DatabaseInteractionException(ERROR_MESSAGE);

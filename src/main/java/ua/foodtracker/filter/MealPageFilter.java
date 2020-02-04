@@ -9,37 +9,38 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
-@WebFilter(urlPatterns = {"/pages/user/*"})
-public class UserContentFilter implements Filter {
-    public static final String CURRENT_DATE = "currentDate";
+@WebFilter(urlPatterns = {"/pages/user/meals"})
+public class MealPageFilter implements Filter {
+
+    public static final String CURRENT_PAGE = "currentPage";
+    public static final Integer DEFAULT_PAGE = 1;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-        LocalDate date = parseDateOrDateNow(req.getParameter("date"));
-        Object currentDate = req.getSession(false).getAttribute(CURRENT_DATE);
-        if (currentDate == null) {
-            req.getSession(false).setAttribute(CURRENT_DATE, LocalDate.now());
+        Integer page = parseLongOrDefault(req.getParameter("page"));
+        Object currentPage = req.getSession(false).getAttribute(CURRENT_PAGE);
+        if (currentPage == null) {
+            req.getSession(false).setAttribute(CURRENT_PAGE, DEFAULT_PAGE);
         } else {
-            if (date != null && !currentDate.equals(date)) {
-                req.getSession(false).setAttribute(CURRENT_DATE, date);
+            if (page != null && !currentPage.equals(page)) {
+                req.getSession(false).setAttribute(CURRENT_PAGE, page);
             }
         }
         filterChain.doFilter(req, res);
     }
 
-    private LocalDate parseDateOrDateNow(String localDate) {
-        if (localDate == null) {
+    private Integer parseLongOrDefault(String page) {
+        if (page == null) {
             return null;
         }
         try {
-            return LocalDate.parse(localDate);
+            return Integer.parseInt(page);
         } catch (DateTimeParseException ex) {
-            return LocalDate.now();
+            return DEFAULT_PAGE;
         }
     }
 }

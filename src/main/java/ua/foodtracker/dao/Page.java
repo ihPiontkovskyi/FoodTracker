@@ -9,8 +9,8 @@ public class Page {
         this.recordNumber = recordNumber;
     }
 
-    public Integer getPageNumber() {
-        return pageNumber;
+    public long getOffset() {
+        return (pageNumber - 1) * recordNumber;
     }
 
     public Long getRecordNumber() {

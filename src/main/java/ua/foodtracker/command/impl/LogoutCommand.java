@@ -9,7 +9,7 @@ public class LogoutCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        request.getSession(false).removeAttribute("user");
+        request.getSession(false).invalidate();
         return "/pages/login.jsp";
     }
 }

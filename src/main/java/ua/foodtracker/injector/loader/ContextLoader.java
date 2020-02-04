@@ -12,6 +12,7 @@ import ua.foodtracker.command.impl.LoginCommand;
 import ua.foodtracker.command.impl.LogoutCommand;
 import ua.foodtracker.command.impl.RegisterCommand;
 import ua.foodtracker.command.impl.user.DiaryPageCommand;
+import ua.foodtracker.command.impl.user.MealPageCommand;
 import ua.foodtracker.command.impl.user.RecordDeleteCommand;
 import ua.foodtracker.dao.AnnotationHandler;
 import ua.foodtracker.dao.db.holder.ConnectionHolder;
@@ -46,7 +47,7 @@ public class ContextLoader extends AbstractContextLoader {
             beans.putAll(services);
             autowireBeans();
             manageServices();
-            injectCommands();
+            loadCommands();
         } catch (ReflectiveOperationException e) {
             LOGGER.error("Cannot load bean(s). Cause", e);
         } catch (IOException e) {
@@ -126,7 +127,7 @@ public class ContextLoader extends AbstractContextLoader {
         }
     }
 
-    private void injectCommands() {
+    private void loadCommands() {
         Map<String, Command> urlToCommand = new HashMap<>();
         urlToCommand.put("/foodtracker.ua/pages/user/logout", new LogoutCommand());
         urlToCommand.put("/foodtracker.ua/pages/login", new LoginCommand());
@@ -134,6 +135,7 @@ public class ContextLoader extends AbstractContextLoader {
         urlToCommand.put("/foodtracker.ua/pages/register", new RegisterCommand());
         urlToCommand.put("/foodtracker.ua/pages/error", new ErrorCommand());
         urlToCommand.put("/foodtracker.ua/pages/user/records", new DiaryPageCommand());
+        urlToCommand.put("/foodtracker.ua/pages/user/meals", new MealPageCommand());
         urlToCommand.put("/foodtracker.ua/pages/user/records/delete", new RecordDeleteCommand());
         servletContext.setAttribute("urlToCommandMap", urlToCommand);
     }
