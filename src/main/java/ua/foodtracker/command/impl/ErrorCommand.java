@@ -1,11 +1,9 @@
 package ua.foodtracker.command.impl;
 
-import ua.foodtracker.command.Command;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ErrorCommand implements Command {
+public class ErrorCommand extends AbstractCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         Throwable throwable = (Throwable)
