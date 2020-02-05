@@ -1,8 +1,6 @@
-package ua.foodtracker.dao.entity;
+package ua.foodtracker.entity;
 
 import java.sql.Date;
-import java.time.LocalDate;
-import java.time.Period;
 
 public class User {
     private final Integer id;
@@ -79,28 +77,6 @@ public class User {
 
     public Role getRole() {
         return role;
-    }
-
-    private UserGoal build() {
-        int dailyEnergy;
-        int age = Period.between(LocalDate.parse(birthday.toString()), LocalDate.now()).getYears();
-        switch (gender) {
-            case MALE:
-                dailyEnergy = (int) ((88.36 + 13.4 * weight + 4.8 * height - 5.7 * age) * lifestyle.getCoefficient());
-                break;
-            case FEMALE:
-                dailyEnergy = (int) ((447.6 + 9.2 * weight + 3.1 * height - 4.3 * age) * lifestyle.getCoefficient());
-            default:
-                dailyEnergy = (int) ((100 + 13 * weight + 5 * height - 6 * age) * lifestyle.getCoefficient());
-        }
-        int sixthPart = dailyEnergy / 6;
-        return UserGoal.builder()
-                .withDailyEnergyGoal(dailyEnergy)
-                .withDailyWaterGoal(2000)
-                .withDailyFatGoal(sixthPart / 9)
-                .withDailyProteinGoal(sixthPart / 4)
-                .withDailyCarbohydrateGoal(sixthPart)
-                .build();
     }
 
     public static Builder builder() {

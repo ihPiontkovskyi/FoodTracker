@@ -1,7 +1,7 @@
 package ua.foodtracker.validator.impl;
 
 import ua.foodtracker.annotation.ValidatorClass;
-import ua.foodtracker.raw.type.entity.RawUser;
+import ua.foodtracker.service.entity.RawUser;
 
 import java.util.regex.Pattern;
 
@@ -30,11 +30,11 @@ public class UserValidator extends AbstractValidator<RawUser> {
         if (email == null || email.isEmpty()) {
             return "email.cant.be.empty";
         }
-        if (!EMAIL_TEMPLATE.matcher(email).matches()) {
-            return "email.should.match.email.pattern";
-        }
         if (email.length() < MIN_LENGTH || email.length() > MAX_LENGTH) {
             return "email.length.should.be.in.range(3,32)";
+        }
+        if (!EMAIL_TEMPLATE.matcher(email).matches()) {
+            return "email.should.match.email.pattern";
         }
         return null;
     }

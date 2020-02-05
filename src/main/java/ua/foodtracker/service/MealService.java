@@ -1,7 +1,7 @@
 package ua.foodtracker.service;
 
-import ua.foodtracker.dao.entity.Meal;
-import ua.foodtracker.raw.type.entity.RawMeal;
+import ua.foodtracker.entity.Meal;
+import ua.foodtracker.service.entity.RawMeal;
 
 import java.util.List;
 import java.util.Locale;
@@ -10,15 +10,15 @@ import java.util.Optional;
 public interface MealService {
     List<Meal> findAllByPage(Integer pageNumber, Integer userId);
 
-    Long pageCount();
+    long pageCount();
 
     void add(RawMeal meal);
 
-    void delete(Integer id);
+    void delete(String id);
 
     void modify(RawMeal meal);
 
-    Optional<Meal> findById(Integer id);
+    Optional<Meal> findById(String id);
 
     void setLocale(Locale locale);
 }

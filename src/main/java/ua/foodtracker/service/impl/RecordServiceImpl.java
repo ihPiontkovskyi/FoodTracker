@@ -3,10 +3,10 @@ package ua.foodtracker.service.impl;
 import ua.foodtracker.annotation.Autowired;
 import ua.foodtracker.annotation.Service;
 import ua.foodtracker.dao.RecordDao;
-import ua.foodtracker.dao.entity.Record;
+import ua.foodtracker.entity.Record;
 import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.exception.ValidationException;
-import ua.foodtracker.raw.type.entity.RawRecord;
+import ua.foodtracker.service.entity.RawRecord;
 import ua.foodtracker.service.RecordService;
 import ua.foodtracker.validator.impl.RecordValidator;
 
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-import static ua.foodtracker.dao.utility.EntityMapper.mapRawRecordToEntityRecord;
+import static ua.foodtracker.service.utility.EntityMapper.mapRawRecordToEntityRecord;
 import static ua.foodtracker.service.utility.ServiceUtility.getErrorMessageByIssues;
 
 @Service
@@ -31,7 +31,7 @@ public class RecordServiceImpl implements RecordService {
     private RecordValidator recordValidator;
 
     @Override
-    public List<Record> getRecordsByDate(Integer userId, LocalDate date) {
+    public List<Record> getRecordsByDate(int userId, LocalDate date) {
         return recordDao.findByUserIdAndDate(userId, Date.valueOf(date));
     }
 

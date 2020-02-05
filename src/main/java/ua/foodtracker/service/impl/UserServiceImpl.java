@@ -4,12 +4,11 @@ import ua.foodtracker.annotation.Autowired;
 import ua.foodtracker.annotation.Service;
 import ua.foodtracker.dao.Page;
 import ua.foodtracker.dao.UserDao;
-import ua.foodtracker.dao.entity.User;
+import ua.foodtracker.entity.User;
 import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.exception.ValidationException;
-import ua.foodtracker.raw.type.entity.RawUser;
 import ua.foodtracker.service.UserService;
-import ua.foodtracker.service.utility.ServiceUtility;
+import ua.foodtracker.service.entity.RawUser;
 import ua.foodtracker.validator.impl.UserValidator;
 
 import java.util.List;
@@ -17,12 +16,13 @@ import java.util.Locale;
 import java.util.Optional;
 
 import static org.mindrot.jbcrypt.BCrypt.checkpw;
-import static ua.foodtracker.dao.utility.EntityMapper.mapRawUserToEntityUser;
+import static ua.foodtracker.service.utility.EntityMapper.mapRawUserToEntityUser;
 import static ua.foodtracker.service.utility.ServiceUtility.getErrorMessageByIssues;
+import static ua.foodtracker.service.utility.ServiceUtility.getNumberOfPage;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private static final Long ITEMS_PER_PAGE = 20L;
+    private static final Long ITEMS_PER_PAGE = 3L;
     private static final String INCORRECT_DATA = "incorrect.data";
 
     @Autowired
@@ -74,13 +74,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findById(Integer id) {
-        return userDao.findById(id);
+    public Optional<User> findById(String id) {
+        if (id == null) {
+            userValidator.putIssue("data", INCORRECT_DATA);
+            throw new IncorrectDataException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
+        }
+        try {
+            return userDao.findById(Integer.parseInt(id));
+        } catch (NumberFormatException ex) {
+            userValidator.putIssue("data", INCORRECT_DATA);
+            throw new IncorrectDataException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
+        }
     }
 
     @Override
-    public void delete(Integer id) {
-        if (!userDao.deleteById(id)) {
+    public void delete(String id) {
+        if (id == null) {
+            userValidator.putIssue("data", INCORRECT_DATA);
+            throw new IncorrectDataException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
+        }
+        try {
+            if (!userDao.deleteById(Integer.parseInt(id))) {
+                userValidator.putIssue("data", INCORRECT_DATA);
+                throw new IncorrectDataException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
+            }
+        } catch (NumberFormatException ex) {
             userValidator.putIssue("data", INCORRECT_DATA);
             throw new IncorrectDataException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
         }
@@ -93,7 +111,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public long getPageCount() {
-        return ServiceUtility.getNumberOfPage(userDao.count(),ITEMS_PER_PAGE);
+        return getNumberOfPage(userDao.count(), ITEMS_PER_PAGE);
     }
 
     @Override

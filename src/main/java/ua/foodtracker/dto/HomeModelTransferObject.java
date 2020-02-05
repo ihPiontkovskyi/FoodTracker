@@ -1,6 +1,6 @@
 package ua.foodtracker.dto;
 
-import ua.foodtracker.dao.entity.User;
+import ua.foodtracker.entity.User;
 import ua.foodtracker.service.RecordService;
 
 import java.time.LocalDate;

@@ -1,0 +1,211 @@
+package ua.foodtracker.validator;
+
+import org.junit.Before;
+import org.junit.Test;
+import ua.foodtracker.entity.Role;
+import ua.foodtracker.service.entity.RawMeal;
+import ua.foodtracker.service.entity.RawUser;
+import ua.foodtracker.validator.impl.MealValidator;
+
+import java.time.LocalDate;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+public class MealValidatorTest {
+    private static final RawUser ADMIN = RawUser.builder()
+            .withId(1)
+            .withEmail("email@email.email")
+            .withHeight(10)
+            .withPassword("password")
+            .withFirstName("Firtsname")
+            .withLastName("Lastname")
+            .withWeight(10)
+            .withBirthday(LocalDate.now())
+            .withRole(Role.ADMIN)
+            .build();
+    private static final RawUser USER = RawUser.builder()
+            .withId(1)
+            .withEmail(null)
+            .withHeight(10)
+            .withPassword("password")
+            .withFirstName("Firtsname")
+            .withLastName("Lastname")
+            .withWeight(10)
+            .withBirthday(LocalDate.now())
+            .withRole(Role.USER)
+            .build();
+
+    private Validator<RawMeal> mealValidator;
+
+    @Before
+    public void initValidator() {
+        mealValidator = new MealValidator();
+    }
+
+    @Test
+    public void validateNullShouldHasError() {
+        mealValidator.validate(null);
+        assertTrue(mealValidator.hasErrors());
+    }
+
+    @Test
+    public void validateMealShouldntHasError() {
+        RawMeal meal = RawMeal.builder()
+                .withId(1)
+                .withWeight(10)
+                .withUser(ADMIN)
+                .withWater(10)
+                .withProtein(10)
+                .withName("name")
+                .withFat(10)
+                .withCarbohydrates(10)
+                .build();
+        mealValidator.validate(meal);
+        assertFalse(mealValidator.hasErrors());
+    }
+
+    @Test
+    public void validateMealShouldHasNameError() {
+        RawMeal meal = RawMeal.builder()
+                .withId(1)
+                .withWeight(10)
+                .withUser(ADMIN)
+                .withWater(10)
+                .withProtein(10)
+                .withName("a")
+                .withFat(10)
+                .withCarbohydrates(10)
+                .build();
+        mealValidator.validate(meal);
+        assertTrue(mealValidator.getMessages().containsKey("name"));
+    }
+
+    @Test
+    public void validateMealShouldHasWeightError() {
+        RawMeal meal = RawMeal.builder()
+                .withId(1)
+                .withWeight(null)
+                .withUser(ADMIN)
+                .withWater(10)
+                .withProtein(10)
+                .withName("Name")
+                .withFat(10)
+                .withCarbohydrates(10)
+                .build();
+        mealValidator.validate(meal);
+        assertTrue(mealValidator.getMessages().containsKey("weight"));
+    }
+
+    @Test
+    public void validateMealShouldHasWaterError() {
+        RawMeal meal = RawMeal.builder()
+                .withId(1)
+                .withWeight(10)
+                .withUser(ADMIN)
+                .withWater(null)
+                .withProtein(10)
+                .withName("Name")
+                .withFat(10)
+                .withCarbohydrates(10)
+                .build();
+        mealValidator.validate(meal);
+        assertTrue(mealValidator.getMessages().containsKey("water"));
+    }
+
+    @Test
+    public void validateMealShouldHasFatError() {
+        RawMeal meal = RawMeal.builder()
+                .withId(1)
+                .withWeight(10)
+                .withUser(ADMIN)
+                .withWater(10)
+                .withProtein(10)
+                .withName("Name")
+                .withFat(-23)
+                .withCarbohydrates(10)
+                .build();
+        mealValidator.validate(meal);
+        assertTrue(mealValidator.getMessages().containsKey("fat"));
+    }
+
+    @Test
+    public void validateMealShouldHasCarbError() {
+        RawMeal meal = RawMeal.builder()
+                .withId(1)
+                .withWeight(10)
+                .withUser(ADMIN)
+                .withWater(10)
+                .withProtein(10)
+                .withName("Name")
+                .withFat(23)
+                .withCarbohydrates(null)
+                .build();
+        mealValidator.validate(meal);
+        assertTrue(mealValidator.getMessages().containsKey("carbohydrates"));
+    }
+
+    @Test
+    public void validateMealShouldHasNameError2() {
+        RawMeal meal = RawMeal.builder()
+                .withId(1)
+                .withWeight(10)
+                .withUser(null)
+                .withWater(10)
+                .withProtein(10)
+                .withName("Nameeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
+                .withFat(23)
+                .withCarbohydrates(null)
+                .build();
+        mealValidator.validate(meal);
+        assertTrue(mealValidator.getMessages().containsKey("name"));
+    }
+
+    @Test
+    public void validateMealShouldHasNameError3() {
+        RawMeal meal = RawMeal.builder()
+                .withId(1)
+                .withWeight(10)
+                .withUser(null)
+                .withWater(10)
+                .withProtein(10)
+                .withName("")
+                .withFat(23)
+                .withCarbohydrates(null)
+                .build();
+        mealValidator.validate(meal);
+        assertTrue(mealValidator.getMessages().containsKey("name"));
+    }
+
+    @Test
+    public void validateMealShouldHasNameError4() {
+        RawMeal meal = RawMeal.builder()
+                .withId(1)
+                .withWeight(10)
+                .withUser(null)
+                .withWater(10)
+                .withProtein(10)
+                .withName(null)
+                .withFat(23)
+                .withCarbohydrates(null)
+                .build();
+        mealValidator.validate(meal);
+        assertTrue(mealValidator.getMessages().containsKey("name"));
+    }
+
+    @Test
+    public void validateMealShouldHasUserEmailError() {
+        RawMeal meal = RawMeal.builder()
+                .withId(1)
+                .withWeight(10)
+                .withUser(USER)
+                .withWater(10)
+                .withProtein(10)
+                .withName("Name")
+                .withFat(23)
+                .withCarbohydrates(null)
+                .build();
+        mealValidator.validate(meal);
+        assertTrue(mealValidator.hasErrors());
+    }
+}

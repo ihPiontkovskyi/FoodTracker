@@ -10,11 +10,11 @@ import ua.foodtracker.dao.UserDao;
 import ua.foodtracker.dao.db.holder.ConnectionHolder;
 import ua.foodtracker.dao.db.holder.ThreadLocalConnectionHolder;
 import ua.foodtracker.dao.db.manager.HikariCPManager;
-import ua.foodtracker.dao.entity.Gender;
-import ua.foodtracker.dao.entity.Lifestyle;
-import ua.foodtracker.dao.entity.Role;
-import ua.foodtracker.dao.entity.User;
-import ua.foodtracker.dao.entity.UserGoal;
+import ua.foodtracker.entity.Gender;
+import ua.foodtracker.entity.Lifestyle;
+import ua.foodtracker.entity.Role;
+import ua.foodtracker.entity.User;
+import ua.foodtracker.entity.UserGoal;
 import ua.foodtracker.exception.DatabaseInteractionException;
 
 import java.nio.file.Files;

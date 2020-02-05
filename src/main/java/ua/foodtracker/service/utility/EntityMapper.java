@@ -1,13 +1,13 @@
-package ua.foodtracker.dao.utility;
+package ua.foodtracker.service.utility;
 
-import ua.foodtracker.dao.entity.Meal;
-import ua.foodtracker.dao.entity.Record;
-import ua.foodtracker.dao.entity.Role;
-import ua.foodtracker.dao.entity.User;
-import ua.foodtracker.dao.entity.UserGoal;
-import ua.foodtracker.raw.type.entity.RawMeal;
-import ua.foodtracker.raw.type.entity.RawRecord;
-import ua.foodtracker.raw.type.entity.RawUser;
+import ua.foodtracker.entity.Meal;
+import ua.foodtracker.entity.Record;
+import ua.foodtracker.entity.Role;
+import ua.foodtracker.entity.User;
+import ua.foodtracker.entity.UserGoal;
+import ua.foodtracker.service.entity.RawMeal;
+import ua.foodtracker.service.entity.RawRecord;
+import ua.foodtracker.service.entity.RawUser;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -30,7 +30,7 @@ public class EntityMapper {
                 .withPassword(rawUser.getPassword())
                 .withRole(rawUser.getRole())
                 .withWeight(rawUser.getWeight())
-                .withUserGoal(rawUser.getUserGoal() == null ? calculateUserGoal(rawUser) : rawUser.getUserGoal())
+                .withUserGoal(calculateUserGoal(rawUser))
                 .build();
     }
 

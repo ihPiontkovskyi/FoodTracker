@@ -1,10 +1,10 @@
 package ua.foodtracker.command.impl;
 
 import ua.foodtracker.command.Command;
-import ua.foodtracker.dao.entity.Gender;
-import ua.foodtracker.dao.entity.Lifestyle;
-import ua.foodtracker.dao.entity.Role;
-import ua.foodtracker.raw.type.entity.RawUser;
+import ua.foodtracker.entity.Gender;
+import ua.foodtracker.entity.Lifestyle;
+import ua.foodtracker.entity.Role;
+import ua.foodtracker.service.entity.RawUser;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

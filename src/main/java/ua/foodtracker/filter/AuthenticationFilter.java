@@ -1,7 +1,7 @@
 package ua.foodtracker.filter;
 
-import ua.foodtracker.dao.entity.Role;
-import ua.foodtracker.dao.entity.User;
+import ua.foodtracker.entity.Role;
+import ua.foodtracker.entity.User;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;

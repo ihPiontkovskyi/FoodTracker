@@ -1,8 +1,8 @@
 package ua.foodtracker.validator.impl;
 
 import ua.foodtracker.annotation.ValidatorClass;
-import ua.foodtracker.raw.type.entity.RawMeal;
-import ua.foodtracker.raw.type.entity.RawRecord;
+import ua.foodtracker.service.entity.RawMeal;
+import ua.foodtracker.service.entity.RawRecord;
 import ua.foodtracker.validator.Validator;
 
 @ValidatorClass

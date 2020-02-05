@@ -1,9 +1,9 @@
-package ua.foodtracker.raw.type.entity;
+package ua.foodtracker.service.entity;
 
-import ua.foodtracker.dao.entity.Gender;
-import ua.foodtracker.dao.entity.Lifestyle;
-import ua.foodtracker.dao.entity.Role;
-import ua.foodtracker.dao.entity.UserGoal;
+import ua.foodtracker.entity.Gender;
+import ua.foodtracker.entity.Lifestyle;
+import ua.foodtracker.entity.Role;
+import ua.foodtracker.entity.UserGoal;
 
 import java.time.LocalDate;
 

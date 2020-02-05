@@ -1,9 +1,9 @@
 package ua.foodtracker.validator.impl;
 
 import ua.foodtracker.annotation.ValidatorClass;
-import ua.foodtracker.dao.entity.Role;
-import ua.foodtracker.raw.type.entity.RawMeal;
-import ua.foodtracker.raw.type.entity.RawUser;
+import ua.foodtracker.entity.Role;
+import ua.foodtracker.service.entity.RawMeal;
+import ua.foodtracker.service.entity.RawUser;
 import ua.foodtracker.validator.Validator;
 
 @ValidatorClass
@@ -22,7 +22,7 @@ public class MealValidator extends AbstractValidator<RawMeal> {
         putIssue("fat", validateInteger(rawMeal.getFat()));
         putIssue("weight", validateInteger(rawMeal.getWeight()));
         putIssue("water", validateInteger(rawMeal.getWater()));
-        if (rawMeal.getUser().getRole() != Role.ADMIN) {
+        if (rawMeal.getUser() != null && rawMeal.getUser().getRole() != Role.ADMIN) {
             Validator<RawUser> userValidator = new UserValidator();
             userValidator.validate(rawMeal.getUser());
             userValidator.getMessages().forEach((key, value) -> putIssue("user by rawMeal: " + key, value));

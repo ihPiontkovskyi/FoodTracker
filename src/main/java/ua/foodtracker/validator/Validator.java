@@ -13,4 +13,6 @@ public interface Validator<E> {
     void validate(E entity);
 
     void setLocale(Locale locale);
+
+    Locale getLocale();
 }

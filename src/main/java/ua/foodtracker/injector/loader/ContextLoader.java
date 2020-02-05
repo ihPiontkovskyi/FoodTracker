@@ -12,6 +12,7 @@ import ua.foodtracker.command.impl.LoginCommand;
 import ua.foodtracker.command.impl.LogoutCommand;
 import ua.foodtracker.command.impl.RegisterCommand;
 import ua.foodtracker.command.impl.user.DiaryPageCommand;
+import ua.foodtracker.command.impl.user.MealDeleteCommand;
 import ua.foodtracker.command.impl.user.MealPageCommand;
 import ua.foodtracker.command.impl.user.RecordDeleteCommand;
 import ua.foodtracker.dao.AnnotationHandler;
@@ -137,6 +138,7 @@ public class ContextLoader extends AbstractContextLoader {
         urlToCommand.put("/foodtracker.ua/pages/user/records", new DiaryPageCommand());
         urlToCommand.put("/foodtracker.ua/pages/user/meals", new MealPageCommand());
         urlToCommand.put("/foodtracker.ua/pages/user/records/delete", new RecordDeleteCommand());
+        urlToCommand.put("/foodtracker.ua/pages/user/meals/delete", new MealDeleteCommand());
         servletContext.setAttribute("urlToCommandMap", urlToCommand);
     }
 

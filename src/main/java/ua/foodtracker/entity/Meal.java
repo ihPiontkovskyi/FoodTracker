@@ -1,16 +1,19 @@
-package ua.foodtracker.raw.type.entity;
+package ua.foodtracker.entity;
 
-public class RawMeal {
-    private Integer id;
-    private String name;
-    private Integer protein;
-    private RawUser user;
-    private Integer carbohydrate;
-    private Integer fat;
-    private Integer weight;
-    private Integer water;
+/**
+ * Entity class of meal
+ */
+public class Meal {
+    private final Integer id;
+    private final String name;
+    private final Integer protein;
+    private final User user;
+    private final Integer carbohydrate;
+    private final Integer fat;
+    private final Integer weight;
+    private final Integer water;
 
-    public RawMeal(Builder builder) {
+    public Meal(Builder builder) {
         this.id = builder.id;
         this.name = builder.name;
         this.protein = builder.protein;
@@ -33,7 +36,7 @@ public class RawMeal {
         return protein;
     }
 
-    public RawUser getUser() {
+    public User getUser() {
         return user;
     }
 
@@ -65,7 +68,7 @@ public class RawMeal {
         private Integer id;
         private String name;
         private Integer protein;
-        private RawUser user;
+        private User user;
         private Integer carbohydrates;
         private Integer fat;
         private Integer weight;
@@ -89,7 +92,7 @@ public class RawMeal {
             return this;
         }
 
-        public Builder withUser(RawUser user) {
+        public Builder withUser(User user) {
             this.user = user;
             return this;
         }
@@ -114,8 +117,8 @@ public class RawMeal {
             return this;
         }
 
-        public RawMeal build() {
-            return new RawMeal(this);
+        public Meal build() {
+            return new Meal(this);
         }
     }
 }

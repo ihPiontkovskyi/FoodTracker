@@ -4,8 +4,8 @@ import ua.foodtracker.annotation.Dao;
 import ua.foodtracker.dao.Page;
 import ua.foodtracker.dao.UserDao;
 import ua.foodtracker.dao.db.holder.ConnectionHolder;
-import ua.foodtracker.dao.entity.User;
-import ua.foodtracker.dao.entity.UserGoal;
+import ua.foodtracker.entity.User;
+import ua.foodtracker.entity.UserGoal;
 import ua.foodtracker.exception.DatabaseInteractionException;
 
 import java.sql.PreparedStatement;

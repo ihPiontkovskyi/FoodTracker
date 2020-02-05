@@ -1,8 +1,8 @@
 package ua.foodtracker.service;
 
 import ua.foodtracker.annotation.Transactional;
-import ua.foodtracker.dao.entity.User;
-import ua.foodtracker.raw.type.entity.RawUser;
+import ua.foodtracker.entity.User;
+import ua.foodtracker.service.entity.RawUser;
 
 import java.util.List;
 import java.util.Locale;
@@ -17,9 +17,9 @@ public interface UserService {
     @Transactional
     void modify(RawUser user);
 
-    Optional<User> findById(Integer id);
+    Optional<User> findById(String id);
 
-    void delete(Integer id);
+    void delete(String id);
 
     List<User> getPage(Integer pageNumber);
 

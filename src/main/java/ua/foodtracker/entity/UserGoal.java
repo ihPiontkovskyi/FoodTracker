@@ -1,4 +1,4 @@
-package ua.foodtracker.dao.entity;
+package ua.foodtracker.entity;
 
 /**
  * Entity class of user goals

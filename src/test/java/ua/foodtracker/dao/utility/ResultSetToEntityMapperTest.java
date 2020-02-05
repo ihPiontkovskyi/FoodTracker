@@ -7,10 +7,10 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import ua.foodtracker.dao.entity.Meal;
-import ua.foodtracker.dao.entity.Record;
-import ua.foodtracker.dao.entity.User;
-import ua.foodtracker.dao.entity.UserGoal;
+import ua.foodtracker.entity.Meal;
+import ua.foodtracker.entity.Record;
+import ua.foodtracker.entity.User;
+import ua.foodtracker.entity.UserGoal;
 import ua.foodtracker.exception.DatabaseInteractionException;
 
 import java.sql.Date;
@@ -74,9 +74,8 @@ public class ResultSetToEntityMapperTest {
         mockResultSetForMeal();
         Meal meal = ResultSetToEntityMapper.extractMealFromResultSet(resultSet);
         assertNotNull(meal);
-        verify(resultSet, times(18)).getInt(any());
-        verify(resultSet).getDate(any());
-        verify(resultSet, times(5)).getString(any());
+        verify(resultSet, times(7)).getInt(any());
+        verify(resultSet, times(1)).getString(any());
     }
 
     @Test
@@ -91,7 +90,7 @@ public class ResultSetToEntityMapperTest {
         mockResultSetForRecord();
         Record record = ResultSetToEntityMapper.extractRecordFromResultSet(resultSet);
         assertNotNull(record);
-        verify(resultSet, times(20)).getInt(any());
+        verify(resultSet, times(21)).getInt(any());
         verify(resultSet, times(2)).getDate(any());
         verify(resultSet, times(5)).getString(any());
     }

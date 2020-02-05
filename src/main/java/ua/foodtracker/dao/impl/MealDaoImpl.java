@@ -4,7 +4,7 @@ import ua.foodtracker.annotation.Dao;
 import ua.foodtracker.dao.MealDao;
 import ua.foodtracker.dao.Page;
 import ua.foodtracker.dao.db.holder.ConnectionHolder;
-import ua.foodtracker.dao.entity.Meal;
+import ua.foodtracker.entity.Meal;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

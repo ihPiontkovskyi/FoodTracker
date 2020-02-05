@@ -1,7 +1,7 @@
 package ua.foodtracker.command.impl.user;
 
 import ua.foodtracker.command.Command;
-import ua.foodtracker.dao.entity.Meal;
+import ua.foodtracker.entity.Meal;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

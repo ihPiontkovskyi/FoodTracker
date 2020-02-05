@@ -1,6 +1,6 @@
 package ua.foodtracker.dao;
 
-import ua.foodtracker.dao.entity.User;
+import ua.foodtracker.entity.User;
 
 import java.util.List;
 import java.util.Optional;

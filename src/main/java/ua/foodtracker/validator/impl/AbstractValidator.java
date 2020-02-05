@@ -43,7 +43,7 @@ public abstract class AbstractValidator<E> implements Validator<E> {
         if (key == null || message == null) {
             return;
         }
-        LOGGER.debug(String.format("Put message %s", message));
+        LOGGER.info(String.format("Put message %s", message));
         errMessages.put(key, message);
     }
 
@@ -73,7 +73,7 @@ public abstract class AbstractValidator<E> implements Validator<E> {
     }
 
     protected String validateDate(LocalDate date) {
-        if (date == null || date.compareTo(LocalDate.now()) >= 0) {
+        if (date == null || date.compareTo(LocalDate.now()) > 0) {
             return "cant.set.date";
         }
         return null;

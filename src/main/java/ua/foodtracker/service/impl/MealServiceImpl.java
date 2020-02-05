@@ -4,18 +4,18 @@ import ua.foodtracker.annotation.Autowired;
 import ua.foodtracker.annotation.Service;
 import ua.foodtracker.dao.MealDao;
 import ua.foodtracker.dao.Page;
-import ua.foodtracker.dao.entity.Meal;
+import ua.foodtracker.entity.Meal;
 import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.exception.ValidationException;
-import ua.foodtracker.raw.type.entity.RawMeal;
 import ua.foodtracker.service.MealService;
+import ua.foodtracker.service.entity.RawMeal;
 import ua.foodtracker.validator.impl.MealValidator;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-import static ua.foodtracker.dao.utility.EntityMapper.mapRawMealToEntityMeal;
+import static ua.foodtracker.service.utility.EntityMapper.mapRawMealToEntityMeal;
 import static ua.foodtracker.service.utility.ServiceUtility.getErrorMessageByIssues;
 import static ua.foodtracker.service.utility.ServiceUtility.getNumberOfPage;
 
@@ -36,8 +36,8 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public Long pageCount() {
-        return getNumberOfPage(mealDao.count(),ITEMS_PER_PAGE);
+    public long pageCount() {
+        return getNumberOfPage(mealDao.count(), ITEMS_PER_PAGE);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class MealServiceImpl implements MealService {
         mealValidator.validate(meal);
         if (!mealValidator.hasErrors()) {
             Integer id = mealDao.save(mapRawMealToEntityMeal(meal));
-            if (id != null && id != 0) {
+            if (id == null || id == 0) {
                 mealValidator.putIssue("data", INCORRECT_DATA);
                 throw new IncorrectDataException(getErrorMessageByIssues(mealValidator.getMessages(), mealValidator.getLocale()));
             }
@@ -55,8 +55,17 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public void delete(Integer id) {
-        if (mealDao.deleteById(id)) {
+    public void delete(String id) {
+        if (id == null) {
+            mealValidator.putIssue("data", INCORRECT_DATA);
+            throw new IncorrectDataException(getErrorMessageByIssues(mealValidator.getMessages(), mealValidator.getLocale()));
+        }
+        try {
+            if (!mealDao.deleteById(Integer.parseInt(id))) {
+                mealValidator.putIssue("data", INCORRECT_DATA);
+                throw new IncorrectDataException(getErrorMessageByIssues(mealValidator.getMessages(), mealValidator.getLocale()));
+            }
+        } catch (NumberFormatException ex) {
             mealValidator.putIssue("data", INCORRECT_DATA);
             throw new IncorrectDataException(getErrorMessageByIssues(mealValidator.getMessages(), mealValidator.getLocale()));
         }
@@ -66,7 +75,7 @@ public class MealServiceImpl implements MealService {
     public void modify(RawMeal meal) {
         mealValidator.validate(meal);
         if (!mealValidator.hasErrors()) {
-            if (mealDao.update(mapRawMealToEntityMeal(meal))) {
+            if (!mealDao.update(mapRawMealToEntityMeal(meal))) {
                 mealValidator.putIssue("data", INCORRECT_DATA);
                 throw new IncorrectDataException(getErrorMessageByIssues(mealValidator.getMessages(), mealValidator.getLocale()));
             }
@@ -76,8 +85,17 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public Optional<Meal> findById(Integer id) {
-        return mealDao.findById(id);
+    public Optional<Meal> findById(String id) {
+        if (id == null) {
+            mealValidator.putIssue("data", INCORRECT_DATA);
+            throw new IncorrectDataException(getErrorMessageByIssues(mealValidator.getMessages(), mealValidator.getLocale()));
+        }
+        try {
+            return mealDao.findById(Integer.parseInt(id));
+        } catch (NumberFormatException ex) {
+            mealValidator.putIssue("data", INCORRECT_DATA);
+            throw new IncorrectDataException(getErrorMessageByIssues(mealValidator.getMessages(), mealValidator.getLocale()));
+        }
     }
 
     @Override
