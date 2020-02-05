@@ -2,7 +2,7 @@ package ua.foodtracker.entity;
 
 import java.sql.Date;
 
-public class User {
+public class UserEntity {
     private final Integer id;
     private final String email;
     private final String password;
@@ -13,10 +13,10 @@ public class User {
     private final Lifestyle lifestyle;
     private final Date birthday;
     private final Gender gender;
-    private final UserGoal userGoal;
+    private final UserGoalEntity userGoalEntity;
     private final Role role;
 
-    private User(Builder builder) {
+    private UserEntity(Builder builder) {
         this.id = builder.id;
         this.email = builder.email;
         this.password = builder.password;
@@ -28,7 +28,7 @@ public class User {
         this.birthday = builder.birthday;
         this.gender = builder.gender;
         this.role = builder.role;
-        this.userGoal = builder.userGoal;
+        this.userGoalEntity = builder.userGoalEntity;
     }
 
     public Integer getId() {
@@ -71,8 +71,8 @@ public class User {
         return gender;
     }
 
-    public UserGoal getUserGoal() {
-        return userGoal;
+    public UserGoalEntity getUserGoalEntity() {
+        return userGoalEntity;
     }
 
     public Role getRole() {
@@ -94,7 +94,7 @@ public class User {
         private Lifestyle lifestyle;
         private Date birthday;
         private Gender gender;
-        private UserGoal userGoal;
+        private UserGoalEntity userGoalEntity;
         private Role role;
 
         private Builder() {
@@ -150,8 +150,8 @@ public class User {
             return this;
         }
 
-        public Builder withUserGoal(UserGoal userGoal) {
-            this.userGoal = userGoal;
+        public Builder withUserGoal(UserGoalEntity userGoalEntity) {
+            this.userGoalEntity = userGoalEntity;
             return this;
         }
 
@@ -160,8 +160,8 @@ public class User {
             return this;
         }
 
-        public User build() {
-            return new User(this);
+        public UserEntity build() {
+            return new UserEntity(this);
         }
     }
 }

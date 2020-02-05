@@ -1,13 +1,13 @@
-package ua.foodtracker.service.entity;
+package ua.foodtracker.service.domain;
 
 import ua.foodtracker.entity.Gender;
 import ua.foodtracker.entity.Lifestyle;
 import ua.foodtracker.entity.Role;
-import ua.foodtracker.entity.UserGoal;
+import ua.foodtracker.entity.UserGoalEntity;
 
 import java.time.LocalDate;
 
-public class RawUser {
+public class User {
     private Integer id;
     private String email;
     private String password;
@@ -18,7 +18,7 @@ public class RawUser {
     private Lifestyle lifestyle;
     private LocalDate birthday;
     private Gender gender;
-    private UserGoal userGoal;
+    private UserGoalEntity userGoalEntity;
     private Role role;
 
     public Integer getId() {
@@ -61,15 +61,15 @@ public class RawUser {
         return gender;
     }
 
-    public UserGoal getUserGoal() {
-        return userGoal;
+    public UserGoalEntity getUserGoalEntity() {
+        return userGoalEntity;
     }
 
     public Role getRole() {
         return role;
     }
 
-    private RawUser(Builder builder) {
+    private User(Builder builder) {
         this.id = builder.id;
         this.email = builder.email;
         this.password = builder.password;
@@ -81,7 +81,7 @@ public class RawUser {
         this.birthday = builder.birthday;
         this.gender = builder.gender;
         this.role = builder.role;
-        this.userGoal = builder.userGoal;
+        this.userGoalEntity = builder.userGoalEntity;
     }
 
     public static Builder builder() {
@@ -99,7 +99,7 @@ public class RawUser {
         private Lifestyle lifestyle;
         private LocalDate birthday;
         private Gender gender;
-        private UserGoal userGoal;
+        private UserGoalEntity userGoalEntity;
         private Role role;
 
         private Builder() {
@@ -155,8 +155,8 @@ public class RawUser {
             return this;
         }
 
-        public Builder withUserGoal(UserGoal userGoal) {
-            this.userGoal = userGoal;
+        public Builder withUserGoal(UserGoalEntity userGoalEntity) {
+            this.userGoalEntity = userGoalEntity;
             return this;
         }
 
@@ -165,8 +165,8 @@ public class RawUser {
             return this;
         }
 
-        public RawUser build() {
-            return new RawUser(this);
+        public User build() {
+            return new User(this);
         }
     }
 }

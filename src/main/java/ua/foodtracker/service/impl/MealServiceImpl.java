@@ -4,18 +4,19 @@ import ua.foodtracker.annotation.Autowired;
 import ua.foodtracker.annotation.Service;
 import ua.foodtracker.dao.MealDao;
 import ua.foodtracker.dao.Page;
-import ua.foodtracker.entity.Meal;
+import ua.foodtracker.entity.MealEntity;
 import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.exception.ValidationException;
 import ua.foodtracker.service.MealService;
-import ua.foodtracker.service.entity.RawMeal;
+import ua.foodtracker.service.domain.Meal;
+import ua.foodtracker.service.utility.EntityMapper;
 import ua.foodtracker.validator.impl.MealValidator;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-import static ua.foodtracker.service.utility.EntityMapper.mapRawMealToEntityMeal;
+import static ua.foodtracker.service.utility.EntityMapper.mapMealToEntityMeal;
 import static ua.foodtracker.service.utility.ServiceUtility.getErrorMessageByIssues;
 import static ua.foodtracker.service.utility.ServiceUtility.getNumberOfPage;
 
@@ -31,7 +32,7 @@ public class MealServiceImpl implements MealService {
     private MealValidator mealValidator;
 
     @Override
-    public List<Meal> findAllByPage(Integer pageNumber, Integer userId) {
+    public List<MealEntity> findAllByPage(Integer pageNumber, Integer userId) {
         return mealDao.findAll(new Page(pageNumber, ITEMS_PER_PAGE));
     }
 
@@ -41,10 +42,10 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public void add(RawMeal meal) {
+    public void add(Meal meal) {
         mealValidator.validate(meal);
         if (!mealValidator.hasErrors()) {
-            Integer id = mealDao.save(mapRawMealToEntityMeal(meal));
+            Integer id = mealDao.save(mapMealToEntityMeal(meal));
             if (id == null || id == 0) {
                 mealValidator.putIssue("data", INCORRECT_DATA);
                 throw new IncorrectDataException(getErrorMessageByIssues(mealValidator.getMessages(), mealValidator.getLocale()));
@@ -72,10 +73,10 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public void modify(RawMeal meal) {
+    public void modify(Meal meal) {
         mealValidator.validate(meal);
         if (!mealValidator.hasErrors()) {
-            if (!mealDao.update(mapRawMealToEntityMeal(meal))) {
+            if (!mealDao.update(mapMealToEntityMeal(meal))) {
                 mealValidator.putIssue("data", INCORRECT_DATA);
                 throw new IncorrectDataException(getErrorMessageByIssues(mealValidator.getMessages(), mealValidator.getLocale()));
             }
@@ -91,7 +92,8 @@ public class MealServiceImpl implements MealService {
             throw new IncorrectDataException(getErrorMessageByIssues(mealValidator.getMessages(), mealValidator.getLocale()));
         }
         try {
-            return mealDao.findById(Integer.parseInt(id));
+            Optional<MealEntity> mealEntity = mealDao.findById(Integer.parseInt(id));
+            return mealEntity.map(EntityMapper::mapEntityMealToMeal);
         } catch (NumberFormatException ex) {
             mealValidator.putIssue("data", INCORRECT_DATA);
             throw new IncorrectDataException(getErrorMessageByIssues(mealValidator.getMessages(), mealValidator.getLocale()));

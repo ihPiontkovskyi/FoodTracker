@@ -2,29 +2,29 @@ package ua.foodtracker.validator.impl;
 
 import ua.foodtracker.annotation.ValidatorClass;
 import ua.foodtracker.entity.Role;
-import ua.foodtracker.service.entity.RawMeal;
-import ua.foodtracker.service.entity.RawUser;
+import ua.foodtracker.service.domain.Meal;
+import ua.foodtracker.service.domain.User;
 import ua.foodtracker.validator.Validator;
 
 @ValidatorClass
-public class MealValidator extends AbstractValidator<RawMeal> {
+public class MealValidator extends AbstractValidator<Meal> {
 
     @Override
-    public void validate(RawMeal rawMeal) {
+    public void validate(Meal meal) {
         getMessages().clear();
-        if (rawMeal == null) {
+        if (meal == null) {
             putIssue("object", "is.null.message");
             return;
         }
-        putIssue("name", validateName(rawMeal.getName()));
-        putIssue("protein", validateInteger(rawMeal.getProtein()));
-        putIssue("carbohydrates", validateInteger(rawMeal.getCarbohydrate()));
-        putIssue("fat", validateInteger(rawMeal.getFat()));
-        putIssue("weight", validateInteger(rawMeal.getWeight()));
-        putIssue("water", validateInteger(rawMeal.getWater()));
-        if (rawMeal.getUser() != null && rawMeal.getUser().getRole() != Role.ADMIN) {
-            Validator<RawUser> userValidator = new UserValidator();
-            userValidator.validate(rawMeal.getUser());
+        putIssue("name", validateName(meal.getName()));
+        putIssue("protein", validateInteger(meal.getProtein()));
+        putIssue("carbohydrates", validateInteger(meal.getCarbohydrate()));
+        putIssue("fat", validateInteger(meal.getFat()));
+        putIssue("weight", validateInteger(meal.getWeight()));
+        putIssue("water", validateInteger(meal.getWater()));
+        if (meal.getUser() != null && meal.getUser().getRole() != Role.ADMIN) {
+            Validator<User> userValidator = new UserValidator();
+            userValidator.validate(meal.getUser());
             userValidator.getMessages().forEach((key, value) -> putIssue("user by rawMeal: " + key, value));
         }
     }

@@ -1,16 +1,19 @@
-package ua.foodtracker.service.entity;
+package ua.foodtracker.entity;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
-public class RawRecord {
-    private Integer id;
-    private RawMeal meal;
-    private LocalDate date;
-    private Integer userId;
+/**
+ * Entity class of Record
+ */
+public class RecordEntity {
+    private final Integer id;
+    private final MealEntity mealEntity;
+    private final Date date;
+    private final Integer userId;
 
-    public RawRecord(Builder builder) {
+    public RecordEntity(Builder builder) {
         this.id = builder.id;
-        this.meal = builder.meal;
+        this.mealEntity = builder.mealEntity;
         this.date = builder.date;
         this.userId = builder.userId;
     }
@@ -19,11 +22,11 @@ public class RawRecord {
         return id;
     }
 
-    public RawMeal getMeal() {
-        return meal;
+    public MealEntity getMealEntity() {
+        return mealEntity;
     }
 
-    public LocalDate getDate() {
+    public Date getDate() {
         return date;
     }
 
@@ -37,8 +40,8 @@ public class RawRecord {
 
     public static class Builder {
         private Integer id;
-        private RawMeal meal;
-        private LocalDate date;
+        private MealEntity mealEntity;
+        private Date date;
         private Integer userId;
 
         private Builder() {
@@ -49,12 +52,12 @@ public class RawRecord {
             return this;
         }
 
-        public Builder withMeal(RawMeal meal) {
-            this.meal = meal;
+        public Builder withMeal(MealEntity mealEntity) {
+            this.mealEntity = mealEntity;
             return this;
         }
 
-        public Builder withDate(LocalDate date) {
+        public Builder withDate(Date date) {
             this.date = date;
             return this;
         }
@@ -64,8 +67,8 @@ public class RawRecord {
             return this;
         }
 
-        public RawRecord build() {
-            return new RawRecord(this);
+        public RecordEntity build() {
+            return new RecordEntity(this);
         }
     }
 }

@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 public class LogoutCommand extends AbstractCommand {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request) {
         request.getSession(false).invalidate();
         return "/pages/login.jsp";
     }

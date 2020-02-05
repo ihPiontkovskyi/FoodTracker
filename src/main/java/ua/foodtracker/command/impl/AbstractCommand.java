@@ -2,7 +2,7 @@ package ua.foodtracker.command.impl;
 
 import org.apache.log4j.Logger;
 import ua.foodtracker.command.Command;
-import ua.foodtracker.entity.User;
+import ua.foodtracker.entity.UserEntity;
 import ua.foodtracker.service.MealService;
 import ua.foodtracker.service.RecordService;
 import ua.foodtracker.service.UserService;
@@ -18,8 +18,8 @@ import java.util.Locale;
 public abstract class AbstractCommand implements Command {
     private static final Logger LOGGER = Logger.getLogger(Command.class);
 
-    protected User getUser(HttpServletRequest request) {
-        return (User) request.getSession(false).getAttribute("user");
+    protected UserEntity getUser(HttpServletRequest request) {
+        return (UserEntity) request.getSession(false).getAttribute("user");
     }
 
     protected Integer getIntParamOrDefault(HttpServletRequest request, String param, Integer defaultInt) {
@@ -54,10 +54,18 @@ public abstract class AbstractCommand implements Command {
         return paramValue.trim();
     }
 
-    protected LocalDate getDateParamOrNov(HttpServletRequest request) {
-        if (request.getSession(false).getAttribute("currentDate") != null) {
+    protected LocalDate getDateParamFromSessionOrNow(HttpServletRequest request, String param) {
+        if (request.getSession(false).getAttribute(param) != null) {
+            return (LocalDate) request.getSession(false).getAttribute(param);
+        }
+        return LocalDate.now();
+    }
+
+    protected LocalDate getDateParamOrNow(HttpServletRequest request, String param) {
+        String dateValue = request.getParameter(param);
+        if (dateValue != null) {
             try {
-                return (LocalDate) request.getSession(false).getAttribute("currentDate");
+                return LocalDate.parse(dateValue);
             } catch (DateTimeParseException ex) {
                 return LocalDate.now();
             }

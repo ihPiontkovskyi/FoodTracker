@@ -2,9 +2,9 @@ package ua.foodtracker.validator;
 
 import org.junit.Before;
 import org.junit.Test;
-import ua.foodtracker.service.entity.RawMeal;
-import ua.foodtracker.service.entity.RawRecord;
-import ua.foodtracker.service.entity.RawUser;
+import ua.foodtracker.service.domain.Meal;
+import ua.foodtracker.service.domain.Record;
+import ua.foodtracker.service.domain.User;
 import ua.foodtracker.validator.impl.RecordValidator;
 
 import java.time.LocalDate;
@@ -13,7 +13,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class RecordValidatorTest {
-    private static final RawUser USER = RawUser.builder()
+    private static final User USER = User.builder()
             .withId(1)
             .withEmail("email@email.email")
             .withHeight(10)
@@ -23,7 +23,7 @@ public class RecordValidatorTest {
             .withWeight(10)
             .withBirthday(LocalDate.now())
             .build();
-    private static final RawMeal MEAL = RawMeal.builder()
+    private static final Meal MEAL = Meal.builder()
             .withId(1)
             .withWeight(10)
             .withUser(USER)
@@ -34,7 +34,7 @@ public class RecordValidatorTest {
             .withCarbohydrates(10)
             .build();
 
-    private Validator<RawRecord> recordValidator;
+    private Validator<Record> recordValidator;
 
     @Before
     public void initValidator() {
@@ -49,7 +49,7 @@ public class RecordValidatorTest {
 
     @Test
     public void recordValidateShouldntHasErrors() {
-        RawRecord record = RawRecord.builder()
+        Record record = Record.builder()
                 .withUserId(1)
                 .withMeal(MEAL)
                 .withDate(LocalDate.now())
@@ -60,7 +60,7 @@ public class RecordValidatorTest {
 
     @Test
     public void recordValidateShouldHasDateValidateError() {
-        RawRecord record = RawRecord.builder()
+        Record record = Record.builder()
                 .withUserId(1)
                 .withUserId(1)
                 .withMeal(MEAL)
@@ -72,7 +72,7 @@ public class RecordValidatorTest {
 
     @Test
     public void recordValidateShouldHasDateValidateError2() {
-        RawRecord record = RawRecord.builder()
+        Record record = Record.builder()
                 .withUserId(1)
                 .withUserId(1)
                 .withMeal(MEAL)
@@ -84,7 +84,7 @@ public class RecordValidatorTest {
 
     @Test
     public void recordValidateShouldHasMealValidateError1() {
-        RawRecord record = RawRecord.builder()
+        Record record = Record.builder()
                 .withUserId(1)
                 .withUserId(1)
                 .withMeal(null)

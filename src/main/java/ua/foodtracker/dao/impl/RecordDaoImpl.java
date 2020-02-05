@@ -3,7 +3,7 @@ package ua.foodtracker.dao.impl;
 import ua.foodtracker.annotation.Dao;
 import ua.foodtracker.dao.RecordDao;
 import ua.foodtracker.dao.db.holder.ConnectionHolder;
-import ua.foodtracker.entity.Record;
+import ua.foodtracker.entity.RecordEntity;
 import ua.foodtracker.exception.DatabaseInteractionException;
 
 import java.sql.Date;
@@ -17,7 +17,7 @@ import java.util.Optional;
 import static ua.foodtracker.dao.utility.ResultSetToEntityMapper.extractRecordFromResultSet;
 
 @Dao
-public class RecordDaoImpl extends AbstractDaoImpl<Record> implements RecordDao {
+public class RecordDaoImpl extends AbstractDaoImpl<RecordEntity> implements RecordDao {
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM records LEFT JOIN meals ON records.meal_id=meals.id LEFT JOIN users ON records.user_id=users.id LEFT JOIN user_goals ON users.user_goal_id=user_goals.id WHERE records.id=?";
     private static final String FIND_BY_USER_AND_DATE_QUERY = "SELECT * FROM records LEFT JOIN meals ON records.meal_id=meals.id LEFT JOIN users ON records.user_id=users.id LEFT JOIN user_goals ON users.user_goal_id=user_goals.id WHERE records.user_id=? AND date=?";
     private static final String DELETE_QUERY = "DELETE FROM records WHERE id=?";
@@ -29,17 +29,17 @@ public class RecordDaoImpl extends AbstractDaoImpl<Record> implements RecordDao 
     }
 
     @Override
-    protected Record extractFromResultSet(ResultSet resultSet) throws SQLException {
+    protected RecordEntity extractFromResultSet(ResultSet resultSet) throws SQLException {
         return extractRecordFromResultSet(resultSet);
     }
 
     @Override
-    public List<Record> findByUserIdAndDate(int id, Date date) {
+    public List<RecordEntity> findByUserIdAndDate(int id, Date date) {
         try (PreparedStatement ps = getConnection().prepareStatement(FIND_BY_USER_AND_DATE_QUERY)) {
             ps.setObject(1, id);
             ps.setObject(2, date);
             try (ResultSet resultSet = ps.executeQuery()) {
-                List<Record> list = new ArrayList<>();
+                List<RecordEntity> list = new ArrayList<>();
                 while (resultSet.next()) {
                     list.add(extractFromResultSet(resultSet));
                 }
@@ -52,18 +52,18 @@ public class RecordDaoImpl extends AbstractDaoImpl<Record> implements RecordDao 
     }
 
     @Override
-    public Integer save(Record record) {
-        return save(record, INSERT_QUERY);
+    public Integer save(RecordEntity recordEntity) {
+        return save(recordEntity, INSERT_QUERY);
     }
 
     @Override
-    public Optional<Record> findById(Integer id) {
+    public Optional<RecordEntity> findById(Integer id) {
         return findByParam(id, FIND_BY_ID_QUERY);
     }
 
     @Override
-    public boolean update(Record record) {
-        return update(record, UPDATE_QUERY);
+    public boolean update(RecordEntity recordEntity) {
+        return update(recordEntity, UPDATE_QUERY);
     }
 
     @Override
@@ -72,15 +72,15 @@ public class RecordDaoImpl extends AbstractDaoImpl<Record> implements RecordDao 
     }
 
     @Override
-    protected void prepareData(Record record, PreparedStatement ps) throws SQLException {
-        ps.setObject(1, record.getMeal().getId());
-        ps.setObject(2, record.getDate());
-        ps.setObject(3, record.getUserId());
+    protected void prepareData(RecordEntity recordEntity, PreparedStatement ps) throws SQLException {
+        ps.setObject(1, recordEntity.getMealEntity().getId());
+        ps.setObject(2, recordEntity.getDate());
+        ps.setObject(3, recordEntity.getUserId());
     }
 
     @Override
-    protected void prepareDataWithId(Record record, PreparedStatement ps) throws SQLException {
-        prepareData(record, ps);
-        ps.setObject(4, record.getId());
+    protected void prepareDataWithId(RecordEntity recordEntity, PreparedStatement ps) throws SQLException {
+        prepareData(recordEntity, ps);
+        ps.setObject(4, recordEntity.getId());
     }
 }

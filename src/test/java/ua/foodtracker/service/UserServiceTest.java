@@ -12,11 +12,12 @@ import ua.foodtracker.dao.UserDao;
 import ua.foodtracker.entity.Gender;
 import ua.foodtracker.entity.Lifestyle;
 import ua.foodtracker.entity.Role;
-import ua.foodtracker.entity.User;
+import ua.foodtracker.entity.UserEntity;
 import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.exception.ValidationException;
-import ua.foodtracker.service.entity.RawUser;
+import ua.foodtracker.service.domain.User;
 import ua.foodtracker.service.impl.UserServiceImpl;
+import ua.foodtracker.service.utility.EntityMapper;
 import ua.foodtracker.validator.impl.UserValidator;
 
 import java.time.LocalDate;
@@ -25,23 +26,20 @@ import java.util.Locale;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static ua.foodtracker.service.utility.EntityMapper.mapRawUserToEntityUser;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
 
-    public static final RawUser RAW_USER = initUser();
-    public static final RawUser RAW_ADMIN = initAdmin();
-    public static final User USER = mapRawUserToEntityUser(RAW_USER);
+    public static final User RAW_USER = initUser();
+    public static final User RAW_ADMIN = initAdmin();
+    public static final UserEntity USER_ENTITY = EntityMapper.mapUserToEntityUser(RAW_USER);
     public static final String PASS = "admin";
     public static final String INCORRECT_PASS = "not_admin";
 
@@ -63,44 +61,44 @@ public class UserServiceTest {
 
     @Test
     public void loginShouldReturnUser() {
-        when(userDao.findByEmail(USER.getEmail())).thenReturn(Optional.of(USER));
+        when(userDao.findByEmail(USER_ENTITY.getEmail())).thenReturn(Optional.of(USER_ENTITY));
 
-        assertEquals(USER, userService.login(USER.getEmail(), PASS));
+        assertNotNull(userService.login(USER_ENTITY.getEmail(), PASS));
 
-        verify(userDao).findByEmail(USER.getEmail());
+        verify(userDao).findByEmail(USER_ENTITY.getEmail());
     }
 
     @Test
     public void loginShouldThrowIncorrectDataException() {
-        when(userDao.findByEmail(USER.getEmail())).thenReturn(Optional.empty());
+        when(userDao.findByEmail(USER_ENTITY.getEmail())).thenReturn(Optional.empty());
 
         exception.expect(IncorrectDataException.class);
-        assertEquals(USER, userService.login(USER.getEmail(), PASS));
+        assertEquals(USER_ENTITY, userService.login(USER_ENTITY.getEmail(), PASS));
 
-        verify(userDao).findByEmail(USER.getEmail());
+        verify(userDao).findByEmail(USER_ENTITY.getEmail());
     }
 
     @Test
     public void loginShouldThrowIncorrectDataExceptionCase2() {
-        when(userDao.findByEmail(USER.getEmail())).thenReturn(Optional.of(USER));
+        when(userDao.findByEmail(USER_ENTITY.getEmail())).thenReturn(Optional.of(USER_ENTITY));
 
         exception.expect(IncorrectDataException.class);
-        userService.login(USER.getEmail(), INCORRECT_PASS);
+        userService.login(USER_ENTITY.getEmail(), INCORRECT_PASS);
 
-        verify(userDao).findByEmail(USER.getEmail());
+        verify(userDao).findByEmail(USER_ENTITY.getEmail());
     }
 
     @Test
     public void registerShouldThrowIncorrectDataException() {
-        User user = mapRawUserToEntityUser(RAW_USER);
+        UserEntity userEntity = EntityMapper.mapUserToEntityUser(RAW_USER);
 
-        when(userDao.findByEmail(user.getEmail())).thenReturn(Optional.of(USER));
+        when(userDao.findByEmail(userEntity.getEmail())).thenReturn(Optional.of(USER_ENTITY));
         doNothing().when(userValidator).validate(RAW_USER);
 
         exception.expect(IncorrectDataException.class);
         userService.register(RAW_USER);
 
-        verify(userDao).findByEmail(user.getEmail());
+        verify(userDao).findByEmail(userEntity.getEmail());
         verify(userValidator).validate(RAW_USER);
     }
 
@@ -113,7 +111,7 @@ public class UserServiceTest {
 
         userService.register(RAW_USER);
 
-        verify(userDao).findByEmail(mapRawUserToEntityUser(RAW_USER).getEmail());
+        verify(userDao).findByEmail(EntityMapper.mapUserToEntityUser(RAW_USER).getEmail());
         verify(userValidator).validate(RAW_USER);
         verify(userValidator).hasErrors();
         verify(userDao).save(any());
@@ -128,7 +126,7 @@ public class UserServiceTest {
 
         userService.register(RAW_ADMIN);
 
-        verify(userDao).findByEmail(mapRawUserToEntityUser(RAW_ADMIN).getEmail());
+        verify(userDao).findByEmail(EntityMapper.mapUserToEntityUser(RAW_ADMIN).getEmail());
         verify(userValidator).validate(RAW_ADMIN);
         verify(userValidator).hasErrors();
         verify(userDao).save(any());
@@ -143,7 +141,7 @@ public class UserServiceTest {
         exception.expect(IncorrectDataException.class);
         userService.register(RAW_USER);
 
-        verify(userDao).findByEmail(mapRawUserToEntityUser(RAW_USER).getEmail());
+        verify(userDao).findByEmail(EntityMapper.mapUserToEntityUser(RAW_USER).getEmail());
         verify(userValidator).validate(RAW_USER);
         verify(userValidator).hasErrors();
         verify(userDao).save(any());
@@ -158,7 +156,7 @@ public class UserServiceTest {
         exception.expect(IncorrectDataException.class);
         userService.register(RAW_USER);
 
-        verify(userDao).findByEmail(mapRawUserToEntityUser(RAW_USER).getEmail());
+        verify(userDao).findByEmail(EntityMapper.mapUserToEntityUser(RAW_USER).getEmail());
         verify(userValidator).validate(RAW_USER);
         verify(userValidator).hasErrors();
         verify(userDao).save(any());
@@ -166,17 +164,17 @@ public class UserServiceTest {
 
     @Test
     public void registerShouldThrowValidationException() {
-        User user = mapRawUserToEntityUser(RAW_USER);
+        UserEntity userEntity = EntityMapper.mapUserToEntityUser(RAW_USER);
 
         doNothing().when(userValidator).validate(RAW_USER);
-        when(userDao.findByEmail(user.getEmail())).thenReturn(Optional.empty());
+        when(userDao.findByEmail(userEntity.getEmail())).thenReturn(Optional.empty());
         when(userValidator.hasErrors()).thenReturn(true);
 
         exception.expect(ValidationException.class);
         userService.register(RAW_USER);
 
         verify(userValidator).hasErrors();
-        verify(userDao).findByEmail(mapRawUserToEntityUser(RAW_USER).getEmail());
+        verify(userDao).findByEmail(EntityMapper.mapUserToEntityUser(RAW_USER).getEmail());
         verify(userValidator).validate(RAW_USER);
     }
 
@@ -220,7 +218,7 @@ public class UserServiceTest {
 
     @Test
     public void findByIdShouldntThrowException() {
-        when(userDao.findById(RAW_USER.getId())).thenReturn(Optional.of(USER));
+        when(userDao.findById(RAW_USER.getId())).thenReturn(Optional.of(USER_ENTITY));
 
         userService.findById(RAW_USER.getId().toString());
 
@@ -322,8 +320,8 @@ public class UserServiceTest {
         verify(userValidator).setLocale(current);
     }
 
-    private static RawUser initUser() {
-        return RawUser.builder()
+    private static User initUser() {
+        return User.builder()
                 .withId(1)
                 .withGender(Gender.MALE)
                 .withLifestyle(Lifestyle.NOT_SELECTED)
@@ -338,8 +336,8 @@ public class UserServiceTest {
                 .build();
     }
 
-    private static RawUser initAdmin() {
-        return RawUser.builder()
+    private static User initAdmin() {
+        return User.builder()
                 .withId(1)
                 .withGender(Gender.FEMALE)
                 .withLifestyle(Lifestyle.NOT_SELECTED)

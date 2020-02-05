@@ -12,10 +12,10 @@ import ua.foodtracker.dao.db.holder.ThreadLocalConnectionHolder;
 import ua.foodtracker.dao.db.manager.HikariCPManager;
 import ua.foodtracker.entity.Gender;
 import ua.foodtracker.entity.Lifestyle;
-import ua.foodtracker.entity.Meal;
+import ua.foodtracker.entity.MealEntity;
 import ua.foodtracker.entity.Role;
-import ua.foodtracker.entity.User;
-import ua.foodtracker.entity.UserGoal;
+import ua.foodtracker.entity.UserEntity;
+import ua.foodtracker.entity.UserGoalEntity;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -34,9 +34,9 @@ public class MealDaoImplTest {
     private static final String DATA_PATH = "src/test/resources/database/data.sql";
     private static final String DATABASE_PATH = "properties/h2_test_db";
 
-    private Meal containedMeal;
+    private MealEntity containedMealEntity;
     private HikariCPManager manager;
-    private Meal mealForTest;
+    private MealEntity mealEntityForTest;
     private ConnectionHolder holder;
     private MealDao dao;
 
@@ -71,7 +71,7 @@ public class MealDaoImplTest {
 
     @Test
     public void findByIdShouldReturnMeal() {
-        Optional<Meal> meal = dao.findById(containedMeal.getId());
+        Optional<MealEntity> meal = dao.findById(containedMealEntity.getId());
         assertTrue(meal.isPresent());
     }
 
@@ -82,30 +82,28 @@ public class MealDaoImplTest {
 
     @Test
     public void saveShouldReturnInteger() {
-        assertNotNull(dao.save(mealForTest));
+        assertNotNull(dao.save(mealEntityForTest));
     }
 
     @Test
     public void updateShouldReturnTrue() {
-        assertTrue(dao.update(containedMeal));
+        assertTrue(dao.update(containedMealEntity));
     }
 
     @Test
     public void updateShouldReturnFalse() {
-        assertFalse(dao.update(mealForTest));
+        assertFalse(dao.update(mealEntityForTest));
     }
 
     @Test
     public void deleteByIdShouldReturnTrue() {
-        assertTrue(dao.deleteById(containedMeal.getId()));
+        assertTrue(dao.deleteById(containedMealEntity.getId()));
     }
 
     @Test
     public void deleteByIdShouldReturnFalse() {
         assertFalse(dao.deleteById(0));
     }
-
-    @Test
 
     @After
     public void close() {
@@ -114,7 +112,7 @@ public class MealDaoImplTest {
     }
 
     private void setContainedEntities() {
-        UserGoal containedUserGoal = UserGoal.builder()
+        UserGoalEntity containedUserGoalEntity = UserGoalEntity.builder()
                 .withId(1)
                 .withDailyEnergyGoal(2600)
                 .withDailyCarbohydrateGoal(180)
@@ -122,7 +120,7 @@ public class MealDaoImplTest {
                 .withDailyProteinGoal(55)
                 .withDailyWaterGoal(2200)
                 .build();
-        User containedUser = User.builder()
+        UserEntity containedUserEntity = UserEntity.builder()
                 .withId(2)
                 .withEmail("user@mail")
                 .withPassword("$2y$12$.obmNC3vIgT1XGBbfJnHeeD1A5aRw/JiTi.hzmAVuZbcj8X3dGr/6")
@@ -130,15 +128,15 @@ public class MealDaoImplTest {
                 .withLastName("Ivanov")
                 .withHeight(190)
                 .withWeight(80)
-                .withUserGoal(containedUserGoal)
+                .withUserGoal(containedUserGoalEntity)
                 .withGender(Gender.MALE)
                 .withRole(Role.USER)
                 .withLifestyle(Lifestyle.SEDENTARY)
                 .withBirthday(Date.valueOf("1994-01-29"))
                 .build();
-        containedMeal = Meal.builder()
+        containedMealEntity = MealEntity.builder()
                 .withId(3)
-                .withUser(containedUser)
+                .withUser(containedUserEntity)
                 .withFat(2)
                 .withCarbohydrates(6)
                 .withProtein(1)
@@ -146,15 +144,15 @@ public class MealDaoImplTest {
                 .withWeight(100)
                 .withName("borshch")
                 .build();
-        mealForTest = Meal.builder()
+        mealEntityForTest = MealEntity.builder()
                 .withId(0)
-                .withCarbohydrates(containedMeal.getCarbohydrate())
-                .withFat(containedMeal.getFat())
-                .withName(containedMeal.getName())
-                .withProtein(containedMeal.getProtein())
-                .withWater(containedMeal.getWater())
-                .withWeight(containedMeal.getWeight())
-                .withUser(containedUser)
+                .withCarbohydrates(containedMealEntity.getCarbohydrate())
+                .withFat(containedMealEntity.getFat())
+                .withName(containedMealEntity.getName())
+                .withProtein(containedMealEntity.getProtein())
+                .withWater(containedMealEntity.getWater())
+                .withWeight(containedMealEntity.getWeight())
+                .withUser(containedUserEntity)
                 .build();
     }
 }

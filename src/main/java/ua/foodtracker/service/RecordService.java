@@ -1,7 +1,7 @@
 package ua.foodtracker.service;
 
-import ua.foodtracker.entity.Record;
-import ua.foodtracker.service.entity.RawRecord;
+import ua.foodtracker.entity.RecordEntity;
+import ua.foodtracker.service.domain.Record;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -9,15 +9,15 @@ import java.util.Locale;
 import java.util.Optional;
 
 public interface RecordService {
-    List<Record> getRecordsByDate(int userId, LocalDate date);
+    List<RecordEntity> getRecordsByDate(int userId, LocalDate date);
 
-    void add(RawRecord record);
+    void add(Record record);
 
     void delete(String id);
 
-    void modify(RawRecord record);
+    void modify(Record record);
 
-    Optional<Record> findById(Integer id);
+    Optional<Record> findById(String id);
 
     void setLocale(Locale locale);
 }

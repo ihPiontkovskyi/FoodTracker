@@ -27,7 +27,7 @@
                     <a href="records"> <em class="menu-icon fa fa-calendar"></em><fmt:message key="diary.btn"/></a>
                 </li>
                 <li>
-                    <a href="meals"> <em class="menu-icon fa fa-cutlery"></em><fmt:message key="meals.btn"/></a>
+                    <a href="mealEntities"> <em class="menu-icon fa fa-cutlery"></em><fmt:message key="mealEntities.btn"/></a>
                 </li>
             </ul>
         </div>
@@ -42,12 +42,12 @@
         </div>
         <div class="top-right">
             <div class="header-menu">
-                <div class="user-area dropdown">
+                <div class="userEntity-area dropdown">
                     <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false">
-                        <em class="fa fa-user-circle"></em>
+                        <em class="fa fa-userEntity-circle"></em>
                     </a>
-                    <div class="user-menu dropdown-menu">
+                    <div class="userEntity-menu dropdown-menu">
                         <a class="nav-link" href="settings"><em class="fa fa -cog"></em><fmt:message
                                 key="settings.btn"/></a>
 

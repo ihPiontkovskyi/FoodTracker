@@ -2,11 +2,11 @@ package ua.foodtracker.dao.utility;
 
 import ua.foodtracker.entity.Gender;
 import ua.foodtracker.entity.Lifestyle;
-import ua.foodtracker.entity.Meal;
-import ua.foodtracker.entity.Record;
+import ua.foodtracker.entity.MealEntity;
+import ua.foodtracker.entity.RecordEntity;
 import ua.foodtracker.entity.Role;
-import ua.foodtracker.entity.User;
-import ua.foodtracker.entity.UserGoal;
+import ua.foodtracker.entity.UserEntity;
+import ua.foodtracker.entity.UserGoalEntity;
 import ua.foodtracker.exception.DatabaseInteractionException;
 
 import java.sql.ResultSet;
@@ -22,8 +22,8 @@ public class ResultSetToEntityMapper {
     private ResultSetToEntityMapper() {
     }
 
-    public static UserGoal extractUserGoalsFromResultSet(ResultSet resultSet) throws SQLException {
-        UserGoal goal = UserGoal.builder()
+    public static UserGoalEntity extractUserGoalsFromResultSet(ResultSet resultSet) throws SQLException {
+        UserGoalEntity goal = UserGoalEntity.builder()
                 .withId(resultSet.getInt("user_goals.id"))
                 .withDailyEnergyGoal(resultSet.getInt("daily_energy"))
                 .withDailyCarbohydrateGoal(resultSet.getInt("daily_carbohydrate"))
@@ -37,8 +37,8 @@ public class ResultSetToEntityMapper {
         return goal;
     }
 
-    public static User extractUserFromResultSet(ResultSet resultSet) throws SQLException {
-        User user = User.builder()
+    public static UserEntity extractUserFromResultSet(ResultSet resultSet) throws SQLException {
+        UserEntity userEntity = UserEntity.builder()
                 .withId(resultSet.getInt("users.id"))
                 .withEmail(resultSet.getString("email"))
                 .withFirstName(resultSet.getString("first_name"))
@@ -52,14 +52,14 @@ public class ResultSetToEntityMapper {
                 .withRole(Role.getGenderById(resultSet.getInt("role")))
                 .withUserGoal(extractUserGoalsFromResultSet(resultSet))
                 .build();
-        if (user.getId().equals(0)) {
+        if (userEntity.getId().equals(0)) {
             throw new DatabaseInteractionException(ERROR_MESSAGE);
         }
-        return user;
+        return userEntity;
     }
 
-    public static Meal extractMealFromResultSet(ResultSet resultSet) throws SQLException {
-        Meal meal = Meal.builder().
+    public static MealEntity extractMealFromResultSet(ResultSet resultSet) throws SQLException {
+        MealEntity mealEntity = MealEntity.builder().
                 withId(resultSet.getInt("meals.id"))
                 .withName(resultSet.getString("name"))
                 .withCarbohydrates(resultSet.getInt("carbohydrate"))
@@ -69,22 +69,22 @@ public class ResultSetToEntityMapper {
                 .withWeight(resultSet.getInt("weight"))
                 .withUser(resultSet.getInt("user_id") == 0 ? null : extractUserFromResultSet(resultSet))
                 .build();
-        if (meal.getId().equals(0)) {
+        if (mealEntity.getId().equals(0)) {
             throw new DatabaseInteractionException(ERROR_MESSAGE);
         }
-        return meal;
+        return mealEntity;
     }
 
-    public static Record extractRecordFromResultSet(ResultSet resultSet) throws SQLException {
-        Record record = Record.builder()
+    public static RecordEntity extractRecordFromResultSet(ResultSet resultSet) throws SQLException {
+        RecordEntity recordEntity = RecordEntity.builder()
                 .withId(resultSet.getInt("id"))
                 .withMeal(extractMealFromResultSet(resultSet))
                 .withDate(resultSet.getDate("date"))
                 .withUserId(resultSet.getInt("user_id"))
                 .build();
-        if (record.getId().equals(0)) {
+        if (recordEntity.getId().equals(0)) {
             throw new DatabaseInteractionException(ERROR_MESSAGE);
         }
-        return record;
+        return recordEntity;
     }
 }

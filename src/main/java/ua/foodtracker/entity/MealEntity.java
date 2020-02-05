@@ -3,21 +3,21 @@ package ua.foodtracker.entity;
 /**
  * Entity class of meal
  */
-public class Meal {
+public class MealEntity {
     private final Integer id;
     private final String name;
     private final Integer protein;
-    private final User user;
+    private final UserEntity userEntity;
     private final Integer carbohydrate;
     private final Integer fat;
     private final Integer weight;
     private final Integer water;
 
-    public Meal(Builder builder) {
+    public MealEntity(Builder builder) {
         this.id = builder.id;
         this.name = builder.name;
         this.protein = builder.protein;
-        this.user = builder.user;
+        this.userEntity = builder.userEntity;
         this.carbohydrate = builder.carbohydrates;
         this.fat = builder.fat;
         this.weight = builder.weight;
@@ -36,8 +36,8 @@ public class Meal {
         return protein;
     }
 
-    public User getUser() {
-        return user;
+    public UserEntity getUserEntity() {
+        return userEntity;
     }
 
     public Integer getCarbohydrate() {
@@ -68,7 +68,7 @@ public class Meal {
         private Integer id;
         private String name;
         private Integer protein;
-        private User user;
+        private UserEntity userEntity;
         private Integer carbohydrates;
         private Integer fat;
         private Integer weight;
@@ -92,8 +92,8 @@ public class Meal {
             return this;
         }
 
-        public Builder withUser(User user) {
-            this.user = user;
+        public Builder withUser(UserEntity userEntity) {
+            this.userEntity = userEntity;
             return this;
         }
 
@@ -117,8 +117,8 @@ public class Meal {
             return this;
         }
 
-        public Meal build() {
-            return new Meal(this);
+        public MealEntity build() {
+            return new MealEntity(this);
         }
     }
 }

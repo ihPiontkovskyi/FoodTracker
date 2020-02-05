@@ -1,7 +1,7 @@
 package ua.foodtracker.filter;
 
 import ua.foodtracker.entity.Role;
-import ua.foodtracker.entity.User;
+import ua.foodtracker.entity.UserEntity;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -22,11 +22,11 @@ public class AuthenticationFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         HttpSession session = req.getSession(false);
-        User user;
-        if (!(session != null && ((user = (User) session.getAttribute("user")) != null))) {
+        UserEntity userEntity;
+        if (!(session != null && ((userEntity = (UserEntity) session.getAttribute("user")) != null))) {
             res.sendRedirect(req.getContextPath() + "/pages/login");
         } else {
-            Role userRole = user.getRole();
+            Role userRole = userEntity.getRole();
             if (userRole.equals(Role.USER) && ((HttpServletRequest) request).getContextPath().contains("admin")) {
                 res.sendError(401);
             } else {

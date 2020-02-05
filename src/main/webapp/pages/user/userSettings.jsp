@@ -119,7 +119,7 @@
                 </form>
                 <form action="deleteUser" method="POST">
                     <div class="p-t-15">
-                        <button class="btn btn--radius-2 btn--red" type="submit">Delete user</button>
+                        <button class="btn btn--radius-2 btn--red" type="submit">Delete userEntity</button>
                     </div>
                 </form>
             </div>

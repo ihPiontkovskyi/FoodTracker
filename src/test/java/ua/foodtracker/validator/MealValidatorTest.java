@@ -3,8 +3,8 @@ package ua.foodtracker.validator;
 import org.junit.Before;
 import org.junit.Test;
 import ua.foodtracker.entity.Role;
-import ua.foodtracker.service.entity.RawMeal;
-import ua.foodtracker.service.entity.RawUser;
+import ua.foodtracker.service.domain.Meal;
+import ua.foodtracker.service.domain.User;
 import ua.foodtracker.validator.impl.MealValidator;
 
 import java.time.LocalDate;
@@ -13,7 +13,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class MealValidatorTest {
-    private static final RawUser ADMIN = RawUser.builder()
+    private static final User ADMIN = User.builder()
             .withId(1)
             .withEmail("email@email.email")
             .withHeight(10)
@@ -24,7 +24,7 @@ public class MealValidatorTest {
             .withBirthday(LocalDate.now())
             .withRole(Role.ADMIN)
             .build();
-    private static final RawUser USER = RawUser.builder()
+    private static final User USER = User.builder()
             .withId(1)
             .withEmail(null)
             .withHeight(10)
@@ -36,7 +36,7 @@ public class MealValidatorTest {
             .withRole(Role.USER)
             .build();
 
-    private Validator<RawMeal> mealValidator;
+    private Validator<Meal> mealValidator;
 
     @Before
     public void initValidator() {
@@ -51,7 +51,7 @@ public class MealValidatorTest {
 
     @Test
     public void validateMealShouldntHasError() {
-        RawMeal meal = RawMeal.builder()
+        Meal meal = Meal.builder()
                 .withId(1)
                 .withWeight(10)
                 .withUser(ADMIN)
@@ -67,7 +67,7 @@ public class MealValidatorTest {
 
     @Test
     public void validateMealShouldHasNameError() {
-        RawMeal meal = RawMeal.builder()
+        Meal meal = Meal.builder()
                 .withId(1)
                 .withWeight(10)
                 .withUser(ADMIN)
@@ -83,7 +83,7 @@ public class MealValidatorTest {
 
     @Test
     public void validateMealShouldHasWeightError() {
-        RawMeal meal = RawMeal.builder()
+        Meal meal = Meal.builder()
                 .withId(1)
                 .withWeight(null)
                 .withUser(ADMIN)
@@ -99,7 +99,7 @@ public class MealValidatorTest {
 
     @Test
     public void validateMealShouldHasWaterError() {
-        RawMeal meal = RawMeal.builder()
+        Meal meal = Meal.builder()
                 .withId(1)
                 .withWeight(10)
                 .withUser(ADMIN)
@@ -115,7 +115,7 @@ public class MealValidatorTest {
 
     @Test
     public void validateMealShouldHasFatError() {
-        RawMeal meal = RawMeal.builder()
+        Meal meal = Meal.builder()
                 .withId(1)
                 .withWeight(10)
                 .withUser(ADMIN)
@@ -131,7 +131,7 @@ public class MealValidatorTest {
 
     @Test
     public void validateMealShouldHasCarbError() {
-        RawMeal meal = RawMeal.builder()
+        Meal meal = Meal.builder()
                 .withId(1)
                 .withWeight(10)
                 .withUser(ADMIN)
@@ -147,7 +147,7 @@ public class MealValidatorTest {
 
     @Test
     public void validateMealShouldHasNameError2() {
-        RawMeal meal = RawMeal.builder()
+        Meal meal = Meal.builder()
                 .withId(1)
                 .withWeight(10)
                 .withUser(null)
@@ -163,7 +163,7 @@ public class MealValidatorTest {
 
     @Test
     public void validateMealShouldHasNameError3() {
-        RawMeal meal = RawMeal.builder()
+        Meal meal = Meal.builder()
                 .withId(1)
                 .withWeight(10)
                 .withUser(null)
@@ -179,7 +179,7 @@ public class MealValidatorTest {
 
     @Test
     public void validateMealShouldHasNameError4() {
-        RawMeal meal = RawMeal.builder()
+        Meal meal = Meal.builder()
                 .withId(1)
                 .withWeight(10)
                 .withUser(null)
@@ -195,7 +195,7 @@ public class MealValidatorTest {
 
     @Test
     public void validateMealShouldHasUserEmailError() {
-        RawMeal meal = RawMeal.builder()
+        Meal meal = Meal.builder()
                 .withId(1)
                 .withWeight(10)
                 .withUser(USER)

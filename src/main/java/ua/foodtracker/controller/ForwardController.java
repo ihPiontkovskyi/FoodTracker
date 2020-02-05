@@ -10,6 +10,6 @@ import java.io.IOException;
 public class ForwardController extends AbstractController {
     @Override
     public void service(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        req.getRequestDispatcher(urlToCommand.get(req.getRequestURI()).execute(req, resp)).forward(req, resp);
+        req.getRequestDispatcher(urlToCommand.get(req.getRequestURI()).execute(req)).forward(req, resp);
     }
 }

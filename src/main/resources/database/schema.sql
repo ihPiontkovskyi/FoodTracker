@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS `meals`;
+DROP TABLE IF EXISTS `mealEntities`;
 DROP TABLE IF EXISTS `records`;
 DROP TABLE IF EXISTS `user_goals`;
 DROP TABLE IF EXISTS `users`;
@@ -33,7 +33,7 @@ CREATE TABLE `users`
     CONSTRAINT `users_user_goals_id_fk` FOREIGN KEY (`user_goal_id`) REFERENCES `user_goals` (`id`) ON UPDATE CASCADE
 );
 
-CREATE TABLE `meals`
+CREATE TABLE `mealEntities`
 (
     `id`           int(11)     NOT NULL AUTO_INCREMENT,
     `user_id`      int(11),
@@ -53,7 +53,7 @@ CREATE TABLE `records`
     `meal_id` int(11) NOT NULL,
     `date`    date    NOT NULL,
     PRIMARY KEY (`id`),
-    CONSTRAINT `records_meals_id_fk` FOREIGN KEY (`meal_id`) REFERENCES `meals` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT `records_meals_id_fk` FOREIGN KEY (`meal_id`) REFERENCES `mealEntities` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 

@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ErrorCommand extends AbstractCommand {
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request) {
         Throwable throwable = (Throwable)
                 request.getAttribute("javax.servlet.error.exception");
         if (throwable != null) {

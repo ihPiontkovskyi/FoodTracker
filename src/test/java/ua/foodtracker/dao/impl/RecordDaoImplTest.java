@@ -11,11 +11,11 @@ import ua.foodtracker.dao.db.holder.ThreadLocalConnectionHolder;
 import ua.foodtracker.dao.db.manager.HikariCPManager;
 import ua.foodtracker.entity.Gender;
 import ua.foodtracker.entity.Lifestyle;
-import ua.foodtracker.entity.Meal;
-import ua.foodtracker.entity.Record;
+import ua.foodtracker.entity.MealEntity;
+import ua.foodtracker.entity.RecordEntity;
 import ua.foodtracker.entity.Role;
-import ua.foodtracker.entity.User;
-import ua.foodtracker.entity.UserGoal;
+import ua.foodtracker.entity.UserEntity;
+import ua.foodtracker.entity.UserGoalEntity;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -37,8 +37,8 @@ public class RecordDaoImplTest {
     private static final String DATABASE_PATH = "properties/h2_test_db";
 
     private HikariCPManager manager;
-    private Record recordForTest;
-    private Record containedRecord;
+    private RecordEntity recordEntityForTest;
+    private RecordEntity containedRecordEntity;
     private ConnectionHolder holder;
     private RecordDao dao;
 
@@ -68,23 +68,23 @@ public class RecordDaoImplTest {
 
     @Test
     public void findByIdShouldReturnRecord() {
-        Optional<Record> record = dao.findById(containedRecord.getId());
+        Optional<RecordEntity> record = dao.findById(containedRecordEntity.getId());
         assertTrue(record.isPresent());
     }
 
     @Test
     public void saveShouldReturnInteger() {
-        assertNotNull(dao.save(recordForTest));
+        assertNotNull(dao.save(recordEntityForTest));
     }
 
     @Test
     public void updateShouldReturnTrue() {
-        assertTrue(dao.update(containedRecord));
+        assertTrue(dao.update(containedRecordEntity));
     }
 
     @Test
     public void updateShouldReturnFalse() {
-        assertFalse(dao.update(recordForTest));
+        assertFalse(dao.update(recordEntityForTest));
     }
 
     @Test
@@ -99,7 +99,7 @@ public class RecordDaoImplTest {
 
     @Test
     public void findByUserAndDateShouldReturnList() {
-        assertTrue(dao.findByUserIdAndDate(containedRecord.getMeal().getUser().getId(), containedRecord.getDate()).size() > 0);
+        assertTrue(dao.findByUserIdAndDate(containedRecordEntity.getMealEntity().getUserEntity().getId(), containedRecordEntity.getDate()).size() > 0);
     }
 
     @After
@@ -110,7 +110,7 @@ public class RecordDaoImplTest {
     }
 
     private void setContainedEntities() {
-        UserGoal containedUserGoal = UserGoal.builder()
+        UserGoalEntity containedUserGoalEntity = UserGoalEntity.builder()
                 .withId(1)
                 .withDailyEnergyGoal(2600)
                 .withDailyCarbohydrateGoal(180)
@@ -118,7 +118,7 @@ public class RecordDaoImplTest {
                 .withDailyProteinGoal(55)
                 .withDailyWaterGoal(2200)
                 .build();
-        User containedUser = User.builder()
+        UserEntity containedUserEntity = UserEntity.builder()
                 .withId(2)
                 .withEmail("user@mail")
                 .withPassword("$2y$12$.obmNC3vIgT1XGBbfJnHeeD1A5aRw/JiTi.hzmAVuZbcj8X3dGr/6")
@@ -126,15 +126,15 @@ public class RecordDaoImplTest {
                 .withLastName("Ivanov")
                 .withHeight(190)
                 .withWeight(80)
-                .withUserGoal(containedUserGoal)
+                .withUserGoal(containedUserGoalEntity)
                 .withGender(Gender.MALE)
                 .withRole(Role.USER)
                 .withLifestyle(Lifestyle.SEDENTARY)
                 .withBirthday(Date.valueOf("1994-01-29"))
                 .build();
-        Meal containedMeal = Meal.builder()
+        MealEntity containedMealEntity = MealEntity.builder()
                 .withId(3)
-                .withUser(containedUser)
+                .withUser(containedUserEntity)
                 .withFat(2)
                 .withCarbohydrates(6)
                 .withProtein(1)
@@ -142,15 +142,15 @@ public class RecordDaoImplTest {
                 .withWeight(100)
                 .withName("borshch")
                 .build();
-        containedRecord = Record.builder()
+        containedRecordEntity = RecordEntity.builder()
                 .withId(3)
-                .withMeal(containedMeal)
+                .withMeal(containedMealEntity)
                 .withDate(Date.valueOf("2020-01-27"))
                 .withUserId(2)
                 .build();
-        recordForTest = Record.builder()
+        recordEntityForTest = RecordEntity.builder()
                 .withId(0)
-                .withMeal(containedMeal)
+                .withMeal(containedMealEntity)
                 .withUserId(2)
                 .withDate(Date.valueOf("2020-01-27"))
                 .build();

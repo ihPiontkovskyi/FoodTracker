@@ -13,8 +13,8 @@ import ua.foodtracker.dao.db.manager.HikariCPManager;
 import ua.foodtracker.entity.Gender;
 import ua.foodtracker.entity.Lifestyle;
 import ua.foodtracker.entity.Role;
-import ua.foodtracker.entity.User;
-import ua.foodtracker.entity.UserGoal;
+import ua.foodtracker.entity.UserEntity;
+import ua.foodtracker.entity.UserGoalEntity;
 import ua.foodtracker.exception.DatabaseInteractionException;
 
 import java.nio.file.Files;
@@ -35,9 +35,9 @@ public class UserDaoImplTest {
     private static final String DATA_PATH = "src/test/resources/database/data.sql";
     private static final String DATABASE_PATH = "properties/h2_test_db";
 
-    private User containedUser;
+    private UserEntity containedUserEntity;
     private HikariCPManager manager;
-    private User userForTest;
+    private UserEntity userEntityForTest;
     private ConnectionHolder holder;
     private UserDao dao;
 
@@ -72,7 +72,7 @@ public class UserDaoImplTest {
 
     @Test
     public void findByIdShouldReturnUser() {
-        Optional<User> user = dao.findById(containedUser.getId());
+        Optional<UserEntity> user = dao.findById(containedUserEntity.getId());
         assertTrue(user.isPresent());
     }
 
@@ -83,39 +83,39 @@ public class UserDaoImplTest {
 
     @Test
     public void saveShouldReturnInteger() {
-        assertNotNull(dao.save(userForTest));
+        assertNotNull(dao.save(userEntityForTest));
     }
 
     @Test
     public void saveShouldThrowDataAccessException() {
         //database already contains user with the same email!
         exception.expect(DatabaseInteractionException.class);
-        assertNotNull(dao.save(containedUser));
+        assertNotNull(dao.save(containedUserEntity));
     }
 
     @Test
     public void findByEmailShouldReturnUser() {
-        assertTrue(dao.findByEmail(containedUser.getEmail()).isPresent());
+        assertTrue(dao.findByEmail(containedUserEntity.getEmail()).isPresent());
     }
 
     @Test
     public void findByEmailShouldReturnOptionalEmpty() {
-        assertFalse(dao.findByEmail(userForTest.getEmail()).isPresent());
+        assertFalse(dao.findByEmail(userEntityForTest.getEmail()).isPresent());
     }
 
     @Test
     public void updateShouldReturnTrue() {
-        assertTrue(dao.update(containedUser));
+        assertTrue(dao.update(containedUserEntity));
     }
 
     @Test
     public void updateShouldReturnFalse() {
-        assertFalse(dao.update(userForTest));
+        assertFalse(dao.update(userEntityForTest));
     }
 
     @Test
     public void deleteByIdShouldReturnTrue() {
-        assertTrue(dao.deleteById(containedUser.getId()));
+        assertTrue(dao.deleteById(containedUserEntity.getId()));
     }
 
     @Test
@@ -131,7 +131,7 @@ public class UserDaoImplTest {
     }
 
     private void setContainedEntities() {
-        UserGoal containedUserGoal = UserGoal.builder()
+        UserGoalEntity containedUserGoalEntity = UserGoalEntity.builder()
                 .withId(1)
                 .withDailyEnergyGoal(2600)
                 .withDailyCarbohydrateGoal(180)
@@ -139,7 +139,7 @@ public class UserDaoImplTest {
                 .withDailyProteinGoal(55)
                 .withDailyWaterGoal(2200)
                 .build();
-        containedUser = User.builder()
+        containedUserEntity = UserEntity.builder()
                 .withId(2)
                 .withEmail("user@mail")
                 .withPassword("$2y$12$.obmNC3vIgT1XGBbfJnHeeD1A5aRw/JiTi.hzmAVuZbcj8X3dGr/6")
@@ -147,13 +147,13 @@ public class UserDaoImplTest {
                 .withLastName("Ivanov")
                 .withHeight(190)
                 .withWeight(80)
-                .withUserGoal(containedUserGoal)
+                .withUserGoal(containedUserGoalEntity)
                 .withGender(Gender.FEMALE)
                 .withRole(Role.USER)
                 .withLifestyle(Lifestyle.SEDENTARY)
                 .withBirthday(Date.valueOf("1994-01-29"))
                 .build();
-        userForTest = User.builder()
+        userEntityForTest = UserEntity.builder()
                 .withId(0)
                 .withEmail("user-another@mail")
                 .withPassword("$2y$12$.obmNC3vIgT1XGBbfJnHeeD1A5aRw/JiTi.hzmAVuZbcj8X3dGr/6")
@@ -161,7 +161,7 @@ public class UserDaoImplTest {
                 .withLastName("Ivanov")
                 .withHeight(190)
                 .withWeight(80)
-                .withUserGoal(containedUserGoal) //just for test
+                .withUserGoal(containedUserGoalEntity) //just for test
                 .withGender(Gender.OTHER)
                 .withRole(Role.USER)
                 .withLifestyle(Lifestyle.SEDENTARY)

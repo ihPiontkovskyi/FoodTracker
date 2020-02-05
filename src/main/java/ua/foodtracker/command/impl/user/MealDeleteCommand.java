@@ -1,17 +1,16 @@
 package ua.foodtracker.command.impl.user;
 
 import ua.foodtracker.command.impl.AbstractCommand;
-import ua.foodtracker.entity.Meal;
 import ua.foodtracker.entity.Role;
+import ua.foodtracker.service.domain.Meal;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 public class MealDeleteCommand extends AbstractCommand {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request) {
         if (getUser(request).getRole() == Role.ADMIN) {
             getMealService(request).delete(request.getParameter("id"));
         } else {

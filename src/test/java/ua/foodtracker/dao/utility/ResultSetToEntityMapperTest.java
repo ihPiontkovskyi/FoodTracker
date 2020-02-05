@@ -7,10 +7,10 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import ua.foodtracker.entity.Meal;
-import ua.foodtracker.entity.Record;
-import ua.foodtracker.entity.User;
-import ua.foodtracker.entity.UserGoal;
+import ua.foodtracker.entity.MealEntity;
+import ua.foodtracker.entity.RecordEntity;
+import ua.foodtracker.entity.UserEntity;
+import ua.foodtracker.entity.UserGoalEntity;
 import ua.foodtracker.exception.DatabaseInteractionException;
 
 import java.sql.Date;
@@ -41,22 +41,22 @@ public class ResultSetToEntityMapperTest {
     @Test
     public void extractUserGoalFromResultSetShouldReturnUserGoal() throws SQLException {
         mockResultSetForUserGoal();
-        UserGoal userGoal = ResultSetToEntityMapper.extractUserGoalsFromResultSet(resultSet);
-        assertNotNull(userGoal);
+        UserGoalEntity userGoalEntity = ResultSetToEntityMapper.extractUserGoalsFromResultSet(resultSet);
+        assertNotNull(userGoalEntity);
         verify(resultSet, times(6)).getInt(any());
     }
 
     @Test
     public void extractUserGoalFromResultSetShouldThrowDatabaseInteractionException() throws SQLException {
         exception.expect(DatabaseInteractionException.class);
-        UserGoal userGoal = ResultSetToEntityMapper.extractUserGoalsFromResultSet(resultSet);
+        UserGoalEntity userGoalEntity = ResultSetToEntityMapper.extractUserGoalsFromResultSet(resultSet);
     }
 
     @Test
     public void extractUserFromResultSetShouldReturnUser() throws SQLException {
         mockResultSetForUser();
-        User user = ResultSetToEntityMapper.extractUserFromResultSet(resultSet);
-        assertNotNull(user);
+        UserEntity userEntity = ResultSetToEntityMapper.extractUserFromResultSet(resultSet);
+        assertNotNull(userEntity);
         verify(resultSet, times(12)).getInt(any());
         verify(resultSet).getDate(any());
         verify(resultSet, times(4)).getString(any());
@@ -66,14 +66,14 @@ public class ResultSetToEntityMapperTest {
     public void extractUserFromResultSetShouldThrowDatabaseInteractionException() throws SQLException {
         mockResultSetForUserGoal();
         exception.expect(DatabaseInteractionException.class);
-        User user = ResultSetToEntityMapper.extractUserFromResultSet(resultSet);
+        UserEntity userEntity = ResultSetToEntityMapper.extractUserFromResultSet(resultSet);
     }
 
     @Test
     public void extractMealFromResultSetShouldReturnMeal() throws SQLException {
         mockResultSetForMeal();
-        Meal meal = ResultSetToEntityMapper.extractMealFromResultSet(resultSet);
-        assertNotNull(meal);
+        MealEntity mealEntity = ResultSetToEntityMapper.extractMealFromResultSet(resultSet);
+        assertNotNull(mealEntity);
         verify(resultSet, times(7)).getInt(any());
         verify(resultSet, times(1)).getString(any());
     }
@@ -82,14 +82,14 @@ public class ResultSetToEntityMapperTest {
     public void extractMealFromResultSetShouldThrowDatabaseInteractionException() throws SQLException {
         mockResultSetForUser();
         exception.expect(DatabaseInteractionException.class);
-        Meal meal = ResultSetToEntityMapper.extractMealFromResultSet(resultSet);
+        MealEntity mealEntity = ResultSetToEntityMapper.extractMealFromResultSet(resultSet);
     }
 
     @Test
     public void extractRecordFromResultSetShouldReturnRecord() throws SQLException {
         mockResultSetForRecord();
-        Record record = ResultSetToEntityMapper.extractRecordFromResultSet(resultSet);
-        assertNotNull(record);
+        RecordEntity recordEntity = ResultSetToEntityMapper.extractRecordFromResultSet(resultSet);
+        assertNotNull(recordEntity);
         verify(resultSet, times(21)).getInt(any());
         verify(resultSet, times(2)).getDate(any());
         verify(resultSet, times(5)).getString(any());
@@ -98,14 +98,14 @@ public class ResultSetToEntityMapperTest {
     @Test
     public void extractRecordFromResultSetShouldThrowDatabaseInteractionException() throws SQLException {
         exception.expect(DatabaseInteractionException.class);
-        Record record = ResultSetToEntityMapper.extractRecordFromResultSet(resultSet);
+        RecordEntity recordEntity = ResultSetToEntityMapper.extractRecordFromResultSet(resultSet);
     }
 
     @Test
     public void extractRecordFromResultSetShouldThrowDatabaseInteractionExceptionCase2() throws SQLException {
         exception.expect(DatabaseInteractionException.class);
         mockResultSetForMeal();
-        Record record = ResultSetToEntityMapper.extractRecordFromResultSet(resultSet);
+        RecordEntity recordEntity = ResultSetToEntityMapper.extractRecordFromResultSet(resultSet);
     }
 
     private void mockResultSetForUserGoal() throws SQLException {

@@ -2,7 +2,7 @@ package ua.foodtracker.validator;
 
 import org.junit.Before;
 import org.junit.Test;
-import ua.foodtracker.service.entity.RawUser;
+import ua.foodtracker.service.domain.User;
 import ua.foodtracker.validator.impl.UserValidator;
 
 import java.time.LocalDate;
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertTrue;
 
 public class UserValidatorTest {
 
-    private Validator<RawUser> userValidator;
+    private Validator<User> userValidator;
 
     @Before
     public void initValidator() {
@@ -23,7 +23,7 @@ public class UserValidatorTest {
 
     @Test
     public void userValidatorShouldntHasErrors() {
-        RawUser user = RawUser.builder()
+        User user = User.builder()
                 .withId(1)
                 .withEmail("email@email.email")
                 .withHeight(10)
@@ -46,7 +46,7 @@ public class UserValidatorTest {
 
     @Test
     public void userValidatorShouldHasEmailValidateError() {
-        RawUser user = RawUser.builder()
+        User user = User.builder()
                 .withId(1)
                 .withEmail("eil@email.email")
                 .withHeight(10)
@@ -63,7 +63,7 @@ public class UserValidatorTest {
 
     @Test
     public void userValidatorShouldHasEmailValidateError1() {
-        RawUser user = RawUser.builder()
+        User user = User.builder()
                 .withId(1)
                 .withEmail("")
                 .withHeight(10)
@@ -79,7 +79,7 @@ public class UserValidatorTest {
 
     @Test
     public void userValidatorShouldHasEmailValidateError2() {
-        RawUser user = RawUser.builder()
+        User user = User.builder()
                 .withId(1)
                 .withEmail("emaillllllllllllllllllllllaaaaaaaaaaaaalllll@mail.mail")
                 .withHeight(10)
@@ -95,7 +95,7 @@ public class UserValidatorTest {
 
     @Test
     public void userValidatorShouldHasHeightValidateError() {
-        RawUser user = RawUser.builder()
+        User user = User.builder()
                 .withId(1)
                 .withEmail("email@email.email")
                 .withHeight(-1)
@@ -111,7 +111,7 @@ public class UserValidatorTest {
 
     @Test
     public void userValidatorShouldHasWeightValidateError() {
-        RawUser user = RawUser.builder()
+        User user = User.builder()
                 .withId(1)
                 .withEmail("email@email.email")
                 .withHeight(10)
@@ -127,7 +127,7 @@ public class UserValidatorTest {
 
     @Test
     public void userValidatorShouldHasPasswordValidateError() {
-        RawUser user = RawUser.builder()
+        User user = User.builder()
                 .withId(1)
                 .withEmail("email@email.email")
                 .withHeight(10)
@@ -143,7 +143,7 @@ public class UserValidatorTest {
 
     @Test
     public void userValidatorShouldHasPasswordValidateError1() {
-        RawUser user = RawUser.builder()
+        User user = User.builder()
                 .withId(1)
                 .withEmail("email@email.email")
                 .withHeight(10)
@@ -159,7 +159,7 @@ public class UserValidatorTest {
 
     @Test
     public void userValidatorShouldHasPasswordValidateError2() {
-        RawUser user = RawUser.builder()
+        User user = User.builder()
                 .withId(1)
                 .withEmail("email@email.email")
                 .withHeight(10)
@@ -175,7 +175,7 @@ public class UserValidatorTest {
 
     @Test
     public void userValidatorShouldHasFirstNameValidateError() {
-        RawUser user = RawUser.builder()
+        User user = User.builder()
                 .withId(1)
                 .withEmail("email@email.email")
                 .withHeight(10)
@@ -191,7 +191,7 @@ public class UserValidatorTest {
 
     @Test
     public void userValidatorShouldHasLastNameValidateError() {
-        RawUser user = RawUser.builder()
+        User user = User.builder()
                 .withId(1)
                 .withEmail("email@email.email")
                 .withHeight(10)
@@ -207,7 +207,7 @@ public class UserValidatorTest {
 
     @Test
     public void userValidatorShouldHasBirthDayValidateError() {
-        RawUser user = RawUser.builder()
+        User user = User.builder()
                 .withId(1)
                 .withEmail("email@email.email")
                 .withHeight(10)
@@ -223,7 +223,7 @@ public class UserValidatorTest {
 
     @Test
     public void userValidatorShouldHasEmailValidateErrorByEmptyEmail() {
-        RawUser user = RawUser.builder()
+        User user = User.builder()
                 .withId(1)
                 .withEmail("")
                 .withHeight(10)
@@ -239,7 +239,7 @@ public class UserValidatorTest {
 
     @Test
     public void userValidatorShouldHasEmailValidateErrorByNullEmail() {
-        RawUser user = RawUser.builder()
+        User user = User.builder()
                 .withId(1)
                 .withEmail(null)
                 .withHeight(10)
@@ -255,7 +255,7 @@ public class UserValidatorTest {
 
     @Test
     public void userValidatorShouldHasPassValidateErrorByEmptyPass() {
-        RawUser user = RawUser.builder()
+        User user = User.builder()
                 .withId(1)
                 .withEmail("email@email.email")
                 .withHeight(10)
@@ -271,7 +271,7 @@ public class UserValidatorTest {
 
     @Test
     public void userValidatorShouldHasPassValidateErrorByNullPass() {
-        RawUser user = RawUser.builder()
+        User user = User.builder()
                 .withId(1)
                 .withEmail("email@email.email")
                 .withHeight(10)
@@ -287,7 +287,7 @@ public class UserValidatorTest {
 
     @Test
     public void userValidatorShouldHasPassValidateErrorByLongPass() {
-        RawUser user = RawUser.builder()
+        User user = User.builder()
                 .withId(1)
                 .withEmail("email@email.email")
                 .withHeight(10)
@@ -303,7 +303,7 @@ public class UserValidatorTest {
 
     @Test
     public void userValidatorShouldHasPassValidateErrorBySmallPass() {
-        RawUser user = RawUser.builder()
+        User user = User.builder()
                 .withId(1)
                 .withEmail("email@email.email")
                 .withHeight(10)
@@ -319,7 +319,7 @@ public class UserValidatorTest {
 
     @Test
     public void userValidatorShouldHasEmailValidateErrorBySmallEmail() {
-        RawUser user = RawUser.builder()
+        User user = User.builder()
                 .withId(1)
                 .withEmail("a")
                 .withHeight(10)
@@ -335,7 +335,7 @@ public class UserValidatorTest {
 
     @Test
     public void userValidatorShouldHasEmailValidateErrorByLongEmail() {
-        RawUser user = RawUser.builder()
+        User user = User.builder()
                 .withId(1)
                 .withEmail("12345678901123456789@123456789.1231231123456789")
                 .withHeight(10)
@@ -351,7 +351,7 @@ public class UserValidatorTest {
 
     @Test
     public void putIssueNullTest() {
-        RawUser user = RawUser.builder()
+        User user = User.builder()
                 .withId(1)
                 .withEmail("email@email.email")
                 .withHeight(10)

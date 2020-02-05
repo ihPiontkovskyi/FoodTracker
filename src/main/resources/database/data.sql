@@ -5,10 +5,10 @@ VALUES (1, 2600, 40, 55, 2200, 180),
 INSERT INTO `users`
 VALUES (1, 'admin', '$2y$12$GNV6r.PPoouP9hZ354r3qu9TOPFJofCgN50toXf4ll9S.jyIyqrg6', 'Ihor', 'Piontkovskyi', 182, 78,
         '1999-12-11', 1, 2, 2, 2),
-       (2, 'user@mail', '$2y$12$.obmNC3vIgT1XGBbfJnHeeD1A5aRw/JiTi.hzmAVuZbcj8X3dGr/6', 'Ivan', 'Ivanov', 190, 82,
+       (2, 'userEntity@mail', '$2y$12$.obmNC3vIgT1XGBbfJnHeeD1A5aRw/JiTi.hzmAVuZbcj8X3dGr/6', 'Ivan', 'Ivanov', 190, 82,
         '1994-01-29', 1, 1, 1, 1);
 
-INSERT INTO `meals`
+INSERT INTO `mealEntities`
 VALUES (1, 1, 6, 8, 60, 0, 100, 'cereals'),
        (2, 1, 14, 20, 32, 0, 100, 'cheese'),
        (3, 2, 2, 1, 6, 30, 100, 'borshch'),

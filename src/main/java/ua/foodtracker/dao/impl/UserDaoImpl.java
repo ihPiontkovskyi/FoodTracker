@@ -4,8 +4,8 @@ import ua.foodtracker.annotation.Dao;
 import ua.foodtracker.dao.Page;
 import ua.foodtracker.dao.UserDao;
 import ua.foodtracker.dao.db.holder.ConnectionHolder;
-import ua.foodtracker.entity.User;
-import ua.foodtracker.entity.UserGoal;
+import ua.foodtracker.entity.UserEntity;
+import ua.foodtracker.entity.UserGoalEntity;
 import ua.foodtracker.exception.DatabaseInteractionException;
 
 import java.sql.PreparedStatement;
@@ -20,7 +20,7 @@ import static org.mindrot.jbcrypt.BCrypt.hashpw;
 import static ua.foodtracker.dao.utility.ResultSetToEntityMapper.extractUserFromResultSet;
 
 @Dao
-public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao {
+public class UserDaoImpl extends AbstractDaoImpl<UserEntity> implements UserDao {
     private static final String FIND_BY_EMAIL_QUERY = "SELECT * FROM users LEFT JOIN user_goals ON users.user_goal_id=user_goals.id WHERE email=?";
     private static final String FIND_PAGE_QUERY = "SELECT * FROM users LEFT JOIN user_goals ON users.user_goal_id=user_goals.id LIMIT ? OFFSET ?";
     private static final String COUNT_RECORD_QUERY = "SELECT COUNT(1) FROM users";
@@ -37,17 +37,17 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao {
     }
 
     @Override
-    protected User extractFromResultSet(ResultSet resultSet) throws SQLException {
+    protected UserEntity extractFromResultSet(ResultSet resultSet) throws SQLException {
         return extractUserFromResultSet(resultSet);
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
+    public Optional<UserEntity> findByEmail(String email) {
         return findByParam(email, FIND_BY_EMAIL_QUERY);
     }
 
     @Override
-    public List<User> findAll(Page page) {
+    public List<UserEntity> findAll(Page page) {
         return findAll(FIND_PAGE_QUERY, page);
     }
 
@@ -57,9 +57,9 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao {
     }
 
     @Override
-    public Integer save(User user) {
+    public Integer save(UserEntity userEntity) {
         try (PreparedStatement ps = getConnection().prepareStatement(INSERT_GOAL_QUERY, Statement.RETURN_GENERATED_KEYS)) {
-            prepareData(user.getUserGoal(), ps);
+            prepareData(userEntity.getUserGoalEntity(), ps);
             ps.execute();
             int id = 0;
             try (ResultSet rs = ps.getGeneratedKeys()) {
@@ -68,29 +68,29 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao {
                 }
             }
             if (id != 0) {
-                UserGoal goal = UserGoal.builder().
+                UserGoalEntity goal = UserGoalEntity.builder().
                         withId(id)
-                        .withDailyCarbohydrateGoal(user.getUserGoal().getDailyCarbohydrateGoal())
-                        .withDailyEnergyGoal(user.getUserGoal().getDailyEnergyGoal())
-                        .withDailyFatGoal(user.getUserGoal().getDailyFatGoal())
-                        .withDailyProteinGoal(user.getUserGoal().getDailyProteinGoal())
-                        .withDailyWaterGoal(user.getUserGoal().getDailyWaterGoal())
+                        .withDailyCarbohydrateGoal(userEntity.getUserGoalEntity().getDailyCarbohydrateGoal())
+                        .withDailyEnergyGoal(userEntity.getUserGoalEntity().getDailyEnergyGoal())
+                        .withDailyFatGoal(userEntity.getUserGoalEntity().getDailyFatGoal())
+                        .withDailyProteinGoal(userEntity.getUserGoalEntity().getDailyProteinGoal())
+                        .withDailyWaterGoal(userEntity.getUserGoalEntity().getDailyWaterGoal())
                         .build();
-                User userForSave = User.builder()
-                        .withId(user.getId())
+                UserEntity userEntityForSave = UserEntity.builder()
+                        .withId(userEntity.getId())
                         .withUserGoal(goal)
-                        .withBirthday(user.getBirthday())
-                        .withEmail(user.getEmail())
-                        .withFirstName(user.getFirstName())
-                        .withGender(user.getGender())
-                        .withHeight(user.getHeight())
-                        .withLastName(user.getLastName())
-                        .withLifestyle(user.getLifestyle())
-                        .withPassword((user.getPassword()))
-                        .withRole(user.getRole())
-                        .withWeight(user.getWeight())
+                        .withBirthday(userEntity.getBirthday())
+                        .withEmail(userEntity.getEmail())
+                        .withFirstName(userEntity.getFirstName())
+                        .withGender(userEntity.getGender())
+                        .withHeight(userEntity.getHeight())
+                        .withLastName(userEntity.getLastName())
+                        .withLifestyle(userEntity.getLifestyle())
+                        .withPassword((userEntity.getPassword()))
+                        .withRole(userEntity.getRole())
+                        .withWeight(userEntity.getWeight())
                         .build();
-                return save(userForSave, INSERT_QUERY);
+                return save(userEntityForSave, INSERT_QUERY);
             } else {
                 throw new DatabaseInteractionException(getMessage(INSERT_GOAL_QUERY));
             }
@@ -101,16 +101,16 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao {
     }
 
     @Override
-    public Optional<User> findById(Integer id) {
+    public Optional<UserEntity> findById(Integer id) {
         return findByParam(id, FIND_BY_ID_QUERY);
     }
 
     @Override
-    public boolean update(User user) {
+    public boolean update(UserEntity userEntity) {
         try (PreparedStatement ps = getConnection().prepareStatement(UPDATE_GOAL_QUERY)) {
-            prepareDataWithId(user.getUserGoal(), ps);
+            prepareDataWithId(userEntity.getUserGoalEntity(), ps);
             ps.execute();
-            return update(user, UPDATE_QUERY);
+            return update(userEntity, UPDATE_QUERY);
         } catch (SQLException e) {
             LOGGER.warn(String.format(ERROR_MESSAGE, UPDATE_GOAL_QUERY, e));
             throw new DatabaseInteractionException(getMessage(UPDATE_GOAL_QUERY), e);
@@ -123,36 +123,36 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao {
     }
 
     @Override
-    protected void prepareData(User user, PreparedStatement ps) throws SQLException {
-        ps.setObject(1, user.getEmail());
-        ps.setObject(2, hashpw(user.getPassword(), gensalt()));
-        ps.setObject(3, user.getFirstName());
-        ps.setObject(4, user.getLastName());
-        ps.setObject(5, user.getHeight());
-        ps.setObject(6, user.getWeight());
-        ps.setObject(7, user.getBirthday());
-        ps.setObject(8, user.getGender().getId());
-        ps.setObject(9, user.getUserGoal().getId());
-        ps.setObject(10, user.getLifestyle().getId());
-        ps.setObject(11, user.getRole().getId());
+    protected void prepareData(UserEntity userEntity, PreparedStatement ps) throws SQLException {
+        ps.setObject(1, userEntity.getEmail());
+        ps.setObject(2, hashpw(userEntity.getPassword(), gensalt()));
+        ps.setObject(3, userEntity.getFirstName());
+        ps.setObject(4, userEntity.getLastName());
+        ps.setObject(5, userEntity.getHeight());
+        ps.setObject(6, userEntity.getWeight());
+        ps.setObject(7, userEntity.getBirthday());
+        ps.setObject(8, userEntity.getGender().getId());
+        ps.setObject(9, userEntity.getUserGoalEntity().getId());
+        ps.setObject(10, userEntity.getLifestyle().getId());
+        ps.setObject(11, userEntity.getRole().getId());
     }
 
     @Override
-    protected void prepareDataWithId(User user, PreparedStatement ps) throws SQLException {
-        prepareData(user, ps);
-        ps.setObject(12, user.getId());
+    protected void prepareDataWithId(UserEntity userEntity, PreparedStatement ps) throws SQLException {
+        prepareData(userEntity, ps);
+        ps.setObject(12, userEntity.getId());
     }
 
-    private void prepareData(UserGoal userGoal, PreparedStatement ps) throws SQLException {
-        ps.setObject(1, userGoal.getDailyEnergyGoal());
-        ps.setObject(2, userGoal.getDailyFatGoal());
-        ps.setObject(3, userGoal.getDailyProteinGoal());
-        ps.setObject(4, userGoal.getDailyWaterGoal());
-        ps.setObject(5, userGoal.getDailyCarbohydrateGoal());
+    private void prepareData(UserGoalEntity userGoalEntity, PreparedStatement ps) throws SQLException {
+        ps.setObject(1, userGoalEntity.getDailyEnergyGoal());
+        ps.setObject(2, userGoalEntity.getDailyFatGoal());
+        ps.setObject(3, userGoalEntity.getDailyProteinGoal());
+        ps.setObject(4, userGoalEntity.getDailyWaterGoal());
+        ps.setObject(5, userGoalEntity.getDailyCarbohydrateGoal());
     }
 
-    private void prepareDataWithId(UserGoal userGoal, PreparedStatement ps) throws SQLException {
-        prepareData(userGoal, ps);
-        ps.setObject(6, userGoal.getId());
+    private void prepareDataWithId(UserGoalEntity userGoalEntity, PreparedStatement ps) throws SQLException {
+        prepareData(userGoalEntity, ps);
+        ps.setObject(6, userGoalEntity.getId());
     }
 }

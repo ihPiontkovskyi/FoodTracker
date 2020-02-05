@@ -1,14 +1,14 @@
 package ua.foodtracker.dao;
 
-import ua.foodtracker.entity.User;
+import ua.foodtracker.entity.UserEntity;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface UserDao extends BaseDao<User> {
-    List<User> findAll(Page page);
+public interface UserDao extends BaseDao<UserEntity> {
+    List<UserEntity> findAll(Page page);
 
     long count();
 
-    Optional<User> findByEmail(String email);
+    Optional<UserEntity> findByEmail(String email);
 }

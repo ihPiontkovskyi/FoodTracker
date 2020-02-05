@@ -28,7 +28,7 @@
                     <a href="records"> <em class="menu-icon fa fa-calendar"></em><fmt:message key="diary.btn"/> </a>
                 </li>
                 <li>
-                    <a href="meals"> <em class="menu-icon fa fa-cutlery"></em><fmt:message key="meals.btn"/></a>
+                    <a href="mealEntities"> <em class="menu-icon fa fa-cutlery"></em><fmt:message key="mealEntities.btn"/></a>
                 </li>
             </ul>
         </div>
@@ -43,13 +43,13 @@
         </div>
         <div class="top-right">
             <div class="header-menu">
-                <div class="user-area dropdown float-right">
+                <div class="userEntity-area dropdown float-right">
                     <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false">
-                        <em class="fa fa-user-circle"></em>
+                        <em class="fa fa-userEntity-circle"></em>
                     </a>
 
-                    <div class="user-menu dropdown-menu">
+                    <div class="userEntity-menu dropdown-menu">
                         <a class="nav-link" href="settings"><em class="fa fa -cog"></em><fmt:message
                                 key="settings.btn"/></a>
 
@@ -117,36 +117,36 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <c:forEach items="${requestScope.meals}" var="meal">
-                                            <c:if test="${meal.user == null || meal.user.id==sessionScope.user.id || sessionScope.user.role.name()=='ADMIN'}">
+                                        <c:forEach items="${requestScope.mealEntities}" var="mealEntity">
+                                            <c:if test="${mealEntity.userEntity == null || mealEntity.userEntity.id==sessionScope.userEntity.id || sessionScope.userEntity.role.name()=='ADMIN'}">
                                                 <tr class=" pb-0">
-                                                    <td hidden class="mealId">${meal.id}</td>
-                                                    <td><span class="name">${meal.name}</span></td>
-                                                    <td><span class="count">${meal.calculateEnergy()}</span>
+                                                    <td hidden class="mealId">${mealEntity.id}</td>
+                                                    <td><span class="name">${mealEntity.name}</span></td>
+                                                    <td><span class="count">${mealEntity.calculateEnergy()}</span>
                                                         <fmt:message
                                                                 key="weight.label"/></td>
-                                                    <td><span class="count">${meal.protein}</span> <fmt:message
+                                                    <td><span class="count">${mealEntity.protein}</span> <fmt:message
                                                             key="weight.label"/></td>
-                                                    <td><span class="count">${meal.carbohydrate}</span> <fmt:message
+                                                    <td><span class="count">${mealEntity.carbohydrate}</span> <fmt:message
                                                             key="weight.label"/></td>
-                                                    <td><span class="count">${meal.fat}</span> <fmt:message
+                                                    <td><span class="count">${mealEntity.fat}</span> <fmt:message
                                                             key="weight.label"/></td>
-                                                    <td><span class="count">${meal.water}</span> <fmt:message
+                                                    <td><span class="count">${mealEntity.water}</span> <fmt:message
                                                             key="volume.label"/></td>
-                                                    <td><span class="count">${meal.weight}</span> <fmt:message
+                                                    <td><span class="count">${mealEntity.weight}</span> <fmt:message
                                                             key="weight.label"/></td>
-                                                    <c:if test="${meal.user != null || sessionScope.user.role.name()=='ADMIN'}">
-                                                        <td><a href="../user/meals/delete?id=${meal.id}"
+                                                    <c:if test="${mealEntity.userEntity != null || sessionScope.userEntity.role.name()=='ADMIN'}">
+                                                        <td><a href="../userEntity/mealEntities/delete?id=${mealEntity.id}"
                                                                class="btn float-right"><i
                                                                 class="fa fa-minus"
                                                                 aria-hidden="true"></i></a>
-                                                            <a href="../user/meals/edit?id=${meal.id}"
+                                                            <a href="../userEntity/mealEntities/edit?id=${mealEntity.id}"
                                                                class="btn float-right"><i
                                                                     class="fa fa-pencil"
                                                                     aria-hidden="true"></i></a>
                                                         </td>
                                                     </c:if>
-                                                    <c:if test="${meal.user == null && sessionScope.user.role.name()!='ADMIN'}">
+                                                    <c:if test="${mealEntity.userEntity == null && sessionScope.userEntity.role.name()!='ADMIN'}">
                                                         <td>
                                                             <fmt:message key="access.action"/>
                                                         </td>

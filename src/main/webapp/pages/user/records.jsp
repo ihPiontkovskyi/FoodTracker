@@ -28,7 +28,7 @@
                     <a href="records"> <em class="menu-icon fa fa-calendar"></em><fmt:message key="diary.btn"/></a>
                 </li>
                 <li>
-                    <a href="meals"> <em class="menu-icon fa fa-cutlery"></em><fmt:message key="meals.btn"/></a>
+                    <a href="mealEntities"> <em class="menu-icon fa fa-cutlery"></em><fmt:message key="mealEntities.btn"/></a>
                 </li>
             </ul>
         </div>
@@ -43,13 +43,13 @@
         </div>
         <div class="top-right">
             <div class="header-menu">
-                <div class="user-area dropdown float-right">
+                <div class="userEntity-area dropdown float-right">
                     <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false">
-                        <em class="fa fa-user-circle"></em>
+                        <em class="fa fa-userEntity-circle"></em>
                     </a>
 
-                    <div class="user-menu dropdown-menu">
+                    <div class="userEntity-menu dropdown-menu">
                         <a class="nav-link" href="settings"><em class="fa fa -cog"></em><fmt:message
                                 key="settings.btn"/></a>
 
@@ -172,7 +172,7 @@
                                                 href="?date=${sessionScope.currentDate.plusDays(1)}" class="btn"><i
                                                 class="fa fa-arrow-right"
                                                 aria-hidden="true"></i></a>
-                                        <a href="../user/records/add" class="btn float-right"><i class="fa fa-plus"
+                                        <a href="../userEntity/records/add" class="btn float-right"><i class="fa fa-plus"
                                                                                                  aria-hidden="true"></i></a>
                                     </div>
                                 </div>
@@ -195,21 +195,21 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <c:forEach var="record" items="${requestScope.records}">
+                                        <c:forEach var="recordEntity" items="${requestScope.records}">
                                             <tr>
-                                                <td hidden>${record.id}</td>
-                                                <td>${record.meal.name}</td>
-                                                <td>${record.meal.protein}</td>
-                                                <td>${record.meal.carbohydrate}</td>
-                                                <td>${record.meal.fat}</td>
-                                                <td>${record.meal.calculateEnergy()}</td>
-                                                <td>${record.meal.weight}</td>
-                                                <td>${record.meal.water}</td>
-                                                <td><a href="../user/records/delete?id=${record.id}"
+                                                <td hidden>${recordEntity.id}</td>
+                                                <td>${recordEntity.mealEntity.name}</td>
+                                                <td>${recordEntity.mealEntity.protein}</td>
+                                                <td>${recordEntity.mealEntity.carbohydrate}</td>
+                                                <td>${recordEntity.mealEntity.fat}</td>
+                                                <td>${recordEntity.mealEntity.calculateEnergy()}</td>
+                                                <td>${recordEntity.mealEntity.weight}</td>
+                                                <td>${recordEntity.mealEntity.water}</td>
+                                                <td><a href="../userEntity/records/delete?id=${recordEntity.id}"
                                                        class="btn float-right"><i
                                                         class="fa fa-minus"
                                                         aria-hidden="true"></i></a>
-                                                    <a href="../user/records/edit?id=${record.id}"
+                                                    <a href="../userEntity/records/edit?id=${recordEntity.id}"
                                                        class="btn float-right"><i
                                                             class="fa fa-pencil"
                                                             aria-hidden="true"></i></a>

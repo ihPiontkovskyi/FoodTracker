@@ -3,7 +3,7 @@ package ua.foodtracker.entity;
 /**
  * Entity class of user goals
  */
-public class UserGoal {
+public class UserGoalEntity {
     private final Integer id;
     private final Integer dailyEnergyGoal;
     private final Integer dailyFatGoal;
@@ -11,7 +11,7 @@ public class UserGoal {
     private final Integer dailyCarbohydrateGoal;
     private final Integer dailyWaterGoal;
 
-    public UserGoal(Builder builder) {
+    public UserGoalEntity(Builder builder) {
         this.id = builder.id;
         this.dailyEnergyGoal = builder.dailyEnergyGoal;
         this.dailyFatGoal = builder.dailyFatGoal;
@@ -89,8 +89,8 @@ public class UserGoal {
             return this;
         }
 
-        public UserGoal build() {
-            return new UserGoal(this);
+        public UserGoalEntity build() {
+            return new UserGoalEntity(this);
         }
     }
 }

@@ -11,13 +11,13 @@ import org.mockito.junit.MockitoJUnitRunner;
 import ua.foodtracker.dao.RecordDao;
 import ua.foodtracker.entity.Gender;
 import ua.foodtracker.entity.Lifestyle;
-import ua.foodtracker.entity.Record;
+import ua.foodtracker.entity.RecordEntity;
 import ua.foodtracker.entity.Role;
 import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.exception.ValidationException;
-import ua.foodtracker.service.entity.RawMeal;
-import ua.foodtracker.service.entity.RawRecord;
-import ua.foodtracker.service.entity.RawUser;
+import ua.foodtracker.service.domain.Meal;
+import ua.foodtracker.service.domain.Record;
+import ua.foodtracker.service.domain.User;
 import ua.foodtracker.service.impl.RecordServiceImpl;
 import ua.foodtracker.validator.impl.RecordValidator;
 
@@ -27,19 +27,17 @@ import java.util.Locale;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static ua.foodtracker.service.utility.EntityMapper.mapRawRecordToEntityRecord;
+import static ua.foodtracker.service.utility.EntityMapper.mapRecordToEntityRecord;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RecordServiceTest {
-    public static final RawUser RAW_USER = RawUser.builder()
+    public static final User RAW_USER = User.builder()
             .withId(1)
             .withGender(Gender.MALE)
             .withLifestyle(Lifestyle.NOT_SELECTED)
@@ -52,7 +50,7 @@ public class RecordServiceTest {
             .withFirstName("firstName")
             .withEmail("email@mail.com")
             .build();
-    public static final RawMeal RAW_MEAL = RawMeal.builder()
+    public static final Meal RAW_MEAL = Meal.builder()
             .withId(1)
             .withWeight(100)
             .withWater(100)
@@ -62,14 +60,14 @@ public class RecordServiceTest {
             .withCarbohydrates(100)
             .withName("name")
             .build();
-    public static final RawRecord RAW_RECORD = RawRecord.builder()
+    public static final Record RAW_RECORD = Record.builder()
             .withId(1)
             .withUserId(1)
             .withDate(LocalDate.now())
             .withMeal(RAW_MEAL)
             .build();
 
-    public static final Record RECORD = mapRawRecordToEntityRecord(RAW_RECORD);
+    public static final RecordEntity RECORD_ENTITY = mapRecordToEntityRecord(RAW_RECORD);
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
@@ -126,21 +124,32 @@ public class RecordServiceTest {
     }
 
     @Test
-    public void findByIdShouldReturnMeal() {
-        when(recordDao.findById(RAW_RECORD.getId())).thenReturn(Optional.of(RECORD));
+    public void findByIdShouldntThrowException() {
+        when(recordDao.findById(RAW_USER.getId())).thenReturn(Optional.of(RECORD_ENTITY));
 
-        assertTrue(recordService.findById(RAW_RECORD.getId()).isPresent());
+        recordService.findById(RAW_USER.getId().toString());
 
-        verify(recordDao).findById(RAW_RECORD.getId());
+        verify(recordDao).findById(RAW_USER.getId());
     }
 
     @Test
-    public void findByIdShouldReturnOptionalEmpty() {
-        when(recordDao.findById(RAW_RECORD.getId())).thenReturn(Optional.empty());
+    public void findByIdShouldIncorrectDataExceptionCase1() {
+        when(recordDao.findById(RAW_USER.getId())).thenReturn(Optional.empty());
 
-        assertFalse(recordService.findById(RAW_RECORD.getId()).isPresent());
+        exception.expect(IncorrectDataException.class);
+        recordService.findById(null);
 
-        verify(recordDao).findById(RAW_RECORD.getId());
+        verify(recordDao).findById(RAW_USER.getId());
+    }
+
+    @Test
+    public void findByIdShouldIncorrectDataExceptionCase2() {
+        when(recordDao.findById(RAW_USER.getId())).thenReturn(Optional.empty());
+
+        exception.expect(IncorrectDataException.class);
+        recordService.findById("ass");
+
+        verify(recordDao).findById(RAW_USER.getId());
     }
 
     @Test
