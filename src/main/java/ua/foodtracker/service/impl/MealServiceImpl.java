@@ -15,9 +15,9 @@ import ua.foodtracker.validator.impl.MealValidator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static ua.foodtracker.service.utility.EntityMapper.mapMealToEntityMeal;
-import static ua.foodtracker.service.utility.ServiceUtility.getErrorMessageByIssues;
 import static ua.foodtracker.service.utility.ServiceUtility.getNumberOfPage;
 
 @Service
@@ -32,8 +32,8 @@ public class MealServiceImpl implements MealService {
     private MealValidator mealValidator;
 
     @Override
-    public List<MealEntity> findAllByPage(Integer pageNumber, Integer userId) {
-        return mealDao.findAll(new Page(pageNumber, ITEMS_PER_PAGE));
+    public List<Meal> findAllByPage(Integer pageNumber, Integer userId) {
+        return mealDao.findAll(new Page(pageNumber, ITEMS_PER_PAGE)).stream().map(EntityMapper::mapEntityMealToMeal).collect(Collectors.toList());
     }
 
     @Override
@@ -48,10 +48,10 @@ public class MealServiceImpl implements MealService {
             Integer id = mealDao.save(mapMealToEntityMeal(meal));
             if (id == null || id == 0) {
                 mealValidator.putIssue("data", INCORRECT_DATA);
-                throw new IncorrectDataException(getErrorMessageByIssues(mealValidator.getMessages(), mealValidator.getLocale()));
+                throw new IncorrectDataException(mealValidator.getErrorMessageByIssues());
             }
         } else {
-            throw new ValidationException(getErrorMessageByIssues(mealValidator.getMessages(), mealValidator.getLocale()));
+            throw new ValidationException(mealValidator.getErrorMessageByIssues());
         }
     }
 
@@ -59,16 +59,16 @@ public class MealServiceImpl implements MealService {
     public void delete(String id) {
         if (id == null) {
             mealValidator.putIssue("data", INCORRECT_DATA);
-            throw new IncorrectDataException(getErrorMessageByIssues(mealValidator.getMessages(), mealValidator.getLocale()));
+            throw new IncorrectDataException(mealValidator.getErrorMessageByIssues());
         }
         try {
             if (!mealDao.deleteById(Integer.parseInt(id))) {
                 mealValidator.putIssue("data", INCORRECT_DATA);
-                throw new IncorrectDataException(getErrorMessageByIssues(mealValidator.getMessages(), mealValidator.getLocale()));
+                throw new IncorrectDataException(mealValidator.getErrorMessageByIssues());
             }
         } catch (NumberFormatException ex) {
             mealValidator.putIssue("data", INCORRECT_DATA);
-            throw new IncorrectDataException(getErrorMessageByIssues(mealValidator.getMessages(), mealValidator.getLocale()));
+            throw new IncorrectDataException(mealValidator.getErrorMessageByIssues());
         }
     }
 
@@ -78,10 +78,10 @@ public class MealServiceImpl implements MealService {
         if (!mealValidator.hasErrors()) {
             if (!mealDao.update(mapMealToEntityMeal(meal))) {
                 mealValidator.putIssue("data", INCORRECT_DATA);
-                throw new IncorrectDataException(getErrorMessageByIssues(mealValidator.getMessages(), mealValidator.getLocale()));
+                throw new IncorrectDataException(mealValidator.getErrorMessageByIssues());
             }
         } else {
-            throw new ValidationException(getErrorMessageByIssues(mealValidator.getMessages(), mealValidator.getLocale()));
+            throw new ValidationException(mealValidator.getErrorMessageByIssues());
         }
     }
 
@@ -89,14 +89,14 @@ public class MealServiceImpl implements MealService {
     public Optional<Meal> findById(String id) {
         if (id == null) {
             mealValidator.putIssue("data", INCORRECT_DATA);
-            throw new IncorrectDataException(getErrorMessageByIssues(mealValidator.getMessages(), mealValidator.getLocale()));
+            throw new IncorrectDataException(mealValidator.getErrorMessageByIssues());
         }
         try {
             Optional<MealEntity> mealEntity = mealDao.findById(Integer.parseInt(id));
             return mealEntity.map(EntityMapper::mapEntityMealToMeal);
         } catch (NumberFormatException ex) {
             mealValidator.putIssue("data", INCORRECT_DATA);
-            throw new IncorrectDataException(getErrorMessageByIssues(mealValidator.getMessages(), mealValidator.getLocale()));
+            throw new IncorrectDataException(mealValidator.getErrorMessageByIssues());
         }
     }
 

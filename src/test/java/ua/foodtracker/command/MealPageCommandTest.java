@@ -6,30 +6,36 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import ua.foodtracker.command.impl.LoginCommand;
+import ua.foodtracker.command.impl.user.MealPageCommand;
 import ua.foodtracker.entity.Gender;
 import ua.foodtracker.entity.Lifestyle;
 import ua.foodtracker.entity.Role;
+import ua.foodtracker.service.MealService;
 import ua.foodtracker.service.UserService;
 import ua.foodtracker.service.domain.User;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Locale;
 
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class LoginCommandTest {
-
+public class MealPageCommandTest {
+    private static final int CURRENT_PAGE = 1;
     private static final User USER = initUser();
+    public static final long PAGE_COUNT = 2;
 
     @Mock
     private HttpServletRequest request;
@@ -38,34 +44,36 @@ public class LoginCommandTest {
     @Mock
     private HttpSession session;
     @Mock
-    private UserService service;
+    private MealService service;
 
     @InjectMocks
-    private LoginCommand loginCommand;
+    private MealPageCommand pageCommand;
 
     @Test
-    public void executeLoginCommandShouldReturnPathSuccessfully() {
+    public void executeShouldReturnUrlSuccessfully(){
         when(request.getServletContext()).thenReturn(context);
-        when(context.getAttribute(eq("ua.foodtracker.service.UserService"))).thenReturn(service);
+        when(context.getAttribute(eq("ua.foodtracker.service.MealService"))).thenReturn(service);
         when(request.getSession(false)).thenReturn(session);
+        when(session.getAttribute("currentPage")).thenReturn(CURRENT_PAGE);
+        when(session.getAttribute("user")).thenReturn(USER);
         when(session.getAttribute("locale")).thenReturn(Locale.getDefault());
-        when(request.getSession(true)).thenReturn(session);
-        when(request.getParameter("username")).thenReturn(USER.getEmail());
-        when(request.getParameter("pass")).thenReturn(USER.getPassword());
-        when(service.login(USER.getEmail(), USER.getPassword())).thenReturn(USER);
-        doNothing().when(session).setAttribute("user", USER);
+        when(service.findAllByPage(CURRENT_PAGE,USER.getId())).thenReturn(Collections.emptyList());
+        when(service.pageCount()).thenReturn(PAGE_COUNT);
+        doNothing().when(request).setAttribute(eq("meals"),eq(Collections.EMPTY_LIST));
+        doNothing().when(request).setAttribute(eq("pageCount"),eq(PAGE_COUNT));
 
-        String url = loginCommand.execute(request);
+        String url = pageCommand.execute(request);
 
         assertNotNull(url);
-        verify(request).getServletContext();
-        verify(context).getAttribute(eq("ua.foodtracker.service.UserService"));
-        verify(request).getSession(false);
-        verify(context).getAttribute(any());
-        verify(request).getSession(true);
-        verify(request).getParameter("username");
-        verify(request).getParameter("pass");
-        verify(service).login(USER.getEmail(), USER.getPassword());
+        verify(request,times(2)).getServletContext();
+        verify(context, times(2)).getAttribute(eq("ua.foodtracker.service.MealService"));
+        verify(request, times(4)).getSession(false);
+        verify(session).getAttribute(eq("currentPage"));
+        verify(session).getAttribute(eq("user"));
+        verify(session, times(2)).getAttribute(eq("locale"));
+        verify(service).findAllByPage(CURRENT_PAGE,USER.getId());
+        verify(service).pageCount();
+        verify(request,times(2)).setAttribute(anyString(),any());
     }
 
     private static User initUser() {

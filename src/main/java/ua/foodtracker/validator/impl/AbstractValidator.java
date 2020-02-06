@@ -7,12 +7,14 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 public abstract class AbstractValidator<E> implements Validator<E> {
     private static final Logger LOGGER = Logger.getLogger(AbstractValidator.class);
 
     private static final Pattern TEMPLATE = Pattern.compile("^[a-zA-zа-яА-Я]+$");
+    private static final String ERROR_RESOURCES_FILENAME = "locale/validate_messages";
     protected static final Integer MIN_LENGTH = 3;
     protected static final Integer MAX_LENGTH = 32;
 
@@ -77,5 +79,18 @@ public abstract class AbstractValidator<E> implements Validator<E> {
             return "cant.set.date";
         }
         return null;
+    }
+
+    public String getErrorMessageByIssues() {
+        ResourceBundle bundle;
+        if (locale != null) {
+            bundle = ResourceBundle.getBundle(ERROR_RESOURCES_FILENAME, locale);
+        } else {
+            bundle = ResourceBundle.getBundle(ERROR_RESOURCES_FILENAME, Locale.getDefault());
+        }
+        LOGGER.trace("Errors found while processing operation");
+        StringBuilder error = new StringBuilder();
+        errMessages.forEach((key, value) -> error.append(bundle.getString(value)).append(" "));
+        return error.toString();
     }
 }

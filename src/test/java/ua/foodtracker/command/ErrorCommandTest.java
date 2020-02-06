@@ -10,7 +10,6 @@ import ua.foodtracker.command.impl.ErrorCommand;
 import javax.servlet.http.HttpServletRequest;
 
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;

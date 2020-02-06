@@ -19,13 +19,13 @@ import java.util.stream.Collectors;
 
 import static org.mindrot.jbcrypt.BCrypt.checkpw;
 import static ua.foodtracker.service.utility.EntityMapper.mapUserEntityToUser;
-import static ua.foodtracker.service.utility.ServiceUtility.getErrorMessageByIssues;
 import static ua.foodtracker.service.utility.ServiceUtility.getNumberOfPage;
 
 @Service
 public class UserServiceImpl implements UserService {
     private static final Long ITEMS_PER_PAGE = 3L;
     private static final String INCORRECT_DATA = "incorrect.data";
+    public static final String DATA_KEY = "data";
 
     @Autowired
     private UserDao userDao;
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
             return mapUserEntityToUser(userByEmail.get());
         } else {
             userValidator.putIssue("user", "login.incorrect.data");
-            throw new IncorrectDataException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
+            throw new IncorrectDataException(userValidator.getErrorMessageByIssues());
         }
     }
 
@@ -49,16 +49,16 @@ public class UserServiceImpl implements UserService {
         userValidator.validate(user);
         if (userDao.findByEmail(user.getEmail()).isPresent()) {
             userValidator.putIssue("email", "user.already.exist");
-            throw new IncorrectDataException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
+            throw new IncorrectDataException(userValidator.getErrorMessageByIssues());
         }
         if (!userValidator.hasErrors()) {
             Integer id = userDao.save(EntityMapper.mapUserToEntityUser(user));
             if (id == null || id == 0) {
-                userValidator.putIssue("data", INCORRECT_DATA);
-                throw new IncorrectDataException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
+                userValidator.putIssue(DATA_KEY, INCORRECT_DATA);
+                throw new IncorrectDataException(userValidator.getErrorMessageByIssues());
             }
         } else {
-            throw new ValidationException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
+            throw new ValidationException(userValidator.getErrorMessageByIssues());
         }
     }
 
@@ -67,42 +67,42 @@ public class UserServiceImpl implements UserService {
         userValidator.validate(user);
         if (!userValidator.hasErrors()) {
             if (!userDao.update(EntityMapper.mapUserToEntityUser(user))) {
-                userValidator.putIssue("data", INCORRECT_DATA);
-                throw new IncorrectDataException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
+                userValidator.putIssue(DATA_KEY, INCORRECT_DATA);
+                throw new IncorrectDataException(userValidator.getErrorMessageByIssues());
             }
         } else {
-            throw new ValidationException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
+            throw new ValidationException(userValidator.getErrorMessageByIssues());
         }
     }
 
     @Override
     public Optional<User> findById(String id) {
         if (id == null) {
-            userValidator.putIssue("data", INCORRECT_DATA);
-            throw new IncorrectDataException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
+            userValidator.putIssue(DATA_KEY, INCORRECT_DATA);
+            throw new IncorrectDataException(userValidator.getErrorMessageByIssues());
         }
         try {
             return userDao.findById(Integer.parseInt(id)).map(EntityMapper::mapUserEntityToUser);
         } catch (NumberFormatException ex) {
-            userValidator.putIssue("data", INCORRECT_DATA);
-            throw new IncorrectDataException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
+            userValidator.putIssue(DATA_KEY, INCORRECT_DATA);
+            throw new IncorrectDataException(userValidator.getErrorMessageByIssues());
         }
     }
 
     @Override
     public void delete(String id) {
         if (id == null) {
-            userValidator.putIssue("data", INCORRECT_DATA);
-            throw new IncorrectDataException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
+            userValidator.putIssue(DATA_KEY, INCORRECT_DATA);
+            throw new IncorrectDataException(userValidator.getErrorMessageByIssues());
         }
         try {
             if (!userDao.deleteById(Integer.parseInt(id))) {
-                userValidator.putIssue("data", INCORRECT_DATA);
-                throw new IncorrectDataException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
+                userValidator.putIssue(DATA_KEY, INCORRECT_DATA);
+                throw new IncorrectDataException(userValidator.getErrorMessageByIssues());
             }
         } catch (NumberFormatException ex) {
-            userValidator.putIssue("data", INCORRECT_DATA);
-            throw new IncorrectDataException(getErrorMessageByIssues(userValidator.getMessages(), userValidator.getLocale()));
+            userValidator.putIssue(DATA_KEY, INCORRECT_DATA);
+            throw new IncorrectDataException(userValidator.getErrorMessageByIssues());
         }
     }
 

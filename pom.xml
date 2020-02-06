@@ -68,7 +68,6 @@
                 <configuration>
                     <excludes>
                         <exclude>**/controller/*</exclude>
-                        <exclude>**/filter/*</exclude>
                         <exclude>**/exception/*</exclude>
                     </excludes>
                 </configuration>

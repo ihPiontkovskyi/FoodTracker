@@ -33,13 +33,14 @@ import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static ua.foodtracker.service.utility.EntityMapper.mapUserToEntityUser;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
 
     public static final User RAW_USER = initUser();
     public static final User RAW_ADMIN = initAdmin();
-    public static final UserEntity USER_ENTITY = EntityMapper.mapUserToEntityUser(RAW_USER);
+    public static final UserEntity USER_ENTITY = mapUserToEntityUser(RAW_USER);
     public static final String PASS = "admin";
     public static final String INCORRECT_PASS = "not_admin";
 
@@ -73,7 +74,7 @@ public class UserServiceTest {
         when(userDao.findByEmail(USER_ENTITY.getEmail())).thenReturn(Optional.empty());
 
         exception.expect(IncorrectDataException.class);
-        assertEquals(USER_ENTITY, userService.login(USER_ENTITY.getEmail(), PASS));
+        assertNotNull(userService.login(USER_ENTITY.getEmail(), PASS));
 
         verify(userDao).findByEmail(USER_ENTITY.getEmail());
     }
@@ -289,7 +290,7 @@ public class UserServiceTest {
         when(userDao.findAll(any())).thenReturn(Collections.emptyList());
 
         assertNotNull(userService.getPage(any()));
-        assertEquals(userService.getPage(any()), Collections.EMPTY_LIST);
+        assertEquals(Collections.EMPTY_LIST, userService.getPage(any()));
 
         verify(userDao, times(2)).findAll(any());
     }

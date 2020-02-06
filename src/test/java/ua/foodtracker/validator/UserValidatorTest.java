@@ -34,7 +34,6 @@ public class UserValidatorTest {
                 .withBirthday(LocalDate.now().minusDays(7))
                 .build();
         userValidator.validate(user);
-        ;
         assertFalse(userValidator.hasErrors());
     }
 
@@ -57,7 +56,6 @@ public class UserValidatorTest {
                 .withBirthday(LocalDate.now())
                 .build();
         userValidator.validate(user);
-        ;
         assertTrue(userValidator.getMessages().containsKey("email"));
     }
 
@@ -370,9 +368,9 @@ public class UserValidatorTest {
     }
 
     @Test
-    public void localeTest(){
+    public void localeTest() {
         Locale locale = Locale.getDefault();
         userValidator.setLocale(locale);
-        assertEquals(locale,userValidator.getLocale());
+        assertEquals(locale, userValidator.getLocale());
     }
 }

@@ -5,67 +5,65 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import ua.foodtracker.command.impl.LoginCommand;
+import ua.foodtracker.command.impl.HomePageCommand;
+import ua.foodtracker.dto.HomeModelTransferObject;
 import ua.foodtracker.entity.Gender;
 import ua.foodtracker.entity.Lifestyle;
 import ua.foodtracker.entity.Role;
+import ua.foodtracker.entity.UserGoalEntity;
+import ua.foodtracker.service.RecordService;
 import ua.foodtracker.service.UserService;
 import ua.foodtracker.service.domain.User;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Locale;
 
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class LoginCommandTest {
-
+public class HomePageCommandTest {
     private static final User USER = initUser();
 
     @Mock
     private HttpServletRequest request;
     @Mock
-    private ServletContext context;
-    @Mock
+
     private HttpSession session;
     @Mock
-    private UserService service;
-
+    private RecordService recordService;
+    @Mock
+    private ServletContext context;
     @InjectMocks
-    private LoginCommand loginCommand;
+    private HomePageCommand homeCommand;
 
     @Test
-    public void executeLoginCommandShouldReturnPathSuccessfully() {
+    public void executeShouldReturnUrlSuccessfully() {
         when(request.getServletContext()).thenReturn(context);
-        when(context.getAttribute(eq("ua.foodtracker.service.UserService"))).thenReturn(service);
+        when(context.getAttribute(eq("ua.foodtracker.service.RecordService"))).thenReturn(recordService);
         when(request.getSession(false)).thenReturn(session);
-        when(session.getAttribute("locale")).thenReturn(Locale.getDefault());
-        when(request.getSession(true)).thenReturn(session);
-        when(request.getParameter("username")).thenReturn(USER.getEmail());
-        when(request.getParameter("pass")).thenReturn(USER.getPassword());
-        when(service.login(USER.getEmail(), USER.getPassword())).thenReturn(USER);
-        doNothing().when(session).setAttribute("user", USER);
+        when(session.getAttribute(eq("locale"))).thenReturn(Locale.getDefault());
+        when(session.getAttribute(eq("user"))).thenReturn(USER);
+        doNothing().when(request).setAttribute(eq("homeModel"), any());
 
-        String url = loginCommand.execute(request);
+        String url = homeCommand.execute(request);
 
         assertNotNull(url);
-        verify(request).getServletContext();
-        verify(context).getAttribute(eq("ua.foodtracker.service.UserService"));
-        verify(request).getSession(false);
-        verify(context).getAttribute(any());
-        verify(request).getSession(true);
-        verify(request).getParameter("username");
-        verify(request).getParameter("pass");
-        verify(service).login(USER.getEmail(), USER.getPassword());
+        verify(context, times(1)).getAttribute(anyString());
+        verify(request, times(1)).getServletContext();
+        verify(request, times(2)).getSession(false);
+        verify(session, times(2)).getAttribute(anyString());
+        verify(request).setAttribute(eq("homeModel"), any());
     }
 
     private static User initUser() {
@@ -81,6 +79,15 @@ public class LoginCommandTest {
                 .withLastName("lastName")
                 .withFirstName("firstName")
                 .withEmail("email@mail.com")
+                .withUserGoal(
+                        UserGoalEntity.builder()
+                        .withDailyCarbohydrateGoal(1)
+                        .withDailyEnergyGoal(1)
+                        .withDailyFatGoal(1)
+                        .withDailyProteinGoal(1)
+                        .withDailyWaterGoal(1)
+                        .withId(1).build()
+                )
                 .build();
     }
 }

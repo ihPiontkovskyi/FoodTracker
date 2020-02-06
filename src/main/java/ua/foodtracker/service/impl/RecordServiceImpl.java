@@ -3,7 +3,6 @@ package ua.foodtracker.service.impl;
 import ua.foodtracker.annotation.Autowired;
 import ua.foodtracker.annotation.Service;
 import ua.foodtracker.dao.RecordDao;
-import ua.foodtracker.entity.RecordEntity;
 import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.exception.ValidationException;
 import ua.foodtracker.service.RecordService;
@@ -16,9 +15,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static ua.foodtracker.service.utility.EntityMapper.mapRecordToEntityRecord;
-import static ua.foodtracker.service.utility.ServiceUtility.getErrorMessageByIssues;
 
 @Service
 public class RecordServiceImpl implements RecordService {
@@ -32,8 +31,8 @@ public class RecordServiceImpl implements RecordService {
     private RecordValidator recordValidator;
 
     @Override
-    public List<RecordEntity> getRecordsByDate(int userId, LocalDate date) {
-        return recordDao.findByUserIdAndDate(userId, Date.valueOf(date));
+    public List<Record> getRecordsByDate(int userId, LocalDate date) {
+        return recordDao.findByUserIdAndDate(userId, Date.valueOf(date)).stream().map(EntityMapper::mapEntityRecordToRecord).collect(Collectors.toList());
     }
 
     @Override
@@ -43,10 +42,10 @@ public class RecordServiceImpl implements RecordService {
             Integer id = recordDao.save(mapRecordToEntityRecord(record));
             if (id == null || id == 0) {
                 recordValidator.putIssue("data", INCORRECT_DATA);
-                throw new IncorrectDataException(getErrorMessageByIssues(recordValidator.getMessages(), recordValidator.getLocale()));
+                throw new IncorrectDataException(recordValidator.getErrorMessageByIssues());
             }
         } else {
-            throw new ValidationException(getErrorMessageByIssues(recordValidator.getMessages(), recordValidator.getLocale()));
+            throw new ValidationException(recordValidator.getErrorMessageByIssues());
         }
     }
 
@@ -54,16 +53,16 @@ public class RecordServiceImpl implements RecordService {
     public void delete(String id) {
         if (id == null) {
             recordValidator.putIssue("data", INCORRECT_DATA);
-            throw new IncorrectDataException(getErrorMessageByIssues(recordValidator.getMessages(), recordValidator.getLocale()));
+            throw new IncorrectDataException(recordValidator.getErrorMessageByIssues());
         }
         try {
             if (!recordDao.deleteById(Integer.parseInt(id))) {
                 recordValidator.putIssue("data", INCORRECT_DATA);
-                throw new IncorrectDataException(getErrorMessageByIssues(recordValidator.getMessages(), recordValidator.getLocale()));
+                throw new IncorrectDataException(recordValidator.getErrorMessageByIssues());
             }
         } catch (NumberFormatException ex) {
             recordValidator.putIssue("data", INCORRECT_DATA);
-            throw new IncorrectDataException(getErrorMessageByIssues(recordValidator.getMessages(), recordValidator.getLocale()));
+            throw new IncorrectDataException(recordValidator.getErrorMessageByIssues());
         }
     }
 
@@ -73,10 +72,10 @@ public class RecordServiceImpl implements RecordService {
         if (!recordValidator.hasErrors()) {
             if (!recordDao.update(mapRecordToEntityRecord(record))) {
                 recordValidator.putIssue("data", INCORRECT_DATA);
-                throw new IncorrectDataException(getErrorMessageByIssues(recordValidator.getMessages(), recordValidator.getLocale()));
+                throw new IncorrectDataException(recordValidator.getErrorMessageByIssues());
             }
         } else {
-            throw new ValidationException(getErrorMessageByIssues(recordValidator.getMessages(), recordValidator.getLocale()));
+            throw new ValidationException(recordValidator.getErrorMessageByIssues());
         }
     }
 
@@ -84,13 +83,13 @@ public class RecordServiceImpl implements RecordService {
     public Optional<Record> findById(String id) {
         if (id == null) {
             recordValidator.putIssue("data", INCORRECT_DATA);
-            throw new IncorrectDataException(getErrorMessageByIssues(recordValidator.getMessages(), recordValidator.getLocale()));
+            throw new IncorrectDataException(recordValidator.getErrorMessageByIssues());
         }
         try {
             return recordDao.findById(Integer.parseInt(id)).map(EntityMapper::mapEntityRecordToRecord);
         } catch (NumberFormatException ex) {
             recordValidator.putIssue("data", INCORRECT_DATA);
-            throw new IncorrectDataException(getErrorMessageByIssues(recordValidator.getMessages(), recordValidator.getLocale()));
+            throw new IncorrectDataException(recordValidator.getErrorMessageByIssues());
         }
     }
 

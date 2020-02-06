@@ -9,7 +9,7 @@ import java.util.Locale;
 import java.util.Optional;
 
 public interface RecordService {
-    List<RecordEntity> getRecordsByDate(int userId, LocalDate date);
+    List<Record> getRecordsByDate(int userId, LocalDate date);
 
     void add(Record record);
 

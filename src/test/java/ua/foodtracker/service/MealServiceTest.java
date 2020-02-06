@@ -18,7 +18,6 @@ import ua.foodtracker.exception.ValidationException;
 import ua.foodtracker.service.domain.Meal;
 import ua.foodtracker.service.domain.User;
 import ua.foodtracker.service.impl.MealServiceImpl;
-import ua.foodtracker.service.utility.EntityMapper;
 import ua.foodtracker.validator.impl.MealValidator;
 
 import java.time.LocalDate;
@@ -34,6 +33,7 @@ import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static ua.foodtracker.service.utility.EntityMapper.mapMealToEntityMeal;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MealServiceTest {
@@ -60,7 +60,7 @@ public class MealServiceTest {
             .withName("name")
             .withUser(user)
             .build();
-    public MealEntity mealEntity = EntityMapper.mapMealToEntityMeal(meal);
+    public MealEntity mealEntity = mapMealToEntityMeal(meal);
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
@@ -270,9 +270,5 @@ public class MealServiceTest {
         verify(mealValidator).validate(meal);
         verify(mealValidator).hasErrors();
         verify(mealDao).save(any());
-    }
-
-    private void initFileds() {
-
     }
 }
