@@ -1,7 +1,6 @@
 package ua.foodtracker.command.impl;
 
 import ua.foodtracker.dto.HomeModelTransferObject;
-import ua.foodtracker.entity.UserEntity;
 import ua.foodtracker.service.domain.User;
 
 import javax.servlet.http.HttpServletRequest;

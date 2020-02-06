@@ -14,5 +14,7 @@ public interface Validator<E> {
 
     void setLocale(Locale locale);
 
+    String getErrorMessageByIssues();
+
     Locale getLocale();
 }

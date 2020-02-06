@@ -1,6 +1,5 @@
 package ua.foodtracker.service;
 
-import ua.foodtracker.entity.RecordEntity;
 import ua.foodtracker.service.domain.Record;
 
 import java.time.LocalDate;

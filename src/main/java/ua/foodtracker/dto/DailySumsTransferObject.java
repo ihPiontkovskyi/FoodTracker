@@ -1,7 +1,5 @@
 package ua.foodtracker.dto;
 
-import ua.foodtracker.entity.MealEntity;
-import ua.foodtracker.entity.RecordEntity;
 import ua.foodtracker.service.domain.Meal;
 import ua.foodtracker.service.domain.Record;
 

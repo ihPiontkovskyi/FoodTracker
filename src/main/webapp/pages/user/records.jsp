@@ -182,16 +182,16 @@
                                     <table class="table ">
                                         <thead>
                                         <tr>
-                                            <th><fmt:message key="name.label"/></th>
-                                            <th><fmt:message key="protein.label"/>, <fmt:message
+                                            <th id="name-col"><fmt:message key="name.label"/></th>
+                                            <th id="protein-col"><fmt:message key="protein.label"/>, <fmt:message
                                                     key="weight.label"/></th>
-                                            <th><fmt:message key="carbohydrate.label"/>, <fmt:message
+                                            <th id="carb-col"><fmt:message key="carbohydrate.label"/>, <fmt:message
                                                     key="weight.label"/></th>
-                                            <th><fmt:message key="fat.label"/>, <fmt:message key="weight.label"/></th>
-                                            <th><fmt:message key="energy.label"/>, <fmt:message key="kcal.field"/></th>
-                                            <th><fmt:message key="weight.column.label"/></th>
-                                            <th><fmt:message key="water.label"/>, <fmt:message key="volume.label"/></th>
-                                            <th><fmt:message key="action.label"/></th>
+                                            <th id="fat-col"><fmt:message key="fat.label"/>, <fmt:message key="weight.label"/></th>
+                                            <th id="energy-col"><fmt:message key="energy.label"/>, <fmt:message key="kcal.field"/></th>
+                                            <th id="weight-col"><fmt:message key="weight.column.label"/></th>
+                                            <th id="water-col"><fmt:message key="water.label"/>, <fmt:message key="volume.label"/></th>
+                                            <th id="action-col"><fmt:message key="action.label"/></th>
                                         </tr>
                                         </thead>
                                         <tbody>

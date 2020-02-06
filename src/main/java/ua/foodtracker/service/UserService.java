@@ -1,7 +1,6 @@
 package ua.foodtracker.service;
 
 import ua.foodtracker.annotation.Transactional;
-import ua.foodtracker.entity.UserEntity;
 import ua.foodtracker.service.domain.User;
 
 import java.util.List;

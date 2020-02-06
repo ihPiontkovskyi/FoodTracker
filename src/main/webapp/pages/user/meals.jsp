@@ -103,17 +103,17 @@
                             </div>
                             <div class="card-body--">
                                 <div class="table-stats order-table ov-h">
-                                    <table class="table ">
+                                    <table class="table">
                                         <thead>
                                         <tr>
-                                            <th><fmt:message key="name.label"/></th>
-                                            <th><fmt:message key="energy.label"/></th>
-                                            <th><fmt:message key="protein.label"/></th>
-                                            <th><fmt:message key="carbohydrate.label"/></th>
-                                            <th><fmt:message key="fat.label"/></th>
-                                            <th><fmt:message key="water.label"/></th>
-                                            <th><fmt:message key="weight.column.label"/></th>
-                                            <th><fmt:message key="action.label"/></th>
+                                            <th id="name"><fmt:message key="name.label"/></th>
+                                            <th id="energy"><fmt:message key="energy.label"/></th>
+                                            <th id="protein"><fmt:message key="protein.label"/></th>
+                                            <th id="crab"><fmt:message key="carbohydrate.label"/></th>
+                                            <th id="fat"><fmt:message key="fat.label"/></th>
+                                            <th id="water"><fmt:message key="water.label"/></th>
+                                            <th id="weight"><fmt:message key="weight.column.label"/></th>
+                                            <th id="action"><fmt:message key="action.label"/></th>
                                         </tr>
                                         </thead>
                                         <tbody>

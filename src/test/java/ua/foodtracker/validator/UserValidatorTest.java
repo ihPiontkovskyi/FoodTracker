@@ -345,6 +345,7 @@ public class UserValidatorTest {
                 .build();
         userValidator.validate(user);
         assertTrue(userValidator.getMessages().containsKey("email"));
+        assertEquals("Email length should be in the range from 3 to 32 ", userValidator.getErrorMessageByIssues());
     }
 
     @Test

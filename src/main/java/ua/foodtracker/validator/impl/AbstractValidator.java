@@ -81,6 +81,7 @@ public abstract class AbstractValidator<E> implements Validator<E> {
         return null;
     }
 
+    @Override
     public String getErrorMessageByIssues() {
         ResourceBundle bundle;
         if (locale != null) {

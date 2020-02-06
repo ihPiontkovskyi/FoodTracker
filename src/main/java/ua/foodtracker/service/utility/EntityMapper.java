@@ -2,7 +2,6 @@ package ua.foodtracker.service.utility;
 
 import ua.foodtracker.entity.MealEntity;
 import ua.foodtracker.entity.RecordEntity;
-import ua.foodtracker.entity.Role;
 import ua.foodtracker.entity.UserEntity;
 import ua.foodtracker.entity.UserGoalEntity;
 import ua.foodtracker.service.domain.Meal;
@@ -18,6 +17,9 @@ public class EntityMapper {
     }
 
     public static UserEntity mapUserToEntityUser(User user) {
+        if (user == null) {
+            return null;
+        }
         return UserEntity.builder()
                 .withId(user.getId())
                 .withBirthday(Date.valueOf(user.getBirthday()))
@@ -43,7 +45,7 @@ public class EntityMapper {
                 .withProtein(meal.getProtein())
                 .withWater(meal.getWater())
                 .withWeight(meal.getWeight())
-                .withUser(meal.getUser().getRole() == Role.ADMIN ? null : mapUserToEntityUser(meal.getUser()))
+                .withUser(mapUserToEntityUser(meal.getUser()))
                 .build();
     }
 

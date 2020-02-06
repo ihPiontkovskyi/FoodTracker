@@ -2,7 +2,6 @@ package ua.foodtracker.command.impl.user;
 
 import ua.foodtracker.command.impl.AbstractCommand;
 import ua.foodtracker.dto.DailySumsTransferObject;
-import ua.foodtracker.entity.RecordEntity;
 import ua.foodtracker.service.domain.Record;
 
 import javax.servlet.http.HttpServletRequest;
