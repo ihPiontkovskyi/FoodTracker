@@ -34,6 +34,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static ua.foodtracker.service.utility.EntityMapper.mapUserToEntityUser;
+import static ua.foodtracker.service.utility.EntityMapper.mapUserToEntityUser;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {

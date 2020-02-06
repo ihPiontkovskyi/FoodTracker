@@ -19,6 +19,7 @@ import ua.foodtracker.service.domain.Meal;
 import ua.foodtracker.service.domain.Record;
 import ua.foodtracker.service.domain.User;
 import ua.foodtracker.service.impl.RecordServiceImpl;
+import ua.foodtracker.service.utility.EntityMapper;
 import ua.foodtracker.validator.impl.RecordValidator;
 
 import java.time.LocalDate;
@@ -33,7 +34,6 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static ua.foodtracker.service.utility.EntityMapper.mapRecordToEntityRecord;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RecordServiceTest {
@@ -67,7 +67,7 @@ public class RecordServiceTest {
             .withMeal(RAW_MEAL)
             .build();
 
-    public static final RecordEntity RECORD_ENTITY = mapRecordToEntityRecord(RAW_RECORD);
+    public static final RecordEntity RECORD_ENTITY = EntityMapper.mapRecordToEntityRecord(RAW_RECORD);
 
     @Rule
     public ExpectedException exception = ExpectedException.none();

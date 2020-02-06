@@ -1,8 +1,5 @@
 package ua.foodtracker.entity;
 
-/**
- * Entity class of meal
- */
 public class MealEntity {
     private final Integer id;
     private final String name;
@@ -54,10 +51,6 @@ public class MealEntity {
 
     public Integer getWater() {
         return water;
-    }
-
-    public Integer calculateEnergy() {
-        return carbohydrate * 4 + protein * 4 + fat * 9;
     }
 
     public static Builder builder() {
