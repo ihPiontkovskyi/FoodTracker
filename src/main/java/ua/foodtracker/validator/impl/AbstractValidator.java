@@ -83,12 +83,7 @@ public abstract class AbstractValidator<E> implements Validator<E> {
 
     @Override
     public String getErrorMessageByIssues() {
-        ResourceBundle bundle;
-        if (locale != null) {
-            bundle = ResourceBundle.getBundle(ERROR_RESOURCES_FILENAME, locale);
-        } else {
-            bundle = ResourceBundle.getBundle(ERROR_RESOURCES_FILENAME, Locale.getDefault());
-        }
+        ResourceBundle bundle = ResourceBundle.getBundle(ERROR_RESOURCES_FILENAME, locale);
         LOGGER.trace("Errors found while processing operation");
         StringBuilder error = new StringBuilder();
         errMessages.forEach((key, value) -> error.append(bundle.getString(value)).append(" "));

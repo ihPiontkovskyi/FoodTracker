@@ -7,7 +7,7 @@ import java.util.Locale;
 import java.util.Optional;
 
 public interface MealService {
-    List<Meal> findAllByPage(Integer pageNumber, Integer userId);
+    List<Meal> findAllByPage(String pageNumber);
 
     long pageCount();
 

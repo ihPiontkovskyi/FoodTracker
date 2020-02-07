@@ -28,6 +28,7 @@ import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
@@ -186,11 +187,48 @@ public class MealServiceTest {
     @Test
     public void findAllByPageShouldReturnList() {
         when(mealDao.findAll(any())).thenReturn(Collections.emptyList());
+        when(mealDao.count()).thenReturn(5000L);
 
-        assertNotNull(mealService.findAllByPage(any(), meal.getUser().getId()));
-        assertEquals(Collections.EMPTY_LIST, mealService.findAllByPage(any(), meal.getUser().getId()));
+        assertNotNull(mealService.findAllByPage("1"));
+        assertEquals(Collections.emptyList(), mealService.findAllByPage("2"));
 
         verify(mealDao, times(2)).findAll(any());
+        verify(mealDao,times(2)).count();
+    }
+
+    @Test
+    public void findAllByPageShouldReturnListCase2() {
+        when(mealDao.findAll(any())).thenReturn(Collections.emptyList());
+        when(mealDao.count()).thenReturn(5000L);
+
+        exception.expect(IncorrectDataException.class);
+        assertNotNull(mealService.findAllByPage("aaa"));
+        assertEquals(Collections.emptyList(), mealService.findAllByPage("aaa"));
+
+        verify(mealDao, times(2)).findAll(any());
+        verify(mealDao).count();
+    }
+
+    @Test
+    public void findAllByPageShouldReturnListCase3() {
+        when(mealDao.findAll(any())).thenReturn(Collections.emptyList());
+
+        assertNotNull(mealService.findAllByPage("-1"));
+        assertEquals(Collections.emptyList(), mealService.findAllByPage("-1"));
+
+        verify(mealDao, times(2)).findAll(any());
+    }
+
+    @Test
+    public void findAllByPageShouldReturnListCase4() {
+        when(mealDao.findAll(any())).thenReturn(Collections.emptyList());
+        when(mealDao.count()).thenReturn(5000L);
+
+        assertNotNull(mealService.findAllByPage("5000000"));
+        assertEquals(Collections.emptyList(), mealService.findAllByPage("50000000"));
+
+        verify(mealDao, times(2)).findAll(any());
+        verify(mealDao, times(2)).count();
     }
 
     @Test
@@ -236,20 +274,6 @@ public class MealServiceTest {
         doNothing().when(mealValidator).validate(meal);
         when(mealValidator.hasErrors()).thenReturn(false);
         when(mealDao.save(any())).thenReturn(0);
-
-        exception.expect(IncorrectDataException.class);
-        mealService.add(meal);
-
-        verify(mealValidator).validate(meal);
-        verify(mealValidator).hasErrors();
-        verify(mealDao).save(any());
-    }
-
-    @Test
-    public void addShouldThrowIncorrectDataExceptionCase2() {
-        doNothing().when(mealValidator).validate(meal);
-        when(mealValidator.hasErrors()).thenReturn(false);
-        when(mealDao.save(any())).thenReturn(null);
 
         exception.expect(IncorrectDataException.class);
         mealService.add(meal);

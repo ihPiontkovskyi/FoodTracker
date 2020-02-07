@@ -4,9 +4,6 @@ import ua.foodtracker.annotation.Autowired;
 import ua.foodtracker.annotation.Service;
 import ua.foodtracker.dao.MealDao;
 import ua.foodtracker.dao.Page;
-import ua.foodtracker.entity.MealEntity;
-import ua.foodtracker.exception.IncorrectDataException;
-import ua.foodtracker.exception.ValidationException;
 import ua.foodtracker.service.MealService;
 import ua.foodtracker.service.domain.Meal;
 import ua.foodtracker.service.utility.EntityMapper;
@@ -18,12 +15,15 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static ua.foodtracker.service.utility.EntityMapper.mapMealToEntityMeal;
+import static ua.foodtracker.service.utility.ServiceUtility.addByType;
+import static ua.foodtracker.service.utility.ServiceUtility.deleteByStringId;
+import static ua.foodtracker.service.utility.ServiceUtility.findByStringParam;
 import static ua.foodtracker.service.utility.ServiceUtility.getNumberOfPage;
+import static ua.foodtracker.service.utility.ServiceUtility.modifyByType;
 
 @Service
 public class MealServiceImpl implements MealService {
     private static final Long ITEMS_PER_PAGE = 3L;
-    private static final String INCORRECT_DATA = "incorrect.data";
 
     @Autowired
     private MealDao mealDao;
@@ -32,8 +32,15 @@ public class MealServiceImpl implements MealService {
     private MealValidator mealValidator;
 
     @Override
-    public List<Meal> findAllByPage(Integer pageNumber, Integer userId) {
-        return mealDao.findAll(new Page(pageNumber, ITEMS_PER_PAGE)).stream().map(EntityMapper::mapEntityMealToMeal).collect(Collectors.toList());
+    public List<Meal> findAllByPage(String pageNumber) {
+        return findByStringParam(pageNumber, mealValidator, number -> {
+            if (number < 1 || number > pageCount()) {
+                number = 1;
+            }
+            return mealDao.findAll(new Page(number, ITEMS_PER_PAGE)).stream()
+                    .map(EntityMapper::mapEntityMealToMeal)
+                    .collect(Collectors.toList());
+        });
     }
 
     @Override
@@ -43,61 +50,22 @@ public class MealServiceImpl implements MealService {
 
     @Override
     public void add(Meal meal) {
-        mealValidator.validate(meal);
-        if (!mealValidator.hasErrors()) {
-            Integer id = mealDao.save(mapMealToEntityMeal(meal));
-            if (id == null || id == 0) {
-                mealValidator.putIssue("data", INCORRECT_DATA);
-                throw new IncorrectDataException(mealValidator.getErrorMessageByIssues());
-            }
-        } else {
-            throw new ValidationException(mealValidator.getErrorMessageByIssues());
-        }
+        addByType(meal, mealValidator, obj -> mealDao.save(mapMealToEntityMeal(obj)));
     }
 
     @Override
     public void delete(String id) {
-        if (id == null) {
-            mealValidator.putIssue("data", INCORRECT_DATA);
-            throw new IncorrectDataException(mealValidator.getErrorMessageByIssues());
-        }
-        try {
-            if (!mealDao.deleteById(Integer.parseInt(id))) {
-                mealValidator.putIssue("data", INCORRECT_DATA);
-                throw new IncorrectDataException(mealValidator.getErrorMessageByIssues());
-            }
-        } catch (NumberFormatException ex) {
-            mealValidator.putIssue("data", INCORRECT_DATA);
-            throw new IncorrectDataException(mealValidator.getErrorMessageByIssues());
-        }
+        deleteByStringId(id, mealValidator, intId -> mealDao.deleteById(intId));
     }
 
     @Override
     public void modify(Meal meal) {
-        mealValidator.validate(meal);
-        if (!mealValidator.hasErrors()) {
-            if (!mealDao.update(mapMealToEntityMeal(meal))) {
-                mealValidator.putIssue("data", INCORRECT_DATA);
-                throw new IncorrectDataException(mealValidator.getErrorMessageByIssues());
-            }
-        } else {
-            throw new ValidationException(mealValidator.getErrorMessageByIssues());
-        }
+        modifyByType(meal, mealValidator, obj -> mealDao.update(mapMealToEntityMeal(obj)));
     }
 
     @Override
     public Optional<Meal> findById(String id) {
-        if (id == null) {
-            mealValidator.putIssue("data", INCORRECT_DATA);
-            throw new IncorrectDataException(mealValidator.getErrorMessageByIssues());
-        }
-        try {
-            Optional<MealEntity> mealEntity = mealDao.findById(Integer.parseInt(id));
-            return mealEntity.map(EntityMapper::mapEntityMealToMeal);
-        } catch (NumberFormatException ex) {
-            mealValidator.putIssue("data", INCORRECT_DATA);
-            throw new IncorrectDataException(mealValidator.getErrorMessageByIssues());
-        }
+        return findByStringParam(id, mealValidator, intId -> mealDao.findById(intId).map(EntityMapper::mapEntityMealToMeal));
     }
 
     @Override

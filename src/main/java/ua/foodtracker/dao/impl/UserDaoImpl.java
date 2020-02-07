@@ -1,7 +1,6 @@
 package ua.foodtracker.dao.impl;
 
 import ua.foodtracker.annotation.Dao;
-import ua.foodtracker.dao.Page;
 import ua.foodtracker.dao.UserDao;
 import ua.foodtracker.dao.db.holder.ConnectionHolder;
 import ua.foodtracker.entity.UserEntity;
@@ -12,7 +11,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
 import java.util.Optional;
 
 import static org.mindrot.jbcrypt.BCrypt.gensalt;
@@ -20,10 +18,9 @@ import static org.mindrot.jbcrypt.BCrypt.hashpw;
 import static ua.foodtracker.dao.utility.ResultSetToEntityMapper.extractUserFromResultSet;
 
 @Dao
+@SuppressWarnings("squid:S2068")
 public class UserDaoImpl extends AbstractDaoImpl<UserEntity> implements UserDao {
     private static final String FIND_BY_EMAIL_QUERY = "SELECT * FROM users LEFT JOIN user_goals ON users.user_goal_id=user_goals.id WHERE email=?";
-    private static final String FIND_PAGE_QUERY = "SELECT * FROM users LEFT JOIN user_goals ON users.user_goal_id=user_goals.id LIMIT ? OFFSET ?";
-    private static final String COUNT_RECORD_QUERY = "SELECT COUNT(1) FROM users";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM users LEFT JOIN user_goals ON users.user_goal_id=user_goals.id WHERE users.id=?";
     private static final String DELETE_QUERY = "DELETE FROM users WHERE id=?";
     private static final String INSERT_QUERY = "INSERT INTO users VALUES (DEFAULT,?,?,?,?,?,?,?,?,?,?,?)";
@@ -44,16 +41,6 @@ public class UserDaoImpl extends AbstractDaoImpl<UserEntity> implements UserDao 
     @Override
     public Optional<UserEntity> findByEmail(String email) {
         return findByParam(email, FIND_BY_EMAIL_QUERY);
-    }
-
-    @Override
-    public List<UserEntity> findAll(Page page) {
-        return findAll(FIND_PAGE_QUERY, page);
-    }
-
-    @Override
-    public long count() {
-        return count(COUNT_RECORD_QUERY);
     }
 
     @Override

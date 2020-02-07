@@ -7,19 +7,7 @@
         <listener-class>ua.foodtracker.injector.ContextLoadListener</listener-class>
     </listener>
     <error-page>
-        <error-code>401</error-code>
-        <location>/pages/error</location>
-    </error-page>
-    <error-page>
         <error-code>500</error-code>
-        <location>/pages/error</location>
-    </error-page>
-    <error-page>
-        <error-code>403</error-code>
-        <location>/pages/error</location>
-    </error-page>
-    <error-page>
-        <error-code>406</error-code>
         <location>/pages/error</location>
     </error-page>
 </web-app>

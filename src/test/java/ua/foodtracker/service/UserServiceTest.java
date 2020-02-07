@@ -21,11 +21,9 @@ import ua.foodtracker.service.utility.EntityMapper;
 import ua.foodtracker.validator.impl.UserValidator;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.Locale;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -33,7 +31,6 @@ import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static ua.foodtracker.service.utility.EntityMapper.mapUserToEntityUser;
 import static ua.foodtracker.service.utility.EntityMapper.mapUserToEntityUser;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -106,7 +103,6 @@ public class UserServiceTest {
 
     @Test
     public void registerShouldRegisterSuccessfully() {
-
         doNothing().when(userValidator).validate(RAW_USER);
         when(userDao.findByEmail(RAW_USER.getEmail())).thenReturn(Optional.empty());
         when(userDao.save(any())).thenReturn(RAW_USER.getId());
@@ -114,7 +110,7 @@ public class UserServiceTest {
         userService.register(RAW_USER);
 
         verify(userDao).findByEmail(EntityMapper.mapUserToEntityUser(RAW_USER).getEmail());
-        verify(userValidator).validate(RAW_USER);
+        verify(userValidator, times(2)).validate(RAW_USER);
         verify(userValidator).hasErrors();
         verify(userDao).save(any());
     }
@@ -129,22 +125,7 @@ public class UserServiceTest {
         userService.register(RAW_ADMIN);
 
         verify(userDao).findByEmail(EntityMapper.mapUserToEntityUser(RAW_ADMIN).getEmail());
-        verify(userValidator).validate(RAW_ADMIN);
-        verify(userValidator).hasErrors();
-        verify(userDao).save(any());
-    }
-
-    @Test
-    public void registerShouldThrowIncorrectDataExceptionCase2() {
-        doNothing().when(userValidator).validate(RAW_USER);
-        when(userDao.findByEmail(RAW_USER.getEmail())).thenReturn(Optional.empty());
-        when(userDao.save(any())).thenReturn(null);
-
-        exception.expect(IncorrectDataException.class);
-        userService.register(RAW_USER);
-
-        verify(userDao).findByEmail(EntityMapper.mapUserToEntityUser(RAW_USER).getEmail());
-        verify(userValidator).validate(RAW_USER);
+        verify(userValidator, times(2)).validate(RAW_ADMIN);
         verify(userValidator).hasErrors();
         verify(userDao).save(any());
     }
@@ -284,34 +265,6 @@ public class UserServiceTest {
         userService.delete("ass");
 
         verify(userDao).deleteById(RAW_USER.getId());
-    }
-
-    @Test
-    public void getPageShouldReturnList() {
-        when(userDao.findAll(any())).thenReturn(Collections.emptyList());
-
-        assertNotNull(userService.getPage(any()));
-        assertEquals(Collections.EMPTY_LIST, userService.getPage(any()));
-
-        verify(userDao, times(2)).findAll(any());
-    }
-
-    @Test
-    public void getPageCountShouldReturn7() {
-        when(userDao.count()).thenReturn(21L);
-
-        assertEquals(7, userService.getPageCount());
-
-        verify(userDao).count();
-    }
-
-    @Test
-    public void getPageCountShouldReturn7Case2() {
-        when(userDao.count()).thenReturn(20L);
-
-        assertEquals(7, userService.getPageCount());
-
-        verify(userDao).count();
     }
 
     @Test

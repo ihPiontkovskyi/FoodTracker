@@ -33,8 +33,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MealPageCommandTest {
-    private static final int CURRENT_PAGE = 1;
-    private static final User USER = initUser();
+    private static final String  CURRENT_PAGE = "1";
     public static final long PAGE_COUNT = 2;
 
     @Mock
@@ -55,9 +54,8 @@ public class MealPageCommandTest {
         when(context.getAttribute(eq("ua.foodtracker.service.MealService"))).thenReturn(service);
         when(request.getSession(false)).thenReturn(session);
         when(session.getAttribute("currentPage")).thenReturn(CURRENT_PAGE);
-        when(session.getAttribute("user")).thenReturn(USER);
         when(session.getAttribute("locale")).thenReturn(Locale.getDefault());
-        when(service.findAllByPage(CURRENT_PAGE,USER.getId())).thenReturn(Collections.emptyList());
+        when(service.findAllByPage(CURRENT_PAGE)).thenReturn(Collections.emptyList());
         when(service.pageCount()).thenReturn(PAGE_COUNT);
         doNothing().when(request).setAttribute(eq("meals"),eq(Collections.EMPTY_LIST));
         doNothing().when(request).setAttribute(eq("pageCount"),eq(PAGE_COUNT));
@@ -67,28 +65,11 @@ public class MealPageCommandTest {
         assertNotNull(url);
         verify(request,times(2)).getServletContext();
         verify(context, times(2)).getAttribute(eq("ua.foodtracker.service.MealService"));
-        verify(request, times(4)).getSession(false);
+        verify(request, times(3)).getSession(false);
         verify(session).getAttribute(eq("currentPage"));
-        verify(session).getAttribute(eq("user"));
         verify(session, times(2)).getAttribute(eq("locale"));
-        verify(service).findAllByPage(CURRENT_PAGE,USER.getId());
+        verify(service).findAllByPage(CURRENT_PAGE);
         verify(service).pageCount();
         verify(request,times(2)).setAttribute(anyString(),any());
-    }
-
-    private static User initUser() {
-        return User.builder()
-                .withId(1)
-                .withGender(Gender.MALE)
-                .withLifestyle(Lifestyle.NOT_SELECTED)
-                .withRole(Role.USER)
-                .withPassword("$2a$10$NxW3cyRxP33QWbEeAUu2b.QSShHLyYHKtUHrkG5vyISuZzLXksMTa")
-                .withWeight(90)
-                .withHeight(190)
-                .withBirthday(LocalDate.now().minusYears(30))
-                .withLastName("lastName")
-                .withFirstName("firstName")
-                .withEmail("email@mail.com")
-                .build();
     }
 }

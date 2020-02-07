@@ -226,20 +226,6 @@ public class RecordServiceTest {
     }
 
     @Test
-    public void addShouldThrowIncorrectDataExceptionCase2() {
-        doNothing().when(recordValidator).validate(RAW_RECORD);
-        when(recordValidator.hasErrors()).thenReturn(false);
-        when(recordDao.save(any())).thenReturn(null);
-
-        exception.expect(IncorrectDataException.class);
-        recordService.add(RAW_RECORD);
-
-        verify(recordValidator).validate(RAW_RECORD);
-        verify(recordValidator).hasErrors();
-        verify(recordDao).save(any());
-    }
-
-    @Test
     public void addShouldntThrowException() {
         doNothing().when(recordValidator).validate(RAW_RECORD);
         when(recordValidator.hasErrors()).thenReturn(false);

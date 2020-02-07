@@ -69,6 +69,7 @@
                     <excludes>
                         <exclude>**/controller/*</exclude>
                         <exclude>**/exception/*</exclude>
+                        <exclude>**/injector/*</exclude>
                     </excludes>
                 </configuration>
             </plugin>

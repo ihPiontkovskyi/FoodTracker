@@ -66,19 +66,9 @@ public class UserDaoImplTest {
     }
 
     @Test
-    public void findAllShouldReturnPage() {
-        assertTrue(dao.findAll(new Page(1, 1L)).size() > 0);
-    }
-
-    @Test
     public void findByIdShouldReturnUser() {
         Optional<UserEntity> user = dao.findById(containedUserEntity.getId());
         assertTrue(user.isPresent());
-    }
-
-    @Test
-    public void countShouldReturnValueGraterThen0() {
-        assertTrue(dao.count() > 0);
     }
 
     @Test

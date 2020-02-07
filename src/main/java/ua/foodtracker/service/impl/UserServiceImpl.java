@@ -2,30 +2,27 @@ package ua.foodtracker.service.impl;
 
 import ua.foodtracker.annotation.Autowired;
 import ua.foodtracker.annotation.Service;
-import ua.foodtracker.dao.Page;
 import ua.foodtracker.dao.UserDao;
 import ua.foodtracker.entity.UserEntity;
 import ua.foodtracker.exception.IncorrectDataException;
-import ua.foodtracker.exception.ValidationException;
 import ua.foodtracker.service.UserService;
 import ua.foodtracker.service.domain.User;
 import ua.foodtracker.service.utility.EntityMapper;
 import ua.foodtracker.validator.impl.UserValidator;
 
-import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.mindrot.jbcrypt.BCrypt.checkpw;
 import static ua.foodtracker.service.utility.EntityMapper.mapUserEntityToUser;
-import static ua.foodtracker.service.utility.ServiceUtility.getNumberOfPage;
+import static ua.foodtracker.service.utility.EntityMapper.mapUserToEntityUser;
+import static ua.foodtracker.service.utility.ServiceUtility.addByType;
+import static ua.foodtracker.service.utility.ServiceUtility.deleteByStringId;
+import static ua.foodtracker.service.utility.ServiceUtility.findByStringParam;
+import static ua.foodtracker.service.utility.ServiceUtility.modifyByType;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private static final Long ITEMS_PER_PAGE = 3L;
-    private static final String INCORRECT_DATA = "incorrect.data";
-    public static final String DATA_KEY = "data";
 
     @Autowired
     private UserDao userDao;
@@ -51,69 +48,22 @@ public class UserServiceImpl implements UserService {
             userValidator.putIssue("email", "user.already.exist");
             throw new IncorrectDataException(userValidator.getErrorMessageByIssues());
         }
-        if (!userValidator.hasErrors()) {
-            Integer id = userDao.save(EntityMapper.mapUserToEntityUser(user));
-            if (id == null || id == 0) {
-                userValidator.putIssue(DATA_KEY, INCORRECT_DATA);
-                throw new IncorrectDataException(userValidator.getErrorMessageByIssues());
-            }
-        } else {
-            throw new ValidationException(userValidator.getErrorMessageByIssues());
-        }
+        addByType(user, userValidator, obj -> userDao.save(mapUserToEntityUser(obj)));
     }
 
     @Override
     public void modify(User user) {
-        userValidator.validate(user);
-        if (!userValidator.hasErrors()) {
-            if (!userDao.update(EntityMapper.mapUserToEntityUser(user))) {
-                userValidator.putIssue(DATA_KEY, INCORRECT_DATA);
-                throw new IncorrectDataException(userValidator.getErrorMessageByIssues());
-            }
-        } else {
-            throw new ValidationException(userValidator.getErrorMessageByIssues());
-        }
+        modifyByType(user, userValidator, obj -> userDao.update(mapUserToEntityUser(obj)));
     }
 
     @Override
     public Optional<User> findById(String id) {
-        if (id == null) {
-            userValidator.putIssue(DATA_KEY, INCORRECT_DATA);
-            throw new IncorrectDataException(userValidator.getErrorMessageByIssues());
-        }
-        try {
-            return userDao.findById(Integer.parseInt(id)).map(EntityMapper::mapUserEntityToUser);
-        } catch (NumberFormatException ex) {
-            userValidator.putIssue(DATA_KEY, INCORRECT_DATA);
-            throw new IncorrectDataException(userValidator.getErrorMessageByIssues());
-        }
+        return findByStringParam(id, userValidator, intId -> userDao.findById(intId).map(EntityMapper::mapUserEntityToUser));
     }
 
     @Override
     public void delete(String id) {
-        if (id == null) {
-            userValidator.putIssue(DATA_KEY, INCORRECT_DATA);
-            throw new IncorrectDataException(userValidator.getErrorMessageByIssues());
-        }
-        try {
-            if (!userDao.deleteById(Integer.parseInt(id))) {
-                userValidator.putIssue(DATA_KEY, INCORRECT_DATA);
-                throw new IncorrectDataException(userValidator.getErrorMessageByIssues());
-            }
-        } catch (NumberFormatException ex) {
-            userValidator.putIssue(DATA_KEY, INCORRECT_DATA);
-            throw new IncorrectDataException(userValidator.getErrorMessageByIssues());
-        }
-    }
-
-    @Override
-    public List<User> getPage(Integer pageNumber) {
-        return userDao.findAll(new Page(pageNumber, ITEMS_PER_PAGE)).stream().map(EntityMapper::mapUserEntityToUser).collect(Collectors.toList());
-    }
-
-    @Override
-    public long getPageCount() {
-        return getNumberOfPage(userDao.count(), ITEMS_PER_PAGE);
+        deleteByStringId(id, userValidator, intId -> userDao.deleteById(intId));
     }
 
     @Override

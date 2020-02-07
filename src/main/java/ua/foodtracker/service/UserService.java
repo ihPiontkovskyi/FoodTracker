@@ -20,9 +20,5 @@ public interface UserService {
 
     void delete(String id);
 
-    List<User> getPage(Integer pageNumber);
-
-    long getPageCount();
-
     void setLocale(Locale locale);
 }

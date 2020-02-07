@@ -3,8 +3,6 @@ package ua.foodtracker.service.impl;
 import ua.foodtracker.annotation.Autowired;
 import ua.foodtracker.annotation.Service;
 import ua.foodtracker.dao.RecordDao;
-import ua.foodtracker.exception.IncorrectDataException;
-import ua.foodtracker.exception.ValidationException;
 import ua.foodtracker.service.RecordService;
 import ua.foodtracker.service.domain.Record;
 import ua.foodtracker.service.utility.EntityMapper;
@@ -18,6 +16,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static ua.foodtracker.service.utility.EntityMapper.mapRecordToEntityRecord;
+import static ua.foodtracker.service.utility.ServiceUtility.addByType;
+import static ua.foodtracker.service.utility.ServiceUtility.deleteByStringId;
+import static ua.foodtracker.service.utility.ServiceUtility.findByStringParam;
+import static ua.foodtracker.service.utility.ServiceUtility.modifyByType;
 
 @Service
 public class RecordServiceImpl implements RecordService {
@@ -37,60 +39,22 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public void add(Record record) {
-        recordValidator.validate(record);
-        if (!recordValidator.hasErrors()) {
-            Integer id = recordDao.save(mapRecordToEntityRecord(record));
-            if (id == null || id == 0) {
-                recordValidator.putIssue("data", INCORRECT_DATA);
-                throw new IncorrectDataException(recordValidator.getErrorMessageByIssues());
-            }
-        } else {
-            throw new ValidationException(recordValidator.getErrorMessageByIssues());
-        }
+        addByType(record, recordValidator, obj -> recordDao.save(mapRecordToEntityRecord(obj)));
     }
 
     @Override
     public void delete(String id) {
-        if (id == null) {
-            recordValidator.putIssue("data", INCORRECT_DATA);
-            throw new IncorrectDataException(recordValidator.getErrorMessageByIssues());
-        }
-        try {
-            if (!recordDao.deleteById(Integer.parseInt(id))) {
-                recordValidator.putIssue("data", INCORRECT_DATA);
-                throw new IncorrectDataException(recordValidator.getErrorMessageByIssues());
-            }
-        } catch (NumberFormatException ex) {
-            recordValidator.putIssue("data", INCORRECT_DATA);
-            throw new IncorrectDataException(recordValidator.getErrorMessageByIssues());
-        }
+        deleteByStringId(id, recordValidator, intId -> recordDao.deleteById(intId));
     }
 
     @Override
     public void modify(Record record) {
-        recordValidator.validate(record);
-        if (!recordValidator.hasErrors()) {
-            if (!recordDao.update(mapRecordToEntityRecord(record))) {
-                recordValidator.putIssue("data", INCORRECT_DATA);
-                throw new IncorrectDataException(recordValidator.getErrorMessageByIssues());
-            }
-        } else {
-            throw new ValidationException(recordValidator.getErrorMessageByIssues());
-        }
+        modifyByType(record, recordValidator, obj -> recordDao.update(mapRecordToEntityRecord(obj)));
     }
 
     @Override
     public Optional<Record> findById(String id) {
-        if (id == null) {
-            recordValidator.putIssue("data", INCORRECT_DATA);
-            throw new IncorrectDataException(recordValidator.getErrorMessageByIssues());
-        }
-        try {
-            return recordDao.findById(Integer.parseInt(id)).map(EntityMapper::mapEntityRecordToRecord);
-        } catch (NumberFormatException ex) {
-            recordValidator.putIssue("data", INCORRECT_DATA);
-            throw new IncorrectDataException(recordValidator.getErrorMessageByIssues());
-        }
+        return findByStringParam(id, recordValidator, intId -> recordDao.findById(intId).map(EntityMapper::mapEntityRecordToRecord));
     }
 
     @Override

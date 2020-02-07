@@ -24,6 +24,7 @@ import javax.servlet.ServletContext;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.Map;
@@ -89,8 +90,9 @@ public class ContextLoader extends AbstractContextLoader {
         }
     }
 
-    private void loadService(Class<?> clazz) throws IllegalAccessException, InstantiationException {
-        Object o = clazz.newInstance();
+    private void loadService(Class<?> clazz) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        Constructor<?> constructor = clazz.getDeclaredConstructor();
+        Object o = constructor.newInstance();
         String s = null;
         for (Object obj : o.getClass().getInterfaces()) {
             if (obj.toString().contains("Service")) {
@@ -105,8 +107,9 @@ public class ContextLoader extends AbstractContextLoader {
         LOGGER.debug(String.format("Service %s wasn't logged Because its not repository", o));
     }
 
-    private void loadValidator(Class<?> clazz) throws IllegalAccessException, InstantiationException {
-        Object o = clazz.newInstance();
+    private void loadValidator(Class<?> clazz) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+        Constructor<?> constructor = clazz.getDeclaredConstructor();
+        Object o = constructor.newInstance();
         if (o.getClass().getSuperclass() == AbstractValidator.class) {
             services.put(o.getClass().getName(), o);
             return;
@@ -154,6 +157,7 @@ public class ContextLoader extends AbstractContextLoader {
         }
     }
 
+    @SuppressWarnings("squid:S1172")
     public void destroy(ServletContext context) {
         connectionManager.shutdown();
     }
