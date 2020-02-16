@@ -11,11 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.format.DateTimeParseException;
 
-@WebFilter(urlPatterns = {"/pages/user/meals"})
 public class MealPageFilter implements Filter {
 
-    public static final String CURRENT_PAGE = "currentPage";
-    public static final Integer DEFAULT_PAGE = 1;
+    private static final String CURRENT_PAGE = "currentPage";
+    private static final Integer DEFAULT_PAGE = 1;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {

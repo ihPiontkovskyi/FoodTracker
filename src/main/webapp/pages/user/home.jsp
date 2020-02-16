@@ -15,7 +15,7 @@
     <link href="https://cdn.jsdelivr.net/npm/chartist@0.11.0/dist/chartist.min.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="bg-gra-02">
 <aside id="left-panel" class="left-panel">
     <nav class="navbar navbar-expand-sm navbar-default">
         <div id="main-menu" class="main-menu collapse navbar-collapse">
@@ -63,7 +63,7 @@
             </div>
         </div>
     </header>
-    <div class="content bg-gra-02">
+    <div class="content">
         <div class="animated fadeIn">
             <div class="row">
                 <div class="col-lg-3 col-md-6">
@@ -173,7 +173,7 @@
                                 <div class="progress-box progress-1">
                                     <h4 class="por-title"><fmt:message key="energy.label"/></h4>
                                     <div class="progress mb-2" style="height: 5px;">
-                                        <div class="progress-bar bg-flat-color-1" role="progressbar"
+                                        <div class="progress-bar bg-flat-color-1" roleEntity="progressbar"
                                              style="width:${requestScope.homeModel.dailyEnergyGoal}%"
                                              aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
@@ -181,7 +181,7 @@
                                 <div class="progress-box progress-2">
                                     <h4 class="por-title"><fmt:message key="water.label"/></h4>
                                     <div class="progress mb-2" style="height: 5px;">
-                                        <div class="progress-bar bg-flat-color-2" role="progressbar"
+                                        <div class="progress-bar bg-flat-color-2" roleEntity="progressbar"
                                              style="width: ${requestScope.homeModel.dailyWaterGoal}%"
                                              aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
@@ -189,7 +189,7 @@
                                 <div class="progress-box progress-2">
                                     <h4 class="por-title"><fmt:message key="carbohydrate.label"/></h4>
                                     <div class="progress mb-2" style="height: 5px;">
-                                        <div class="progress-bar bg-flat-color-3" role="progressbar"
+                                        <div class="progress-bar bg-flat-color-3" roleEntity="progressbar"
                                              style="width: ${requestScope.homeModel.dailyCarbohydratesGoal}%"
                                              aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
@@ -197,7 +197,7 @@
                                 <div class="progress-box progress-2">
                                     <h4 class="por-title"><fmt:message key="protein.label"/></h4>
                                     <div class="progress mb-2" style="height: 5px;">
-                                        <div class="progress-bar bg-flat-color-4" role="progressbar"
+                                        <div class="progress-bar bg-flat-color-4" roleEntity="progressbar"
                                              style="width: ${requestScope.homeModel.dailyProteinGoal}%"
                                              aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
@@ -205,7 +205,7 @@
                                 <div class="progress-box progress-2">
                                     <h4 class="por-title"><fmt:message key="fat.label"/></h4>
                                     <div class="progress mb-2" style="height: 5px;">
-                                        <div class="progress-bar bg-flat-color-5" role="progressbar"
+                                        <div class="progress-bar bg-flat-color-5" roleEntity="progressbar"
                                              style="width: ${requestScope.homeModel.dailyFatGoal}%"
                                              aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>

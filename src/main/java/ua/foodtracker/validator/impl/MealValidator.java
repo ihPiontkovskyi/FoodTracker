@@ -1,9 +1,9 @@
 package ua.foodtracker.validator.impl;
 
 import ua.foodtracker.annotation.ValidatorClass;
-import ua.foodtracker.entity.Role;
-import ua.foodtracker.service.domain.Meal;
-import ua.foodtracker.service.domain.User;
+import ua.foodtracker.domain.Meal;
+import ua.foodtracker.domain.Role;
+import ua.foodtracker.domain.User;
 import ua.foodtracker.validator.Validator;
 
 @ValidatorClass

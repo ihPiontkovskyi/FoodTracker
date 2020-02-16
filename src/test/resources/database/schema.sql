@@ -24,10 +24,10 @@ CREATE TABLE `users`
     `height`       int(11)      NOT NULL,
     `weight`       int(11)      NOT NULL,
     `birthday`     date         NOT NULL,
-    `gender`       int(11)      NOT NULL,
+    `genderEntity`       int(11)      NOT NULL,
     `user_goal_id` int(11)      NOT NULL,
-    `lifestyle`    int(11)      NOT NULL,
-    `role`         int(11)      NOT NULL,
+    `lifestyleEntity`    int(11)      NOT NULL,
+    `roleEntity`         int(11)      NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `users_email_uindex` (`email`),
     CONSTRAINT `users_user_goals_id_fk` FOREIGN KEY (`user_goal_id`) REFERENCES `user_goals` (`id`) ON UPDATE CASCADE

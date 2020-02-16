@@ -1,9 +1,8 @@
 package ua.foodtracker.service;
 
 import ua.foodtracker.annotation.Transactional;
-import ua.foodtracker.service.domain.User;
+import ua.foodtracker.domain.User;
 
-import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 

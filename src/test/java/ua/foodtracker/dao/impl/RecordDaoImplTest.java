@@ -9,11 +9,11 @@ import ua.foodtracker.dao.RecordDao;
 import ua.foodtracker.dao.db.holder.ConnectionHolder;
 import ua.foodtracker.dao.db.holder.ThreadLocalConnectionHolder;
 import ua.foodtracker.dao.db.manager.HikariCPManager;
-import ua.foodtracker.entity.Gender;
-import ua.foodtracker.entity.Lifestyle;
+import ua.foodtracker.entity.GenderEntity;
+import ua.foodtracker.entity.LifestyleEntity;
 import ua.foodtracker.entity.MealEntity;
 import ua.foodtracker.entity.RecordEntity;
-import ua.foodtracker.entity.Role;
+import ua.foodtracker.entity.RoleEntity;
 import ua.foodtracker.entity.UserEntity;
 import ua.foodtracker.entity.UserGoalEntity;
 
@@ -23,6 +23,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
@@ -94,7 +95,7 @@ public class RecordDaoImplTest {
 
     @Test
     public void findByUserAndDateShouldReturnEmptyList() {
-        assertEquals(0, dao.findByUserIdAndDate(0, Date.valueOf("2020-01-27")).size());
+        assertEquals(0, dao.findByUserIdAndDate(0, LocalDate.parse("2020-01-27")).size());
     }
 
     @Test
@@ -127,9 +128,9 @@ public class RecordDaoImplTest {
                 .withHeight(190)
                 .withWeight(80)
                 .withUserGoal(containedUserGoalEntity)
-                .withGender(Gender.MALE)
-                .withRole(Role.USER)
-                .withLifestyle(Lifestyle.SEDENTARY)
+                .withGender(GenderEntity.MALE)
+                .withRole(RoleEntity.USER)
+                .withLifestyle(LifestyleEntity.SEDENTARY)
                 .withBirthday(Date.valueOf("1994-01-29"))
                 .build();
         MealEntity containedMealEntity = MealEntity.builder()
@@ -145,14 +146,14 @@ public class RecordDaoImplTest {
         containedRecordEntity = RecordEntity.builder()
                 .withId(3)
                 .withMeal(containedMealEntity)
-                .withDate(Date.valueOf("2020-01-27"))
+                .withDate(LocalDate.parse("2020-01-27"))
                 .withUserId(2)
                 .build();
         recordEntityForTest = RecordEntity.builder()
                 .withId(0)
                 .withMeal(containedMealEntity)
                 .withUserId(2)
-                .withDate(Date.valueOf("2020-01-27"))
+                .withDate(LocalDate.parse("2020-01-27"))
                 .build();
     }
 }

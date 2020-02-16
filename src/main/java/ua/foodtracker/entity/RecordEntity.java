@@ -1,6 +1,7 @@
 package ua.foodtracker.entity;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 /**
  * Entity class of Record
@@ -8,7 +9,7 @@ import java.sql.Date;
 public class RecordEntity {
     private final Integer id;
     private final MealEntity mealEntity;
-    private final Date date;
+    private final LocalDate date;
     private final Integer userId;
 
     public RecordEntity(Builder builder) {
@@ -26,7 +27,7 @@ public class RecordEntity {
         return mealEntity;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
@@ -41,7 +42,7 @@ public class RecordEntity {
     public static class Builder {
         private Integer id;
         private MealEntity mealEntity;
-        private Date date;
+        private LocalDate date;
         private Integer userId;
 
         private Builder() {
@@ -57,7 +58,7 @@ public class RecordEntity {
             return this;
         }
 
-        public Builder withDate(Date date) {
+        public Builder withDate(LocalDate date) {
             this.date = date;
             return this;
         }

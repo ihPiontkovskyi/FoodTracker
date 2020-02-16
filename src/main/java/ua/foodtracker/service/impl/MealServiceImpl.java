@@ -4,8 +4,8 @@ import ua.foodtracker.annotation.Autowired;
 import ua.foodtracker.annotation.Service;
 import ua.foodtracker.dao.MealDao;
 import ua.foodtracker.dao.Page;
+import ua.foodtracker.domain.Meal;
 import ua.foodtracker.service.MealService;
-import ua.foodtracker.service.domain.Meal;
 import ua.foodtracker.service.utility.EntityMapper;
 import ua.foodtracker.validator.impl.MealValidator;
 
@@ -23,7 +23,7 @@ import static ua.foodtracker.service.utility.ServiceUtility.modifyByType;
 
 @Service
 public class MealServiceImpl implements MealService {
-    private static final Long ITEMS_PER_PAGE = 3L;
+    private static final Long ITEMS_PER_PAGE = 10L;
 
     @Autowired
     private MealDao mealDao;
@@ -71,5 +71,12 @@ public class MealServiceImpl implements MealService {
     @Override
     public void setLocale(Locale locale) {
         mealValidator.setLocale(locale);
+    }
+
+    @Override
+    public List<Meal> findAllByNameStartWith(String term) {
+        return mealDao.findAllByNameStartWith(term).stream()
+                .map(EntityMapper::mapEntityMealToMeal)
+                .collect(Collectors.toList());
     }
 }

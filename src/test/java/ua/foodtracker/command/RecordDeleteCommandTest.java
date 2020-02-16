@@ -6,11 +6,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import ua.foodtracker.command.impl.user.RecordDeleteCommand;
-import ua.foodtracker.entity.Gender;
-import ua.foodtracker.entity.Lifestyle;
-import ua.foodtracker.entity.Role;
+import ua.foodtracker.domain.Gender;
+import ua.foodtracker.domain.Lifestyle;
+import ua.foodtracker.domain.Role;
+import ua.foodtracker.entity.GenderEntity;
+import ua.foodtracker.entity.LifestyleEntity;
+import ua.foodtracker.entity.RoleEntity;
 import ua.foodtracker.service.RecordService;
-import ua.foodtracker.service.domain.User;
+import ua.foodtracker.domain.User;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +24,6 @@ import java.util.Locale;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

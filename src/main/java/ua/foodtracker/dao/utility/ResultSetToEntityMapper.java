@@ -1,10 +1,10 @@
 package ua.foodtracker.dao.utility;
 
-import ua.foodtracker.entity.Gender;
-import ua.foodtracker.entity.Lifestyle;
+import ua.foodtracker.entity.GenderEntity;
+import ua.foodtracker.entity.LifestyleEntity;
 import ua.foodtracker.entity.MealEntity;
 import ua.foodtracker.entity.RecordEntity;
-import ua.foodtracker.entity.Role;
+import ua.foodtracker.entity.RoleEntity;
 import ua.foodtracker.entity.UserEntity;
 import ua.foodtracker.entity.UserGoalEntity;
 import ua.foodtracker.exception.DatabaseInteractionException;
@@ -43,13 +43,13 @@ public class ResultSetToEntityMapper {
                 .withEmail(resultSet.getString("email"))
                 .withFirstName(resultSet.getString("first_name"))
                 .withLastName(resultSet.getString("last_name"))
-                .withGender(Gender.getGenderById(resultSet.getInt("gender")))
+                .withGender(GenderEntity.getGenderById(resultSet.getInt("gender")))
                 .withBirthday(resultSet.getDate("birthday"))
                 .withHeight(resultSet.getInt("height"))
                 .withWeight(resultSet.getInt("weight"))
-                .withLifestyle(Lifestyle.getLifestyleById(resultSet.getInt("lifestyle")))
+                .withLifestyle(LifestyleEntity.getLifestyleById(resultSet.getInt("lifestyle")))
                 .withPassword(resultSet.getString("password"))
-                .withRole(Role.getGenderById(resultSet.getInt("role")))
+                .withRole(RoleEntity.getRoleById(resultSet.getInt("role")))
                 .withUserGoal(extractUserGoalsFromResultSet(resultSet))
                 .build();
         if (userEntity.getId().equals(0)) {
@@ -79,7 +79,7 @@ public class ResultSetToEntityMapper {
         RecordEntity recordEntity = RecordEntity.builder()
                 .withId(resultSet.getInt("id"))
                 .withMeal(extractMealFromResultSet(resultSet))
-                .withDate(resultSet.getDate("date"))
+                .withDate(resultSet.getDate("date").toLocalDate())
                 .withUserId(resultSet.getInt("user_id"))
                 .build();
         if (recordEntity.getId().equals(0)) {

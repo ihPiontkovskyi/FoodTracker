@@ -15,8 +15,8 @@ import java.io.IOException;
 @WebFilter(urlPatterns = {"/*"})
 public class LocaleFilter implements Filter {
     private static final Logger LOGGER = Logger.getLogger(LocaleFilter.class);
-    public static final String LOCALE = "locale";
-    public static final String DEFAULT_LOCALE = "en";
+    private static final String LOCALE = "locale";
+    private static final String DEFAULT_LOCALE = "en";
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {

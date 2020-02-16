@@ -8,15 +8,15 @@
 <html class="no-js" lang="${sessionScope.locale}">
 <head>
     <title>Food Tracker</title>
-    <link rel="icon" type="image/png" href="../../assets/images/logo-002.png"/>
-    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="icon" type="image/png" href="../../../assets/images/logo-002.png"/>
+    <link rel="stylesheet" href="../../../assets/css/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
     <link href="https://cdn.jsdelivr.net/npm/chartist@0.11.0/dist/chartist.min.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="bg-gra-02">
 <aside id="left-panel" class="left-panel">
     <nav class="navbar navbar-expand-sm navbar-default">
         <div id="main-menu" class="main-menu collapse navbar-collapse">
@@ -38,7 +38,7 @@
     <header id="header" class="header">
         <div class="top-left">
             <div class="navbar-header">
-                <a class="navbar-brand" href="home"><img src="../../assets/images/logo-001.png" alt="Logo"></a>
+                <a class="navbar-brand" href="home"><img src="../../../assets/images/logo-001.png" alt="Logo"></a>
             </div>
         </div>
         <div class="top-right">
@@ -64,7 +64,7 @@
             </div>
         </div>
     </header>
-    <div class="content bg-gra-02">
+    <div class="content">
         <div class="animated fadeIn">
             <div class="orders">
                 <div class="row">

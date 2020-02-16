@@ -10,10 +10,10 @@ import ua.foodtracker.dao.Page;
 import ua.foodtracker.dao.db.holder.ConnectionHolder;
 import ua.foodtracker.dao.db.holder.ThreadLocalConnectionHolder;
 import ua.foodtracker.dao.db.manager.HikariCPManager;
-import ua.foodtracker.entity.Gender;
-import ua.foodtracker.entity.Lifestyle;
+import ua.foodtracker.entity.GenderEntity;
+import ua.foodtracker.entity.LifestyleEntity;
 import ua.foodtracker.entity.MealEntity;
-import ua.foodtracker.entity.Role;
+import ua.foodtracker.entity.RoleEntity;
 import ua.foodtracker.entity.UserEntity;
 import ua.foodtracker.entity.UserGoalEntity;
 
@@ -129,9 +129,9 @@ public class MealDaoImplTest {
                 .withHeight(190)
                 .withWeight(80)
                 .withUserGoal(containedUserGoalEntity)
-                .withGender(Gender.MALE)
-                .withRole(Role.USER)
-                .withLifestyle(Lifestyle.SEDENTARY)
+                .withGender(GenderEntity.MALE)
+                .withRole(RoleEntity.USER)
+                .withLifestyle(LifestyleEntity.SEDENTARY)
                 .withBirthday(Date.valueOf("1994-01-29"))
                 .build();
         containedMealEntity = MealEntity.builder()

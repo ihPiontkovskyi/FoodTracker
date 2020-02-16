@@ -5,7 +5,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import ua.foodtracker.entity.MealEntity;
-import ua.foodtracker.service.domain.Meal;
+import ua.foodtracker.domain.Meal;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;

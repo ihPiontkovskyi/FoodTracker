@@ -12,7 +12,7 @@ import java.util.function.ToIntFunction;
 public class ServiceUtility {
 
     private static final String INCORRECT_DATA = "incorrect.data";
-    public static final String DATA_KEY = "data";
+    private static final String DATA_KEY = "data";
 
     private ServiceUtility() {
     }

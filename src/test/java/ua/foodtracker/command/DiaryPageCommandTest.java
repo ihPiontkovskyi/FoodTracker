@@ -6,12 +6,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import ua.foodtracker.command.impl.user.DiaryPageCommand;
-import ua.foodtracker.dto.DailySumsTransferObject;
-import ua.foodtracker.entity.Gender;
-import ua.foodtracker.entity.Lifestyle;
-import ua.foodtracker.entity.Role;
+import ua.foodtracker.domain.Gender;
+import ua.foodtracker.domain.Lifestyle;
+import ua.foodtracker.domain.Role;
+import ua.foodtracker.entity.GenderEntity;
+import ua.foodtracker.entity.LifestyleEntity;
+import ua.foodtracker.entity.RoleEntity;
 import ua.foodtracker.service.RecordService;
-import ua.foodtracker.service.domain.User;
+import ua.foodtracker.domain.User;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -53,7 +55,7 @@ public class DiaryPageCommandTest {
         when(session.getAttribute("locale")).thenReturn(Locale.getDefault());
         when(session.getAttribute("currentDate")).thenReturn(LocalDate.now());
         when(session.getAttribute("user")).thenReturn(USER);
-        when(service.getRecordsByDate(USER.getId(), LocalDate.now())).thenReturn(Collections.emptyList());
+        when(service.getRecordsByDate(USER.getId(), LocalDate.now().toString())).thenReturn(Collections.emptyList());
         doNothing().when(request).setAttribute(eq("records"), any());
         doNothing().when(request).setAttribute(eq("dateSums"), any());
 
@@ -63,7 +65,7 @@ public class DiaryPageCommandTest {
         verify(context).getAttribute(anyString());
         verify(request,times(4)).getSession(false);
         verify(session,times(4)).getAttribute(anyString());
-        verify(service).getRecordsByDate(USER.getId(),LocalDate.now());
+        verify(service).getRecordsByDate(USER.getId(),LocalDate.now().toString());
         verify(request, times(2)).setAttribute(anyString(),any());
     }
 

@@ -6,20 +6,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import ua.foodtracker.command.impl.HomePageCommand;
-import ua.foodtracker.dto.HomeModelTransferObject;
-import ua.foodtracker.entity.Gender;
-import ua.foodtracker.entity.Lifestyle;
-import ua.foodtracker.entity.Role;
-import ua.foodtracker.entity.UserGoalEntity;
+import ua.foodtracker.domain.Gender;
+import ua.foodtracker.domain.Lifestyle;
+import ua.foodtracker.domain.Role;
+import ua.foodtracker.domain.User;
+import ua.foodtracker.domain.UserGoal;
 import ua.foodtracker.service.RecordService;
-import ua.foodtracker.service.UserService;
-import ua.foodtracker.service.domain.User;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.Locale;
 
 import static org.junit.Assert.assertNotNull;
@@ -80,13 +77,13 @@ public class HomePageCommandTest {
                 .withFirstName("firstName")
                 .withEmail("email@mail.com")
                 .withUserGoal(
-                        UserGoalEntity.builder()
-                        .withDailyCarbohydrateGoal(1)
-                        .withDailyEnergyGoal(1)
-                        .withDailyFatGoal(1)
-                        .withDailyProteinGoal(1)
-                        .withDailyWaterGoal(1)
-                        .withId(1).build()
+                        UserGoal.builder()
+                                .withDailyCarbohydrateGoal(1)
+                                .withDailyEnergyGoal(1)
+                                .withDailyFatGoal(1)
+                                .withDailyProteinGoal(1)
+                                .withDailyWaterGoal(1)
+                                .withId(1).build()
                 )
                 .build();
     }

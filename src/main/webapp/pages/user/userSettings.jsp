@@ -13,8 +13,8 @@
     <link href="<c:url value="/assets/css/register.css"/>" rel="stylesheet" media="all">
 </head>
 
-<body>
-<div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
+<body class="bg-gra-02">
+<div class="page-wrapper p-t-40 font-poppins">
     <div class="wrapper wrapper--w680">
         <div class="lang-block">
             <a href="?lang=en">EN</a>
@@ -56,13 +56,13 @@
                                 <label class="label">Gender</label>
                                 <div class="p-t-10">
                                     <label class="radio-container m-r-45">Male
-                                        <input value="1" type="radio" ${requestScope.gender?'checked="checked"':''}
-                                               name="gender">
+                                        <input value="1" type="radio" ${requestScope.genderEntity?'checked="checked"':''}
+                                               name="genderEntity">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="radio-container">Female
-                                        <input value="0" type="radio" ${!requestScope.gender?'checked="checked"':''}
-                                               name="gender">
+                                        <input value="0" type="radio" ${!requestScope.genderEntity?'checked="checked"':''}
+                                               name="genderEntity">
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
@@ -97,17 +97,17 @@
                     <div class="input-group">
                         <label class="label">Lifestyle</label>
                         <div class="rs-select2 js-select-simple select--no-search">
-                            <select name="lifestyle">
-                                <option value="0" ${requestScope.lifestyle == 0?'selected="true"':''}>Sedentary: spend
+                            <select name="lifestyleEntity">
+                                <option value="0" ${requestScope.lifestyleEntity == 0?'selected="true"':''}>Sedentary: spend
                                     most of the day sitting
                                 </option>
-                                <option value="1"${requestScope.lifestyle == 1?'selected="true"':''}>Lightly active:
+                                <option value="1"${requestScope.lifestyleEntity == 1?'selected="true"':''}>Lightly active:
                                     spend a good part of the day on your feet
                                 </option>
-                                <option value="2"${requestScope.lifestyle == 2?'selected="true"':''}>Active: spend a
+                                <option value="2"${requestScope.lifestyleEntity == 2?'selected="true"':''}>Active: spend a
                                     good part of the day doing some physically activity
                                 </option>
-                                <option value="3"${requestScope.lifestyle == 3?'selected="true"':''}>Very active: spend
+                                <option value="3"${requestScope.lifestyleEntity == 3?'selected="true"':''}>Very active: spend
                                     most of the day doing some physically activity
                                 </option>
                             </select>

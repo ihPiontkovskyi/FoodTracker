@@ -6,7 +6,7 @@ import ua.foodtracker.dao.UserDao;
 import ua.foodtracker.entity.UserEntity;
 import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.service.UserService;
-import ua.foodtracker.service.domain.User;
+import ua.foodtracker.domain.User;
 import ua.foodtracker.service.utility.EntityMapper;
 import ua.foodtracker.validator.impl.UserValidator;
 

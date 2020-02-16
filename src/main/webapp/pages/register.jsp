@@ -15,8 +15,8 @@
     <link href="../assets/css/register.css" rel="stylesheet" media="all">
 </head>
 
-<body>
-<div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
+<body class="bg-gra-02">
+<div class="page-wrapper p-t-40 font-poppins">
     <div class="lang-block">
         <a href="?lang=en">EN</a>
         <a href="?lang=ru">RU</a>
@@ -56,18 +56,18 @@
                         </div>
                         <div class="col-2">
                             <div class="input-group">
-                                <label class="label"><fmt:message key="gender.field"/></label>
+                                <label class="label"><fmt:message key="genderEntity.field"/></label>
                                 <div class="p-t-10">
                                     <label class="radio-container m-r-45"><fmt:message key="male.checkbox"/>
-                                        <input value="1" type="radio" checked="checked" name="gender">
+                                        <input value="1" type="radio" checked="checked" name="genderEntity">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="radio-container"><fmt:message key="female.checkbox"/>
-                                        <input value="2" type="radio" name="gender">
+                                        <input value="2" type="radio" name="genderEntity">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="radio-container"><fmt:message key="other.checkbox"/>
-                                        <input value="3" type="radio" name="gender">
+                                        <input value="3" type="radio" name="genderEntity">
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
@@ -117,9 +117,9 @@
                         </div>
                     </div>
                     <div class="input-group">
-                        <label class="label"><fmt:message key="lifestyle.select"/>
+                        <label class="label"><fmt:message key="lifestyleEntity.select"/>
                             <div class="rs-select2 js-select-simple select--no-search">
-                                <select name="lifestyle">
+                                <select name="lifestyleEntity">
                                     <option value="0" disabled="disabled" selected="selected"><fmt:message
                                             key="choose.option"/></option>
                                     <option value="0"><fmt:message key="sedentary.option"/></option>
@@ -236,6 +236,7 @@
         }
     })(jQuery);
 </script>
-</body>
+</
+>
 
 </html>

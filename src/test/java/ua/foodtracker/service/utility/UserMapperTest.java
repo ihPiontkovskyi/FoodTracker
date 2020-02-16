@@ -4,12 +4,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import ua.foodtracker.entity.Gender;
-import ua.foodtracker.entity.Lifestyle;
-import ua.foodtracker.entity.Role;
+import ua.foodtracker.domain.Gender;
+import ua.foodtracker.domain.Lifestyle;
+import ua.foodtracker.domain.Role;
+import ua.foodtracker.entity.GenderEntity;
+import ua.foodtracker.entity.LifestyleEntity;
+import ua.foodtracker.entity.RoleEntity;
 import ua.foodtracker.entity.UserEntity;
 import ua.foodtracker.entity.UserGoalEntity;
-import ua.foodtracker.service.domain.User;
+import ua.foodtracker.domain.User;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -49,10 +52,10 @@ public class UserMapperTest {
         assertEquals(1, (int) entity.getHeight());
         assertEquals("email", entity.getEmail());
         assertEquals("password", entity.getPassword());
-        assertEquals(Role.USER, entity.getRole());
-        assertEquals(Lifestyle.ACTIVE, entity.getLifestyle());
+        assertEquals(RoleEntity.USER, entity.getRoleEntity());
+        assertEquals(LifestyleEntity.ACTIVE, entity.getLifestyleEntity());
         assertEquals(LocalDate.now(), entity.getBirthday().toLocalDate());
-        assertEquals(Gender.MALE, entity.getGender());
+        assertEquals(GenderEntity.MALE, entity.getGenderEntity());
         assertEquals("name", entity.getFirstName());
         assertEquals("lastname", entity.getLastName());
         assertNotNull(entity.getUserGoalEntity());
@@ -79,10 +82,10 @@ public class UserMapperTest {
         assertEquals(1, (int) entity.getHeight());
         assertEquals("email", entity.getEmail());
         assertEquals("password", entity.getPassword());
-        assertEquals(Role.USER, entity.getRole());
-        assertEquals(Lifestyle.ACTIVE, entity.getLifestyle());
+        assertEquals(RoleEntity.USER, entity.getRoleEntity());
+        assertEquals(LifestyleEntity.ACTIVE, entity.getLifestyleEntity());
         assertEquals(LocalDate.now(), entity.getBirthday().toLocalDate());
-        assertEquals(Gender.OTHER, entity.getGender());
+        assertEquals(GenderEntity.OTHER, entity.getGenderEntity());
         assertEquals("name", entity.getFirstName());
         assertEquals("lastname", entity.getLastName());
         assertNotNull(entity.getUserGoalEntity());
@@ -109,10 +112,10 @@ public class UserMapperTest {
         assertEquals(1, (int) entity.getHeight());
         assertEquals("email", entity.getEmail());
         assertEquals("password", entity.getPassword());
-        assertEquals(Role.USER, entity.getRole());
-        assertEquals(Lifestyle.ACTIVE, entity.getLifestyle());
+        assertEquals(RoleEntity.USER, entity.getRoleEntity());
+        assertEquals(LifestyleEntity.ACTIVE, entity.getLifestyleEntity());
         assertEquals(LocalDate.now(), entity.getBirthday().toLocalDate());
-        assertEquals(Gender.FEMALE, entity.getGender());
+        assertEquals(GenderEntity.FEMALE, entity.getGenderEntity());
         assertEquals("name", entity.getFirstName());
         assertEquals("lastname", entity.getLastName());
         assertNotNull(entity.getUserGoalEntity());
@@ -125,10 +128,10 @@ public class UserMapperTest {
         when(userEntity.getWeight()).thenReturn(1);
         when(userEntity.getEmail()).thenReturn("email");
         when(userEntity.getPassword()).thenReturn("password");
-        when(userEntity.getRole()).thenReturn(Role.USER);
-        when(userEntity.getLifestyle()).thenReturn(Lifestyle.ACTIVE);
+        when(userEntity.getRoleEntity()).thenReturn(RoleEntity.USER);
+        when(userEntity.getLifestyleEntity()).thenReturn(LifestyleEntity.ACTIVE);
         when(userEntity.getBirthday()).thenReturn(new Date(System.currentTimeMillis()));
-        when(userEntity.getGender()).thenReturn(Gender.MALE);
+        when(userEntity.getGenderEntity()).thenReturn(GenderEntity.MALE);
         when(userEntity.getFirstName()).thenReturn("name");
         when(userEntity.getLastName()).thenReturn("lastname");
         when(userEntity.getUserGoalEntity()).thenReturn(goal);
@@ -146,7 +149,7 @@ public class UserMapperTest {
         assertEquals(Gender.MALE, user.getGender());
         assertEquals("name", user.getFirstName());
         assertEquals("lastname", user.getLastName());
-        assertNotNull(user.getUserGoalEntity());
+        assertNotNull(user.getUserGoal());
     }
 
     private static UserGoalEntity initGoal() {

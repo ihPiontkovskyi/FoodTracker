@@ -2,7 +2,7 @@ package ua.foodtracker.validator;
 
 import org.junit.Before;
 import org.junit.Test;
-import ua.foodtracker.service.domain.User;
+import ua.foodtracker.domain.User;
 import ua.foodtracker.validator.impl.UserValidator;
 
 import java.time.LocalDate;

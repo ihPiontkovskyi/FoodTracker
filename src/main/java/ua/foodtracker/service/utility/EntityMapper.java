@@ -1,12 +1,19 @@
 package ua.foodtracker.service.utility;
 
+import ua.foodtracker.domain.Gender;
+import ua.foodtracker.entity.GenderEntity;
+import ua.foodtracker.domain.Lifestyle;
+import ua.foodtracker.domain.Meal;
+import ua.foodtracker.domain.Record;
+import ua.foodtracker.domain.Role;
+import ua.foodtracker.domain.User;
+import ua.foodtracker.domain.UserGoal;
+import ua.foodtracker.entity.LifestyleEntity;
 import ua.foodtracker.entity.MealEntity;
 import ua.foodtracker.entity.RecordEntity;
+import ua.foodtracker.entity.RoleEntity;
 import ua.foodtracker.entity.UserEntity;
 import ua.foodtracker.entity.UserGoalEntity;
-import ua.foodtracker.service.domain.Meal;
-import ua.foodtracker.service.domain.Record;
-import ua.foodtracker.service.domain.User;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -26,13 +33,13 @@ public class EntityMapper {
                 .withEmail(user.getEmail())
                 .withFirstName(user.getFirstName())
                 .withLastName(user.getLastName())
-                .withGender(user.getGender())
+                .withGender(GenderEntity.getGenderById(user.getGender().getId()))
                 .withHeight(user.getHeight())
-                .withLifestyle(user.getLifestyle())
+                .withLifestyle(LifestyleEntity.getLifestyleById(user.getLifestyle().getId()))
                 .withPassword(user.getPassword())
-                .withRole(user.getRole())
+                .withRole(RoleEntity.getRoleById(user.getRole().getId()))
                 .withWeight(user.getWeight())
-                .withUserGoal(calculateUserGoal(user))
+                .withUserGoal(calculateUserGoalEntity(user))
                 .build();
     }
 
@@ -54,11 +61,11 @@ public class EntityMapper {
                 .withId(record.getId())
                 .withUserId(record.getUserId())
                 .withMeal(mapMealToEntityMeal(record.getMeal()))
-                .withDate(Date.valueOf(record.getDate()))
+                .withDate(record.getDate())
                 .build();
     }
 
-    private static UserGoalEntity calculateUserGoal(User user) {
+    private static UserGoalEntity calculateUserGoalEntity(User user) {
         int dailyEnergy;
         int age = Period.between(user.getBirthday(), LocalDate.now()).getYears();
         switch (user.getGender()) {
@@ -81,6 +88,17 @@ public class EntityMapper {
                 .build();
     }
 
+    private static UserGoal calculateUserGoal(UserGoalEntity entity) {
+        return UserGoal.builder()
+                .withDailyCarbohydrateGoal(entity.getDailyCarbohydrateGoal())
+                .withDailyEnergyGoal(entity.getDailyEnergyGoal())
+                .withDailyFatGoal(entity.getDailyFatGoal())
+                .withDailyProteinGoal(entity.getDailyProteinGoal())
+                .withDailyWaterGoal(entity.getDailyWaterGoal())
+                .withId(entity.getId())
+                .build();
+    }
+
     public static User mapUserEntityToUser(UserEntity userEntity) {
         if (userEntity == null) {
             return null;
@@ -91,13 +109,13 @@ public class EntityMapper {
                 .withEmail(userEntity.getEmail())
                 .withFirstName(userEntity.getFirstName())
                 .withLastName(userEntity.getLastName())
-                .withGender(userEntity.getGender())
+                .withGender(Gender.getGenderById(userEntity.getGenderEntity().getId()))
                 .withHeight(userEntity.getHeight())
-                .withLifestyle(userEntity.getLifestyle())
+                .withLifestyle(Lifestyle.getLifestyleById(userEntity.getLifestyleEntity().getId()))
                 .withPassword(userEntity.getPassword())
-                .withRole(userEntity.getRole())
+                .withRole(Role.getRoleById(userEntity.getRoleEntity().getId()))
                 .withWeight(userEntity.getWeight())
-                .withUserGoal(userEntity.getUserGoalEntity())
+                .withUserGoal(calculateUserGoal(userEntity.getUserGoalEntity()))
                 .build();
     }
 
@@ -119,7 +137,7 @@ public class EntityMapper {
                 .withId(recordEntity.getId())
                 .withUserId(recordEntity.getUserId())
                 .withMeal(mapEntityMealToMeal(recordEntity.getMealEntity()))
-                .withDate(recordEntity.getDate().toLocalDate())
+                .withDate(recordEntity.getDate())
                 .build();
     }
 

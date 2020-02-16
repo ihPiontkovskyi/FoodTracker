@@ -1,4 +1,4 @@
-package ua.foodtracker.service.domain;
+package ua.foodtracker.domain;
 
 import java.time.LocalDate;
 

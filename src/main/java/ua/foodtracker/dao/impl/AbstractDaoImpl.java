@@ -101,6 +101,22 @@ public abstract class AbstractDaoImpl<E> implements BaseDao<E> {
         }
     }
 
+    protected <P> List<E> findAllByParam(String query, P param) {
+        try (PreparedStatement ps = getConnection().prepareStatement(query)) {
+            ps.setObject(1, param);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                List<E> list = new ArrayList<>();
+                while (resultSet.next()) {
+                    list.add(extractFromResultSet(resultSet));
+                }
+                return list;
+            }
+        } catch (SQLException e) {
+            LOGGER.warn(String.format(ERROR_MESSAGE, query, e));
+            throw new DatabaseInteractionException(getMessage(query), e);
+        }
+    }
+
     protected long count(String query) {
         try (Statement st = getConnection().createStatement()) {
             try (ResultSet rs = st.executeQuery(query)) {

@@ -1,6 +1,6 @@
 package ua.foodtracker.service;
 
-import ua.foodtracker.service.domain.Meal;
+import ua.foodtracker.domain.Meal;
 
 import java.util.List;
 import java.util.Locale;
@@ -20,4 +20,6 @@ public interface MealService {
     Optional<Meal> findById(String id);
 
     void setLocale(Locale locale);
+
+    List<Meal> findAllByNameStartWith(String term);
 }

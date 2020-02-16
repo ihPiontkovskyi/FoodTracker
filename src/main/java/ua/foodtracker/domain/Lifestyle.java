@@ -1,9 +1,8 @@
-package ua.foodtracker.entity;
+package ua.foodtracker.domain;
 
-/**
- * Enum which contain user lifestyles
- */
-public enum Lifestyle {
+import ua.foodtracker.entity.LifestyleEntity;
+
+public enum  Lifestyle {
     SEDENTARY(1.2),
     LIGHTLY_ACTIVE(1.375),
     ACTIVE(1.55),

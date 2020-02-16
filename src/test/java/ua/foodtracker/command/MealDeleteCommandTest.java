@@ -6,12 +6,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import ua.foodtracker.command.impl.user.MealDeleteCommand;
-import ua.foodtracker.entity.Gender;
-import ua.foodtracker.entity.Lifestyle;
-import ua.foodtracker.entity.Role;
+import ua.foodtracker.domain.Gender;
+import ua.foodtracker.domain.Lifestyle;
+import ua.foodtracker.domain.Meal;
+import ua.foodtracker.domain.Role;
+import ua.foodtracker.domain.User;
+import ua.foodtracker.entity.RoleEntity;
 import ua.foodtracker.service.MealService;
-import ua.foodtracker.service.domain.Meal;
-import ua.foodtracker.service.domain.User;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -79,12 +80,12 @@ public class MealDeleteCommandTest {
         String url = mealDeleteCommand.execute(request);
 
         assertNotNull(url);
-        verify(request,times(2)).getServletContext();
+        verify(request, times(2)).getServletContext();
         verify(context, times(2)).getAttribute(anyString());
         verify(request, times(4)).getSession(false);
         verify(service).findById(ID);
         verify(service).delete(ID);
-        verify(request,times(2)).getParameter(anyString());
+        verify(request, times(2)).getParameter(anyString());
     }
 
     @Test
@@ -126,7 +127,6 @@ public class MealDeleteCommandTest {
         verify(service).findById(ID);
         verify(request).getParameter(anyString());
     }
-
 
 
     private static User initUser(Integer id) {

@@ -2,6 +2,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale/messages"/>
 <!doctype html>
@@ -16,7 +17,7 @@
     <link href="https://cdn.jsdelivr.net/npm/chartist@0.11.0/dist/chartist.min.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="bg-gra-02">
 <aside id="left-panel" class="left-panel">
     <nav class="navbar navbar-expand-sm navbar-default">
         <div id="main-menu" class="main-menu collapse navbar-collapse">
@@ -64,7 +65,7 @@
             </div>
         </div>
     </header>
-    <div class="content bg-gra-02">
+    <div class="content">
         <div class="animated fadeIn">
             <div class="row">
                 <div class="col-lg-3 col-md-6">
@@ -152,6 +153,50 @@
                     </div>
                 </div>
             </div>
+            <div class="add">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <h4 class="box-title">
+                                        <fmt:message key="add.meal.label"/>
+                                    </h4>
+                                </div>
+
+                                <form action="add" method="POST">
+                                    <div class="row">
+                                        <label>
+                                            <input name="meal_id" id="meal_id" hidden>
+                                        </label>
+                                        <div class="col-5">
+                                            <label class="label">
+                                                <fmt:message key="start.typing"/>
+                                                <input class="input--style-4"
+                                                       id="meals_autocomplete">
+                                            </label>
+                                        </div>
+                                        <div class="col-5">
+                                            <label class="label">
+                                                <fmt:message key="weight.label"/>
+                                                <input class="input--style-4" id="weight"
+                                                       name="weight"
+                                                       type="number">
+                                            </label>
+                                        </div>
+                                        <div class="col-2">
+                                            <button type="submit" class="btn float-right"><i class="fa fa-plus"
+                                                                                             aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="orders">
                 <div class="row">
                     <div class="col-xl-12">
@@ -160,20 +205,18 @@
                                 <div class="row">
                                     <div class="col-lg-2">
                                         <h4 class="box-title" id="title">
-                                            <fmt:message key="daily.food"/> ${sessionScope.currentDate.toString()}:
+                                            <fmt:message key="daily.food"/> ${sessionScope.date.toString()}:
                                         </h4>
                                     </div>
                                     <div class="col-lg-10">
                                         <a
-                                                href="?date=${sessionScope.currentDate.minusDays(1)}" class="btn"><i
+                                                href="?date=${sessionScope.date.minusDays(1)}" class="btn"><i
                                                 class="fa fa-arrow-left"
                                                 aria-hidden="true"></i></a>
                                         <a
-                                                href="?date=${sessionScope.currentDate.plusDays(1)}" class="btn"><i
+                                                href="?date=${sessionScope.date.plusDays(1)}" class="btn"><i
                                                 class="fa fa-arrow-right"
                                                 aria-hidden="true"></i></a>
-                                        <a href="../user/records/add" class="btn float-right"><i class="fa fa-plus"
-                                                                                                 aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -187,10 +230,13 @@
                                                     key="weight.label"/></th>
                                             <th id="carb-col"><fmt:message key="carbohydrate.label"/>, <fmt:message
                                                     key="weight.label"/></th>
-                                            <th id="fat-col"><fmt:message key="fat.label"/>, <fmt:message key="weight.label"/></th>
-                                            <th id="energy-col"><fmt:message key="energy.label"/>, <fmt:message key="kcal.field"/></th>
+                                            <th id="fat-col"><fmt:message key="fat.label"/>, <fmt:message
+                                                    key="weight.label"/></th>
+                                            <th id="energy-col"><fmt:message key="energy.label"/>, <fmt:message
+                                                    key="kcal.field"/></th>
                                             <th id="weight-col"><fmt:message key="weight.column.label"/></th>
-                                            <th id="water-col"><fmt:message key="water.label"/>, <fmt:message key="volume.label"/></th>
+                                            <th id="water-col"><fmt:message key="water.label"/>, <fmt:message
+                                                    key="volume.label"/></th>
                                             <th id="action-col"><fmt:message key="action.label"/></th>
                                         </tr>
                                         </thead>
@@ -227,12 +273,26 @@
         </div>
     </div>
 </div>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script src="https://use.fontawesome.com/59810e450d.js"></script>
-<script type="text/javascript">
+<script>
+    jQuery(document).ready(function ($) {
+        $(function () {
+            $("#meals_autocomplete").autocomplete({
+                source: 'byTerm',
+                minLength: 3,
+                select: function (event, ui) {
+                    $("#meals_autocomplete").val(ui.item.label);
+                    $("#meal_id").val(ui.item.id);
+                    return false;
+                }
+            });
+        });
+    });
 </script>
 </body>
 </html>

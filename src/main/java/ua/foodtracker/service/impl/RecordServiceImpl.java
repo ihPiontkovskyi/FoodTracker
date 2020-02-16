@@ -4,12 +4,12 @@ import ua.foodtracker.annotation.Autowired;
 import ua.foodtracker.annotation.Service;
 import ua.foodtracker.dao.RecordDao;
 import ua.foodtracker.service.RecordService;
-import ua.foodtracker.service.domain.Record;
+import ua.foodtracker.domain.Record;
 import ua.foodtracker.service.utility.EntityMapper;
 import ua.foodtracker.validator.impl.RecordValidator;
 
-import java.sql.Date;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -24,8 +24,6 @@ import static ua.foodtracker.service.utility.ServiceUtility.modifyByType;
 @Service
 public class RecordServiceImpl implements RecordService {
 
-    private static final String INCORRECT_DATA = "incorrect.data";
-
     @Autowired
     private RecordDao recordDao;
 
@@ -33,8 +31,15 @@ public class RecordServiceImpl implements RecordService {
     private RecordValidator recordValidator;
 
     @Override
-    public List<Record> getRecordsByDate(int userId, LocalDate date) {
-        return recordDao.findByUserIdAndDate(userId, Date.valueOf(date)).stream().map(EntityMapper::mapEntityRecordToRecord).collect(Collectors.toList());
+    public List<Record> getRecordsByDate(int userId, String date) {
+        LocalDate dateCurrent;
+        try {
+            dateCurrent = LocalDate.parse(date);
+        } catch (DateTimeParseException ex) {
+            //
+            dateCurrent = LocalDate.now();
+        }
+        return recordDao.findByUserIdAndDate(userId, dateCurrent).stream().map(EntityMapper::mapEntityRecordToRecord).collect(Collectors.toList());
     }
 
     @Override

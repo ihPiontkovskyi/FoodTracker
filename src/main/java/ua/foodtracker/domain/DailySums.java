@@ -1,18 +1,15 @@
-package ua.foodtracker.dto;
-
-import ua.foodtracker.service.domain.Meal;
-import ua.foodtracker.service.domain.Record;
+package ua.foodtracker.domain;
 
 import java.util.List;
 
-public final class DailySumsTransferObject {
+public final class DailySums {
     private int sumEnergy;
     private int sumProtein;
     private int sumFat;
     private int sumCarbohydrates;
     private int sumWater;
 
-    private DailySumsTransferObject() {
+    private DailySums() {
     }
 
     public int getSumEnergy() {
@@ -35,8 +32,8 @@ public final class DailySumsTransferObject {
         return sumWater;
     }
 
-    public static DailySumsTransferObject build(List<? extends Record> list) {
-        DailySumsTransferObject dsto = new DailySumsTransferObject();
+    public static DailySums build(List<? extends Record> list) {
+        DailySums dsto = new DailySums();
         for (Record record : list) {
             Meal meal = record.getMeal();
             dsto.sumEnergy += meal.calculateEnergy();

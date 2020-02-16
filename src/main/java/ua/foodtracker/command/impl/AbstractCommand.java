@@ -4,7 +4,7 @@ import ua.foodtracker.command.Command;
 import ua.foodtracker.service.MealService;
 import ua.foodtracker.service.RecordService;
 import ua.foodtracker.service.UserService;
-import ua.foodtracker.service.domain.User;
+import ua.foodtracker.domain.User;
 
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;

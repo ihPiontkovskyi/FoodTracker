@@ -1,8 +1,8 @@
 package ua.foodtracker.command.impl.user;
 
 import ua.foodtracker.command.impl.AbstractCommand;
-import ua.foodtracker.entity.Role;
-import ua.foodtracker.service.domain.Meal;
+import ua.foodtracker.domain.Meal;
+import ua.foodtracker.domain.Role;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;

@@ -1,9 +1,9 @@
 package ua.foodtracker.command.impl;
 
-import ua.foodtracker.entity.Gender;
-import ua.foodtracker.entity.Lifestyle;
-import ua.foodtracker.entity.Role;
-import ua.foodtracker.service.domain.User;
+import ua.foodtracker.domain.Gender;
+import ua.foodtracker.domain.Lifestyle;
+import ua.foodtracker.domain.Role;
+import ua.foodtracker.domain.User;
 
 import javax.servlet.http.HttpServletRequest;
 

@@ -6,10 +6,10 @@ import ua.foodtracker.dao.db.holder.ConnectionHolder;
 import ua.foodtracker.entity.RecordEntity;
 import ua.foodtracker.exception.DatabaseInteractionException;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +34,7 @@ public class RecordDaoImpl extends AbstractDaoImpl<RecordEntity> implements Reco
     }
 
     @Override
-    public List<RecordEntity> findByUserIdAndDate(int id, Date date) {
+    public List<RecordEntity> findByUserIdAndDate(int id, LocalDate date) {
         try (PreparedStatement ps = getConnection().prepareStatement(FIND_BY_USER_AND_DATE_QUERY)) {
             ps.setObject(1, id);
             ps.setObject(2, date);

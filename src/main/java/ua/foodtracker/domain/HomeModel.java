@@ -1,15 +1,14 @@
-package ua.foodtracker.dto;
+package ua.foodtracker.domain;
 
 import ua.foodtracker.service.RecordService;
-import ua.foodtracker.service.domain.User;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeModelTransferObject {
-    private DailySumsTransferObject dsto;
+public class HomeModel {
+    private DailySums dsto;
     private Integer dailyEnergyGoal;
     private Integer dailyProteinGoal;
     private Integer dailyFatGoal;
@@ -22,8 +21,8 @@ public class HomeModelTransferObject {
     private List<Integer> carbWeeklyStat;
     private List<Integer> waterWeeklyStat;
 
-    private HomeModelTransferObject(User user, RecordService service) {
-        dsto = DailySumsTransferObject.build(service.getRecordsByDate(user.getId(), LocalDate.now()));
+    private HomeModel(User user, RecordService service) {
+        dsto = DailySums.build(service.getRecordsByDate(user.getId(), LocalDate.now().toString()));
         calculateDailyGoals(user);
         labels = new ArrayList<>();
         energyWeeklyStat = new ArrayList<>();
@@ -35,11 +34,11 @@ public class HomeModelTransferObject {
     }
 
     private void calculateDailyGoals(User user) {
-        dailyEnergyGoal = Math.min((int) (((double) dsto.getSumEnergy() / user.getUserGoalEntity().getDailyEnergyGoal()) * 100), 100);
-        dailyProteinGoal = Math.min((int) (((double) dsto.getSumProtein() / user.getUserGoalEntity().getDailyProteinGoal()) * 100), 100);
-        dailyFatGoal = Math.min((int) (((double) dsto.getSumFat() / user.getUserGoalEntity().getDailyFatGoal()) * 100), 100);
-        dailyCarbohydratesGoal = Math.min((int) (((double) dsto.getSumCarbohydrates() / user.getUserGoalEntity().getDailyCarbohydrateGoal()) * 100), 100);
-        dailyWaterGoal = Math.min((int) (((double) dsto.getSumWater() / user.getUserGoalEntity().getDailyWaterGoal()) * 100), 100);
+        dailyEnergyGoal = Math.min((int) (((double) dsto.getSumEnergy() / user.getUserGoal().getDailyEnergyGoal()) * 100), 100);
+        dailyProteinGoal = Math.min((int) (((double) dsto.getSumProtein() / user.getUserGoal().getDailyProteinGoal()) * 100), 100);
+        dailyFatGoal = Math.min((int) (((double) dsto.getSumFat() / user.getUserGoal().getDailyFatGoal()) * 100), 100);
+        dailyCarbohydratesGoal = Math.min((int) (((double) dsto.getSumCarbohydrates() / user.getUserGoal().getDailyCarbohydrateGoal()) * 100), 100);
+        dailyWaterGoal = Math.min((int) (((double) dsto.getSumWater() / user.getUserGoal().getDailyWaterGoal()) * 100), 100);
     }
 
     private void setStatistics(User user, RecordService service) {
@@ -53,7 +52,7 @@ public class HomeModelTransferObject {
             start = start.plusDays(1);
         }
         for (LocalDate date : dateList) {
-            DailySumsTransferObject ddsto = DailySumsTransferObject.build(service.getRecordsByDate(user.getId(), date));
+            DailySums ddsto = DailySums.build(service.getRecordsByDate(user.getId(), date.toString()));
             energyWeeklyStat.add(ddsto.getSumEnergy());
             proteinWeeklyStat.add(ddsto.getSumProtein());
             fatWeeklyStat.add(ddsto.getSumFat());
@@ -62,7 +61,7 @@ public class HomeModelTransferObject {
         }
     }
 
-    public DailySumsTransferObject getDsto() {
+    public DailySums getDsto() {
         return dsto;
     }
 
@@ -110,7 +109,7 @@ public class HomeModelTransferObject {
         return waterWeeklyStat;
     }
 
-    public static HomeModelTransferObject build(User user, RecordService service) {
-        return new HomeModelTransferObject(user, service);
+    public static HomeModel build(User user, RecordService service) {
+        return new HomeModel(user, service);
     }
 }

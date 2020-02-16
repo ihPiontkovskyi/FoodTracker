@@ -4,8 +4,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import ua.foodtracker.entity.MealEntity;
-import ua.foodtracker.service.domain.Meal;
 
 import java.util.Arrays;
 import java.util.Collection;

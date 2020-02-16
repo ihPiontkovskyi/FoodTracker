@@ -22,6 +22,7 @@ public class MealDaoImpl extends AbstractDaoImpl<MealEntity> implements MealDao 
     private static final String DELETE_QUERY = "DELETE FROM meals WHERE id=?";
     private static final String INSERT_QUERY = "INSERT INTO meals VALUES (DEFAULT,?,?,?,?,?,?,?)";
     private static final String UPDATE_QUERY_KEY = "UPDATE meals SET user_id=?,fat=?,protein=?,carbohydrate=?,water=?,weight=?,name=? WHERE id=?";
+    private static final String FIND_ALL_START_WITH_QUERY_KEY = "SELECT * FROM meals LEFT JOIN users ON meals.user_id=users.id LEFT JOIN user_goals ON users.user_goal_id=user_goals.id WHERE meals.name LIKE ?";
 
     public MealDaoImpl(ConnectionHolder connectionHolder) {
         super(connectionHolder);
@@ -35,6 +36,11 @@ public class MealDaoImpl extends AbstractDaoImpl<MealEntity> implements MealDao 
     @Override
     public List<MealEntity> findAll(Page page) {
         return findAll(FIND_PAGE_QUERY, page);
+    }
+
+    @Override
+    public List<MealEntity> findAllByNameStartWith(String term) {
+        return findAllByParam(FIND_ALL_START_WITH_QUERY_KEY, "%" + term);
     }
 
     @Override

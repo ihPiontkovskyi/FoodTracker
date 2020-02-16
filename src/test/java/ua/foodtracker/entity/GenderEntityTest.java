@@ -9,26 +9,26 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @RunWith(Parameterized.class)
-public class GenderTest {
+public class GenderEntityTest {
     @Parameterized.Parameter
     public Integer id;
     @Parameterized.Parameter(1)
-    public Gender expected;
+    public GenderEntity expected;
 
     @Parameterized.Parameters(name = "id={0}, Gender={1}")
     public static Collection<Object[]> getTestData() {
         return Arrays.asList(new Object[][]{
-                {1, Gender.MALE},
-                {2, Gender.FEMALE},
-                {3, Gender.OTHER},
-                {4, Gender.NOT_SELECTED},
-                {-1, Gender.NOT_SELECTED},
-                {null, Gender.NOT_SELECTED},
+                {1, GenderEntity.MALE},
+                {2, GenderEntity.FEMALE},
+                {3, GenderEntity.OTHER},
+                {4, GenderEntity.NOT_SELECTED},
+                {-1, GenderEntity.NOT_SELECTED},
+                {null, GenderEntity.NOT_SELECTED},
         });
     }
 
     @Test
     public void genderGetByIdTest() {
-        Assert.assertEquals(expected, Gender.getGenderById(id));
+        Assert.assertEquals(expected, GenderEntity.getGenderById(id));
     }
 }

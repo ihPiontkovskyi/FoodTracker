@@ -69,12 +69,12 @@ public class UserDaoImpl extends AbstractDaoImpl<UserEntity> implements UserDao 
                         .withBirthday(userEntity.getBirthday())
                         .withEmail(userEntity.getEmail())
                         .withFirstName(userEntity.getFirstName())
-                        .withGender(userEntity.getGender())
+                        .withGender(userEntity.getGenderEntity())
                         .withHeight(userEntity.getHeight())
                         .withLastName(userEntity.getLastName())
-                        .withLifestyle(userEntity.getLifestyle())
+                        .withLifestyle(userEntity.getLifestyleEntity())
                         .withPassword((userEntity.getPassword()))
-                        .withRole(userEntity.getRole())
+                        .withRole(userEntity.getRoleEntity())
                         .withWeight(userEntity.getWeight())
                         .build();
                 return save(userEntityForSave, INSERT_QUERY);
@@ -118,10 +118,10 @@ public class UserDaoImpl extends AbstractDaoImpl<UserEntity> implements UserDao 
         ps.setObject(5, userEntity.getHeight());
         ps.setObject(6, userEntity.getWeight());
         ps.setObject(7, userEntity.getBirthday());
-        ps.setObject(8, userEntity.getGender().getId());
+        ps.setObject(8, userEntity.getGenderEntity().getId());
         ps.setObject(9, userEntity.getUserGoalEntity().getId());
-        ps.setObject(10, userEntity.getLifestyle().getId());
-        ps.setObject(11, userEntity.getRole().getId());
+        ps.setObject(10, userEntity.getLifestyleEntity().getId());
+        ps.setObject(11, userEntity.getRoleEntity().getId());
     }
 
     @Override

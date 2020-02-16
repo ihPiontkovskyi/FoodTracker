@@ -6,10 +6,9 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import ua.foodtracker.entity.MealEntity;
 import ua.foodtracker.entity.RecordEntity;
-import ua.foodtracker.service.domain.Meal;
-import ua.foodtracker.service.domain.Record;
+import ua.foodtracker.domain.Meal;
+import ua.foodtracker.domain.Record;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 import static org.junit.Assert.assertEquals;
@@ -28,7 +27,7 @@ public class RecordMapperTest {
     @Test
     public void mapRecordEntityToRecordReturnNotNull() {
         when(recordEntity.getId()).thenReturn(1);
-        when(recordEntity.getDate()).thenReturn(new Date(System.currentTimeMillis()));
+        when(recordEntity.getDate()).thenReturn(LocalDate.now());
         when(recordEntity.getUserId()).thenReturn(INT_VALUE);
         when(recordEntity.getMealEntity()).thenReturn(MEAL_ENTITY);
 

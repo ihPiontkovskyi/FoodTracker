@@ -5,14 +5,13 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import ua.foodtracker.dao.Page;
 import ua.foodtracker.dao.UserDao;
 import ua.foodtracker.dao.db.holder.ConnectionHolder;
 import ua.foodtracker.dao.db.holder.ThreadLocalConnectionHolder;
 import ua.foodtracker.dao.db.manager.HikariCPManager;
-import ua.foodtracker.entity.Gender;
-import ua.foodtracker.entity.Lifestyle;
-import ua.foodtracker.entity.Role;
+import ua.foodtracker.entity.GenderEntity;
+import ua.foodtracker.entity.LifestyleEntity;
+import ua.foodtracker.entity.RoleEntity;
 import ua.foodtracker.entity.UserEntity;
 import ua.foodtracker.entity.UserGoalEntity;
 import ua.foodtracker.exception.DatabaseInteractionException;
@@ -138,9 +137,9 @@ public class UserDaoImplTest {
                 .withHeight(190)
                 .withWeight(80)
                 .withUserGoal(containedUserGoalEntity)
-                .withGender(Gender.FEMALE)
-                .withRole(Role.USER)
-                .withLifestyle(Lifestyle.SEDENTARY)
+                .withGender(GenderEntity.FEMALE)
+                .withRole(RoleEntity.USER)
+                .withLifestyle(LifestyleEntity.SEDENTARY)
                 .withBirthday(Date.valueOf("1994-01-29"))
                 .build();
         userEntityForTest = UserEntity.builder()
@@ -152,9 +151,9 @@ public class UserDaoImplTest {
                 .withHeight(190)
                 .withWeight(80)
                 .withUserGoal(containedUserGoalEntity) //just for test
-                .withGender(Gender.OTHER)
-                .withRole(Role.USER)
-                .withLifestyle(Lifestyle.SEDENTARY)
+                .withGender(GenderEntity.OTHER)
+                .withRole(RoleEntity.USER)
+                .withLifestyle(LifestyleEntity.SEDENTARY)
                 .withBirthday(Date.valueOf("1994-01-29"))
                 .build();
     }

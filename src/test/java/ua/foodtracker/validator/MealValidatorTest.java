@@ -2,9 +2,9 @@ package ua.foodtracker.validator;
 
 import org.junit.Before;
 import org.junit.Test;
-import ua.foodtracker.entity.Role;
-import ua.foodtracker.service.domain.Meal;
-import ua.foodtracker.service.domain.User;
+import ua.foodtracker.domain.Meal;
+import ua.foodtracker.domain.Role;
+import ua.foodtracker.domain.User;
 import ua.foodtracker.validator.impl.MealValidator;
 
 import java.time.LocalDate;

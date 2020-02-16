@@ -9,15 +9,18 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import ua.foodtracker.dao.RecordDao;
-import ua.foodtracker.entity.Gender;
-import ua.foodtracker.entity.Lifestyle;
+import ua.foodtracker.domain.Gender;
+import ua.foodtracker.domain.Lifestyle;
+import ua.foodtracker.domain.Role;
+import ua.foodtracker.entity.GenderEntity;
+import ua.foodtracker.entity.LifestyleEntity;
 import ua.foodtracker.entity.RecordEntity;
-import ua.foodtracker.entity.Role;
+import ua.foodtracker.entity.RoleEntity;
 import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.exception.ValidationException;
-import ua.foodtracker.service.domain.Meal;
-import ua.foodtracker.service.domain.Record;
-import ua.foodtracker.service.domain.User;
+import ua.foodtracker.domain.Meal;
+import ua.foodtracker.domain.Record;
+import ua.foodtracker.domain.User;
 import ua.foodtracker.service.impl.RecordServiceImpl;
 import ua.foodtracker.service.utility.EntityMapper;
 import ua.foodtracker.validator.impl.RecordValidator;
@@ -242,7 +245,7 @@ public class RecordServiceTest {
     public void getRecordsByDateShouldReturnList() {
         when(recordDao.findByUserIdAndDate(eq(1), any())).thenReturn(Collections.emptyList());
 
-        assertEquals(Collections.EMPTY_LIST, recordService.getRecordsByDate(1, LocalDate.now()));
+        assertEquals(Collections.EMPTY_LIST, recordService.getRecordsByDate(1, LocalDate.now().toString()));
 
         verify(recordDao).findByUserIdAndDate(eq(1), any());
     }

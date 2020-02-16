@@ -1,8 +1,8 @@
 package ua.foodtracker.validator.impl;
 
 import ua.foodtracker.annotation.ValidatorClass;
-import ua.foodtracker.service.domain.Meal;
-import ua.foodtracker.service.domain.Record;
+import ua.foodtracker.domain.Meal;
+import ua.foodtracker.domain.Record;
 import ua.foodtracker.validator.Validator;
 
 @ValidatorClass

@@ -1,7 +1,7 @@
 package ua.foodtracker.validator.impl;
 
 import ua.foodtracker.annotation.ValidatorClass;
-import ua.foodtracker.service.domain.User;
+import ua.foodtracker.domain.User;
 
 import java.util.regex.Pattern;
 

@@ -10,11 +10,11 @@ public class UserEntity {
     private final String lastName;
     private final Integer weight;
     private final Integer height;
-    private final Lifestyle lifestyle;
+    private final LifestyleEntity lifestyleEntity;
     private final Date birthday;
-    private final Gender gender;
+    private final GenderEntity genderEntity;
     private final UserGoalEntity userGoalEntity;
-    private final Role role;
+    private final RoleEntity roleEntity;
 
     private UserEntity(Builder builder) {
         this.id = builder.id;
@@ -24,10 +24,10 @@ public class UserEntity {
         this.lastName = builder.lastName;
         this.weight = builder.weight;
         this.height = builder.height;
-        this.lifestyle = builder.lifestyle;
+        this.lifestyleEntity = builder.lifestyleEntity;
         this.birthday = builder.birthday;
-        this.gender = builder.gender;
-        this.role = builder.role;
+        this.genderEntity = builder.genderEntity;
+        this.roleEntity = builder.roleEntity;
         this.userGoalEntity = builder.userGoalEntity;
     }
 
@@ -59,24 +59,24 @@ public class UserEntity {
         return height;
     }
 
-    public Lifestyle getLifestyle() {
-        return lifestyle;
+    public LifestyleEntity getLifestyleEntity() {
+        return lifestyleEntity;
     }
 
     public Date getBirthday() {
         return birthday;
     }
 
-    public Gender getGender() {
-        return gender;
+    public GenderEntity getGenderEntity() {
+        return genderEntity;
     }
 
     public UserGoalEntity getUserGoalEntity() {
         return userGoalEntity;
     }
 
-    public Role getRole() {
-        return role;
+    public RoleEntity getRoleEntity() {
+        return roleEntity;
     }
 
     public static Builder builder() {
@@ -91,11 +91,11 @@ public class UserEntity {
         private String lastName;
         private Integer weight;
         private Integer height;
-        private Lifestyle lifestyle;
+        private LifestyleEntity lifestyleEntity;
         private Date birthday;
-        private Gender gender;
+        private GenderEntity genderEntity;
         private UserGoalEntity userGoalEntity;
-        private Role role;
+        private RoleEntity roleEntity;
 
         private Builder() {
         }
@@ -135,8 +135,8 @@ public class UserEntity {
             return this;
         }
 
-        public Builder withLifestyle(Lifestyle lifestyle) {
-            this.lifestyle = lifestyle;
+        public Builder withLifestyle(LifestyleEntity lifestyleEntity) {
+            this.lifestyleEntity = lifestyleEntity;
             return this;
         }
 
@@ -145,8 +145,8 @@ public class UserEntity {
             return this;
         }
 
-        public Builder withGender(Gender gender) {
-            this.gender = gender;
+        public Builder withGender(GenderEntity genderEntity) {
+            this.genderEntity = genderEntity;
             return this;
         }
 
@@ -155,8 +155,8 @@ public class UserEntity {
             return this;
         }
 
-        public Builder withRole(Role role) {
-            this.role = role;
+        public Builder withRole(RoleEntity roleEntity) {
+            this.roleEntity = roleEntity;
             return this;
         }
 

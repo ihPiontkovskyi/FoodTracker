@@ -1,8 +1,5 @@
 package ua.foodtracker.filter;
 
-import ua.foodtracker.entity.Role;
-import ua.foodtracker.service.domain.User;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -13,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-
+//TODO add test
 @WebFilter(urlPatterns = {"/pages/user/*", "/pages/admin/*"})
 public class AuthenticationFilter implements Filter {
 
@@ -22,16 +19,9 @@ public class AuthenticationFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         HttpSession session = req.getSession(false);
-        User user;
-        if (!(session != null && ((user = (User) session.getAttribute("user")) != null))) {
+        if (!(session != null && (session.getAttribute("user") != null))) {
             res.sendRedirect(req.getContextPath() + "/pages/login");
-        } else {
-            Role userRole = user.getRole();
-            if (userRole.equals(Role.USER) && ((HttpServletRequest) request).getContextPath().contains("admin")) {
-                res.sendError(401);
-            } else {
-                chain.doFilter(request, response);
-            }
         }
+        chain.doFilter(req, res);
     }
 }
