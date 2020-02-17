@@ -245,7 +245,7 @@ public class RecordServiceTest {
     public void getRecordsByDateShouldReturnList() {
         when(recordDao.findByUserIdAndDate(eq(1), any())).thenReturn(Collections.emptyList());
 
-        assertEquals(Collections.EMPTY_LIST, recordService.getRecordsByDate(1, LocalDate.now().toString()));
+        assertEquals(Collections.EMPTY_LIST, recordService.getRecordsByDate(RAW_USER, LocalDate.now().toString()));
 
         verify(recordDao).findByUserIdAndDate(eq(1), any());
     }

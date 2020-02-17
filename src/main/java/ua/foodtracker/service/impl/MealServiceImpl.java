@@ -5,13 +5,13 @@ import ua.foodtracker.annotation.Service;
 import ua.foodtracker.dao.MealDao;
 import ua.foodtracker.dao.Page;
 import ua.foodtracker.domain.Meal;
+import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.service.MealService;
 import ua.foodtracker.service.utility.EntityMapper;
 import ua.foodtracker.validator.impl.MealValidator;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static ua.foodtracker.service.utility.EntityMapper.mapMealToEntityMeal;
@@ -50,7 +50,7 @@ public class MealServiceImpl implements MealService {
 
     @Override
     public void add(Meal meal) {
-        addByType(meal, mealValidator, obj -> mealDao.save(mapMealToEntityMeal(obj)));
+        addByType(meal, mealValidator, obj -> mealDao.save(mapMealToEntityMeal(recountData(obj))));
     }
 
     @Override
@@ -64,8 +64,10 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public Optional<Meal> findById(String id) {
-        return findByStringParam(id, mealValidator, intId -> mealDao.findById(intId).map(EntityMapper::mapEntityMealToMeal));
+    public Meal findById(String id) {
+        return findByStringParam(id, mealValidator, intId -> mealDao.findById(intId)
+                .map(EntityMapper::mapEntityMealToMeal))
+                .orElseThrow(() -> new IncorrectDataException("Meal not found"));
     }
 
     @Override
@@ -78,5 +80,19 @@ public class MealServiceImpl implements MealService {
         return mealDao.findAllByNameStartWith(term).stream()
                 .map(EntityMapper::mapEntityMealToMeal)
                 .collect(Collectors.toList());
+    }
+
+    private Meal recountData(Meal meal) {
+        double coefficient = 100.0 / meal.getWeight();
+        return Meal.builder()
+                .withCarbohydrates((int) (meal.getCarbohydrate() * coefficient))
+                .withFat((int) (meal.getFat() * coefficient))
+                .withProtein((int) (meal.getProtein() * coefficient))
+                .withName(meal.getName())
+                .withUser(meal.getUser())
+                .withWater((int) (meal.getWater() * coefficient))
+                .withWeight(100)
+                .withId(meal.getId())
+                .build();
     }
 }

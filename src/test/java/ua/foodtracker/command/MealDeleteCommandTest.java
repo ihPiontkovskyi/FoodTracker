@@ -5,13 +5,12 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import ua.foodtracker.command.impl.user.MealDeleteCommand;
+import ua.foodtracker.command.impl.meal.MealDeleteCommand;
 import ua.foodtracker.domain.Gender;
 import ua.foodtracker.domain.Lifestyle;
 import ua.foodtracker.domain.Meal;
 import ua.foodtracker.domain.Role;
 import ua.foodtracker.domain.User;
-import ua.foodtracker.entity.RoleEntity;
 import ua.foodtracker.service.MealService;
 
 import javax.servlet.ServletContext;
@@ -19,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.Locale;
-import java.util.Optional;
 
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -75,7 +73,7 @@ public class MealDeleteCommandTest {
         when(session.getAttribute("locale")).thenReturn(Locale.getDefault());
         when(session.getAttribute("user")).thenReturn(USER);
         when(request.getParameter("id")).thenReturn(ID);
-        when(service.findById(ID)).thenReturn(Optional.of(MEAL));
+        when(service.findById(ID)).thenReturn(MEAL);
 
         String url = mealDeleteCommand.execute(request);
 
@@ -96,7 +94,7 @@ public class MealDeleteCommandTest {
         when(session.getAttribute("locale")).thenReturn(Locale.getDefault());
         when(session.getAttribute("user")).thenReturn(USER);
         when(request.getParameter("id")).thenReturn(ID);
-        when(service.findById(ID)).thenReturn(Optional.empty());
+        when(service.findById(ID)).thenReturn(null);
 
         String url = mealDeleteCommand.execute(request);
 
@@ -116,7 +114,7 @@ public class MealDeleteCommandTest {
         when(session.getAttribute("locale")).thenReturn(Locale.getDefault());
         when(session.getAttribute("user")).thenReturn(USER_WITH_ID_2);
         when(request.getParameter("id")).thenReturn(ID);
-        when(service.findById(ID)).thenReturn(Optional.of(MEAL));
+        when(service.findById(ID)).thenReturn(MEAL);
 
         String url = mealDeleteCommand.execute(request);
 

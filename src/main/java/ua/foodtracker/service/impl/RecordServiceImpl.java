@@ -3,16 +3,21 @@ package ua.foodtracker.service.impl;
 import ua.foodtracker.annotation.Autowired;
 import ua.foodtracker.annotation.Service;
 import ua.foodtracker.dao.RecordDao;
-import ua.foodtracker.service.RecordService;
+import ua.foodtracker.domain.DailySums;
+import ua.foodtracker.domain.HomeModel;
 import ua.foodtracker.domain.Record;
+import ua.foodtracker.domain.User;
+import ua.foodtracker.exception.IncorrectDataException;
+import ua.foodtracker.service.RecordService;
+import ua.foodtracker.service.utility.DateProvider;
 import ua.foodtracker.service.utility.EntityMapper;
 import ua.foodtracker.validator.impl.RecordValidator;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static ua.foodtracker.service.utility.EntityMapper.mapRecordToEntityRecord;
@@ -24,6 +29,10 @@ import static ua.foodtracker.service.utility.ServiceUtility.modifyByType;
 @Service
 public class RecordServiceImpl implements RecordService {
 
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM");
+
+    private final DateProvider dateProvider = new DateProvider();
+
     @Autowired
     private RecordDao recordDao;
 
@@ -31,15 +40,10 @@ public class RecordServiceImpl implements RecordService {
     private RecordValidator recordValidator;
 
     @Override
-    public List<Record> getRecordsByDate(int userId, String date) {
-        LocalDate dateCurrent;
-        try {
-            dateCurrent = LocalDate.parse(date);
-        } catch (DateTimeParseException ex) {
-            //
-            dateCurrent = LocalDate.now();
-        }
-        return recordDao.findByUserIdAndDate(userId, dateCurrent).stream().map(EntityMapper::mapEntityRecordToRecord).collect(Collectors.toList());
+    public List<Record> getRecordsByDate(User user, String date) {
+        return recordDao.findByUserIdAndDate(user.getId(), dateProvider.parseOrCurrentDate(date)).stream()
+                .map(EntityMapper::mapEntityRecordToRecord)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -58,12 +62,62 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
-    public Optional<Record> findById(String id) {
-        return findByStringParam(id, recordValidator, intId -> recordDao.findById(intId).map(EntityMapper::mapEntityRecordToRecord));
+    public Record findById(String id) {
+        return findByStringParam(id, recordValidator, intId -> recordDao.findById(intId)
+                .map(EntityMapper::mapEntityRecordToRecord))
+                .orElseThrow(() -> new IncorrectDataException("record.not.found"));
     }
 
     @Override
     public void setLocale(Locale locale) {
         recordValidator.setLocale(locale);
+    }
+
+    @Override
+    public DailySums calculateDailySums(User user, String date) {
+        List<Record> records = getRecordsByDate(user, date);
+        int energy = 0;
+        int protein = 0;
+        int fat = 0;
+        int carbohydrate = 0;
+        int water = 0;
+        for (Record record : records) {
+            energy += record.calculateEnergy();
+            protein += record.calculateProtein();
+            fat += record.calculateFat();
+            carbohydrate += record.calculateCarbohydrate();
+            water += record.calculateWater();
+        }
+
+        return DailySums.builder()
+                .withSumCarbohydrate(carbohydrate)
+                .withSumEnergy(energy)
+                .withSumFat(fat)
+                .withSumProtein(protein)
+                .withSumWater(water)
+                .build();
+    }
+
+    @Override
+    public HomeModel getHomeModel(User user) {
+        DailySums dailySums = calculateDailySums(user, LocalDate.now().toString());
+        List<LocalDate> dateList = dateProvider.getLastWeek();
+        List<String> labels = dateList.stream()
+                .map(DATE_TIME_FORMATTER::format)
+                .collect(Collectors.toList());
+
+        Map<String, DailySums> weeklyStat = getStatisticsByDates(user, dateList);
+
+        return HomeModel.builder()
+                .withDailySums(dailySums)
+                .withDailyGoal(HomeModel.calculateDailyGoal(dailySums, user.getUserGoal()))
+                .withLabels(labels)
+                .withWeeklyStats(weeklyStat)
+                .build();
+    }
+
+    private Map<String, DailySums> getStatisticsByDates(User user, List<LocalDate> dates) {
+        return dates.stream()
+                .collect(Collectors.toMap(DATE_TIME_FORMATTER::format, date -> calculateDailySums(user, date.toString())));
     }
 }

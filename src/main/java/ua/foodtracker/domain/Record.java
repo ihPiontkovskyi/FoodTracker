@@ -7,12 +7,14 @@ public class Record {
     private Meal meal;
     private LocalDate date;
     private Integer userId;
+    private Integer weight;
 
     public Record(Builder builder) {
         this.id = builder.id;
         this.meal = builder.meal;
         this.date = builder.date;
         this.userId = builder.userId;
+        this.weight = builder.weight;
     }
 
     public Integer getId() {
@@ -31,6 +33,30 @@ public class Record {
         return userId;
     }
 
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public Integer calculateProtein() {
+        return (int) (meal.getProtein() * (((double) weight) / meal.getWeight()));
+    }
+
+    public Integer calculateCarbohydrate() {
+        return (int) (meal.getCarbohydrate() * (((double) weight) / meal.getWeight()));
+    }
+
+    public Integer calculateFat() {
+        return (int) (meal.getFat() * (((double) weight) / meal.getWeight()));
+    }
+
+    public Integer calculateWater() {
+        return (int) (meal.getWater() * (((double) weight) / meal.getWeight()));
+    }
+
+    public Integer calculateEnergy() {
+        return (int) (meal.calculateEnergy() * (((double) weight) / meal.getWeight()));
+    }
+
     public static Builder builder() {
         return new Builder();
     }
@@ -40,6 +66,7 @@ public class Record {
         private Meal meal;
         private LocalDate date;
         private Integer userId;
+        private Integer weight;
 
         private Builder() {
         }
@@ -61,6 +88,11 @@ public class Record {
 
         public Builder withUserId(Integer userId) {
             this.userId = userId;
+            return this;
+        }
+
+        public Builder withWeight(Integer weight) {
+            this.weight = weight;
             return this;
         }
 

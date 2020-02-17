@@ -1,13 +1,15 @@
 package ua.foodtracker.service;
 
+import ua.foodtracker.domain.DailySums;
+import ua.foodtracker.domain.HomeModel;
 import ua.foodtracker.domain.Record;
+import ua.foodtracker.domain.User;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 
 public interface RecordService {
-    List<Record> getRecordsByDate(int userId, String date);
+    List<Record> getRecordsByDate(User user, String date);
 
     void add(Record record);
 
@@ -15,7 +17,11 @@ public interface RecordService {
 
     void modify(Record record);
 
-    Optional<Record> findById(String id);
+    Record findById(String id);
 
     void setLocale(Locale locale);
+
+    DailySums calculateDailySums(User user, String date);
+
+    HomeModel getHomeModel(User user);
 }

@@ -17,7 +17,7 @@ public interface MealService {
 
     void modify(Meal meal);
 
-    Optional<Meal> findById(String id);
+    Meal findById(String id);
 
     void setLocale(Locale locale);
 

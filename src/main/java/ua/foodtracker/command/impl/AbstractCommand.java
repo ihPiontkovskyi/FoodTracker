@@ -42,13 +42,6 @@ public abstract class AbstractCommand implements Command {
         }
     }
 
-    protected LocalDate getDateParamFromSessionOrNow(HttpServletRequest request, String param) {
-        if (request.getSession(false).getAttribute(param) != null) {
-            return (LocalDate) request.getSession(false).getAttribute(param);
-        }
-        return LocalDate.now();
-    }
-
     protected LocalDate getDateParamOrNow(HttpServletRequest request, String param) {
         String dateValue = request.getParameter(param);
         if (dateValue != null) {
@@ -63,10 +56,6 @@ public abstract class AbstractCommand implements Command {
 
     protected Locale getLocale(HttpServletRequest request) {
         return Locale.forLanguageTag(request.getSession(false).getAttribute("locale").toString());
-    }
-
-    protected String decodeParameter(String parameter) {
-        return new String(parameter.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
     }
 
     protected MealService getMealService(HttpServletRequest request) {

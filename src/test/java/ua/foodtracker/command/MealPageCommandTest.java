@@ -5,7 +5,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import ua.foodtracker.command.impl.user.MealPageCommand;
+import ua.foodtracker.command.impl.meal.MealPageCommand;
 import ua.foodtracker.service.MealService;
 
 import javax.servlet.ServletContext;

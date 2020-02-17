@@ -5,13 +5,10 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import ua.foodtracker.command.impl.user.RecordDeleteCommand;
+import ua.foodtracker.command.impl.record.RecordDeleteCommand;
 import ua.foodtracker.domain.Gender;
 import ua.foodtracker.domain.Lifestyle;
 import ua.foodtracker.domain.Role;
-import ua.foodtracker.entity.GenderEntity;
-import ua.foodtracker.entity.LifestyleEntity;
-import ua.foodtracker.entity.RoleEntity;
 import ua.foodtracker.service.RecordService;
 import ua.foodtracker.domain.User;
 

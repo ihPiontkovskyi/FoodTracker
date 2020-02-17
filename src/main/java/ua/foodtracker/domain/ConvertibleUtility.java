@@ -13,7 +13,7 @@ public class ConvertibleUtility {
             res.append(",");
         });
         if (res.length() > 1) {
-            res.delete(res.length() - 1, 1);
+            res.delete(res.length() - 1, res.length());
         }
         res.append("]");
         return res.toString();

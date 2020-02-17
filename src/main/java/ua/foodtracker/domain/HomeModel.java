@@ -1,115 +1,191 @@
 package ua.foodtracker.domain;
 
-import ua.foodtracker.service.RecordService;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class HomeModel {
-    private DailySums dsto;
-    private Integer dailyEnergyGoal;
-    private Integer dailyProteinGoal;
-    private Integer dailyFatGoal;
-    private Integer dailyCarbohydratesGoal;
-    private Integer dailyWaterGoal;
+    private static final int PERCENTAGE = 100;
+    private static final int MAX_PERCENTAGE = 100;
+
+    private DailySums dailySums;
     private List<String> labels;
-    private List<Integer> energyWeeklyStat;
-    private List<Integer> proteinWeeklyStat;
-    private List<Integer> fatWeeklyStat;
-    private List<Integer> carbWeeklyStat;
-    private List<Integer> waterWeeklyStat;
+    private Map<String, DailySums> weeklyStats;
+    private DailyGoal dailyGoal;
 
-    private HomeModel(User user, RecordService service) {
-        dsto = DailySums.build(service.getRecordsByDate(user.getId(), LocalDate.now().toString()));
-        calculateDailyGoals(user);
-        labels = new ArrayList<>();
-        energyWeeklyStat = new ArrayList<>();
-        proteinWeeklyStat = new ArrayList<>();
-        fatWeeklyStat = new ArrayList<>();
-        carbWeeklyStat = new ArrayList<>();
-        waterWeeklyStat = new ArrayList<>();
-        setStatistics(user, service);
+    public HomeModel(Builder builder) {
+        this.dailySums = builder.dailySums;
+        this.labels = builder.labels;
+        this.weeklyStats = builder.weeklyStats;
+        this.dailyGoal = builder.dailyGoal;
     }
 
-    private void calculateDailyGoals(User user) {
-        dailyEnergyGoal = Math.min((int) (((double) dsto.getSumEnergy() / user.getUserGoal().getDailyEnergyGoal()) * 100), 100);
-        dailyProteinGoal = Math.min((int) (((double) dsto.getSumProtein() / user.getUserGoal().getDailyProteinGoal()) * 100), 100);
-        dailyFatGoal = Math.min((int) (((double) dsto.getSumFat() / user.getUserGoal().getDailyFatGoal()) * 100), 100);
-        dailyCarbohydratesGoal = Math.min((int) (((double) dsto.getSumCarbohydrates() / user.getUserGoal().getDailyCarbohydrateGoal()) * 100), 100);
-        dailyWaterGoal = Math.min((int) (((double) dsto.getSumWater() / user.getUserGoal().getDailyWaterGoal()) * 100), 100);
+    public List<Integer> getWeeklyEnergyStat() {
+        return getListByFunction(DailySums::getSumEnergy);
     }
 
-    private void setStatistics(User user, RecordService service) {
-        List<LocalDate> dateList = new ArrayList<>();
-        LocalDate start = LocalDate.now().minusDays(7);
-        LocalDate end = LocalDate.now();
-        DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("dd.MM");
-        while (!start.isAfter(end)) {
-            labels.add(dtf2.format(start));
-            dateList.add(start);
-            start = start.plusDays(1);
-        }
-        for (LocalDate date : dateList) {
-            DailySums ddsto = DailySums.build(service.getRecordsByDate(user.getId(), date.toString()));
-            energyWeeklyStat.add(ddsto.getSumEnergy());
-            proteinWeeklyStat.add(ddsto.getSumProtein());
-            fatWeeklyStat.add(ddsto.getSumFat());
-            carbWeeklyStat.add(ddsto.getSumCarbohydrates());
-            waterWeeklyStat.add(ddsto.getSumWater());
-        }
+    public List<Integer> getWeeklyFatStat() {
+        return getListByFunction(DailySums::getSumFat);
     }
 
-    public DailySums getDsto() {
-        return dsto;
+    public List<Integer> getWeeklyWaterStat() {
+        return getListByFunction(DailySums::getSumWater);
     }
 
-    public Integer getDailyEnergyGoal() {
-        return dailyEnergyGoal;
+    public List<Integer> getWeeklyCarbohydrateStat() {
+        return getListByFunction(DailySums::getSumCarbohydrate);
     }
 
-    public Integer getDailyProteinGoal() {
-        return dailyProteinGoal;
+    public List<Integer> getWeeklyProteinStat() {
+        return getListByFunction(DailySums::getSumProtein);
     }
 
-    public Integer getDailyFatGoal() {
-        return dailyFatGoal;
-    }
-
-    public Integer getDailyCarbohydratesGoal() {
-        return dailyCarbohydratesGoal;
-    }
-
-    public Integer getDailyWaterGoal() {
-        return dailyWaterGoal;
+    public DailySums getDailySums() {
+        return dailySums;
     }
 
     public List<String> getLabels() {
         return labels;
     }
 
-    public List<Integer> getEnergyWeeklyStat() {
-        return energyWeeklyStat;
+    public DailyGoal getDailyGoal() {
+        return dailyGoal;
     }
 
-    public List<Integer> getProteinWeeklyStat() {
-        return proteinWeeklyStat;
+    private List<Integer> getListByFunction(Function<? super DailySums, ? extends Integer> function) {
+        return weeklyStats
+                .entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByKey())
+                .map(Map.Entry::getValue)
+                .map(function)
+                .collect(Collectors.toList());
     }
 
-    public List<Integer> getFatWeeklyStat() {
-        return fatWeeklyStat;
+    public static DailyGoal calculateDailyGoal(DailySums dailySums, UserGoal userGoal) {
+        return DailyGoal.builder()
+                .withDailyCarbohydratesGoal(getPercentage(dailySums.getSumCarbohydrate(), userGoal.getDailyCarbohydrateGoal()))
+                .withDailyEnergyGoal(getPercentage(dailySums.getSumEnergy(), userGoal.getDailyEnergyGoal()))
+                .withDailyFatGoal(getPercentage(dailySums.getSumFat(), userGoal.getDailyFatGoal()))
+                .withDailyProteinGoal(getPercentage(dailySums.getSumProtein(), userGoal.getDailyProteinGoal()))
+                .withDailyWaterGoal(getPercentage(dailySums.getSumWater(), userGoal.getDailyWaterGoal()))
+                .build();
     }
 
-    public List<Integer> getCarbWeeklyStat() {
-        return carbWeeklyStat;
+    private static int getPercentage(double dailySum, int dailyGoal) {
+        return Math.min((int) ((dailySum / dailyGoal) * PERCENTAGE), MAX_PERCENTAGE);
     }
 
-    public List<Integer> getWaterWeeklyStat() {
-        return waterWeeklyStat;
+    public static class DailyGoal {
+        private final int dailyEnergyGoal;
+        private final int dailyProteinGoal;
+        private final int dailyFatGoal;
+        private final int dailyCarbohydratesGoal;
+        private final int dailyWaterGoal;
+
+        public int getDailyEnergyGoal() {
+            return dailyEnergyGoal;
+        }
+
+        public int getDailyProteinGoal() {
+            return dailyProteinGoal;
+        }
+
+        public int getDailyFatGoal() {
+            return dailyFatGoal;
+        }
+
+        public int getDailyCarbohydratesGoal() {
+            return dailyCarbohydratesGoal;
+        }
+
+        public int getDailyWaterGoal() {
+            return dailyWaterGoal;
+        }
+
+        public DailyGoal(Builder builder) {
+            this.dailyEnergyGoal = builder.dailyEnergyGoal;
+            this.dailyProteinGoal = builder.dailyProteinGoal;
+            this.dailyFatGoal = builder.dailyFatGoal;
+            this.dailyCarbohydratesGoal = builder.dailyCarbohydratesGoal;
+            this.dailyWaterGoal = builder.dailyWaterGoal;
+        }
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        public static class Builder {
+            private int dailyEnergyGoal;
+            private int dailyProteinGoal;
+            private int dailyFatGoal;
+            private int dailyCarbohydratesGoal;
+            private int dailyWaterGoal;
+
+            public Builder withDailyEnergyGoal(int dailyEnergyGoal) {
+                this.dailyEnergyGoal = dailyEnergyGoal;
+                return this;
+            }
+
+            public Builder withDailyProteinGoal(int dailyProteinGoal) {
+                this.dailyProteinGoal = dailyProteinGoal;
+                return this;
+            }
+
+            public Builder withDailyFatGoal(int dailyFatGoal) {
+                this.dailyFatGoal = dailyFatGoal;
+                return this;
+            }
+
+            public Builder withDailyCarbohydratesGoal(int dailyCarbohydratesGoal) {
+                this.dailyCarbohydratesGoal = dailyCarbohydratesGoal;
+                return this;
+            }
+
+            public Builder withDailyWaterGoal(int dailyWaterGoal) {
+                this.dailyWaterGoal = dailyWaterGoal;
+                return this;
+            }
+
+            public DailyGoal build() {
+                return new DailyGoal(this);
+            }
+        }
     }
 
-    public static HomeModel build(User user, RecordService service) {
-        return new HomeModel(user, service);
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private DailySums dailySums;
+        private List<String> labels;
+        private Map<String, DailySums> weeklyStats;
+        private DailyGoal dailyGoal;
+
+        public Builder withDailySums(DailySums dailySums) {
+            this.dailySums = dailySums;
+            return this;
+        }
+
+        public Builder withLabels(List<String> labels) {
+            this.labels = labels;
+            return this;
+        }
+
+        public Builder withWeeklyStats(Map<String, DailySums> weeklyStats) {
+            this.weeklyStats = weeklyStats;
+            return this;
+        }
+
+        public Builder withDailyGoal(DailyGoal dailyGoal) {
+            this.dailyGoal = dailyGoal;
+            return this;
+        }
+
+        public HomeModel build() {
+            return new HomeModel(this);
+        }
     }
 }

@@ -24,7 +24,8 @@
                     <a href="home"> <em class="menu-icon fa fa-bar-chart"></em><fmt:message key="highlights.btn"/></a>
                 </li>
                 <li>
-                    <a href="records"> <em class="menu-icon fa fa-calendar"></em><fmt:message key="diary.btn"/></a>
+                    <a href="records"> <em class="menu-icon fa fa-calendar"></em><fmt:message
+                            key="diary.btn"/></a>
                 </li>
                 <li>
                     <a href="meals"> <em class="menu-icon fa fa-cutlery"></em><fmt:message key="meals.btn"/></a>
@@ -48,8 +49,8 @@
                         <em class="fa fa-user-circle"></em>
                     </a>
                     <div class="user-menu dropdown-menu">
-                        <a class="nav-link" href="settings"><em class="fa fa -cog"></em><fmt:message
-                                key="settings.btn"/></a>
+                        <a class="nav-link" href="profile"><em class="fa fa -cog"></em><fmt:message
+                                key="profile.btn"/></a>
 
                         <a class="nav-link" href="logout"><em class="fa fa-power -off"></em><fmt:message
                                 key="logout.btn"/></a>
@@ -76,7 +77,7 @@
                                 <div class="stat-content">
                                     <div class="text-left dib">
                                         <div class="stat-text">
-                                            <span class="count">${requestScope.homeModel.dsto.sumEnergy}</span>
+                                            <span class="count">${requestScope.homeModel.dailySums.sumEnergy}</span>
                                             <fmt:message key="kcal.field"/>
                                         </div>
                                         <div class="stat-heading"><fmt:message key="energy.label"/></div>
@@ -97,7 +98,7 @@
                                 <div class="stat-content">
                                     <div class="text-left dib">
                                         <div class="stat-text"><span
-                                                class="count">${requestScope.homeModel.dsto.sumProtein}</span>
+                                                class="count">${requestScope.homeModel.dailySums.sumProtein}</span>
                                             <fmt:message key="weight.label"/>
                                         </div>
                                         <div class="stat-heading"><fmt:message key="protein.label"/></div>
@@ -118,7 +119,7 @@
                                 <div class="stat-content">
                                     <div class="text-left dib">
                                         <div class="stat-text"><span
-                                                class="count">${requestScope.homeModel.dsto.sumCarbohydrates}</span>
+                                                class="count">${requestScope.homeModel.dailySums.sumCarbohydrate}</span>
                                             <fmt:message key="weight.label"/>
                                         </div>
                                         <div class="stat-heading"><fmt:message key="carbohydrate.label"/></div>
@@ -139,7 +140,7 @@
                                 <div class="stat-content">
                                     <div class="text-left dib">
                                         <div class="stat-text"><span
-                                                class="count">${requestScope.homeModel.dsto.sumWater}</span>
+                                                class="count">${requestScope.homeModel.dailySums.sumWater}</span>
                                             <fmt:message key="volume.label"/>
                                         </div>
                                         <div class="stat-heading"><fmt:message key="water.label"/></div>
@@ -174,7 +175,7 @@
                                     <h4 class="por-title"><fmt:message key="energy.label"/></h4>
                                     <div class="progress mb-2" style="height: 5px;">
                                         <div class="progress-bar bg-flat-color-1" roleEntity="progressbar"
-                                             style="width:${requestScope.homeModel.dailyEnergyGoal}%"
+                                             style="width:${requestScope.homeModel.dailyGoal.dailyEnergyGoal}%"
                                              aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
@@ -182,7 +183,7 @@
                                     <h4 class="por-title"><fmt:message key="water.label"/></h4>
                                     <div class="progress mb-2" style="height: 5px;">
                                         <div class="progress-bar bg-flat-color-2" roleEntity="progressbar"
-                                             style="width: ${requestScope.homeModel.dailyWaterGoal}%"
+                                             style="width: ${requestScope.homeModel.dailyGoal.dailyWaterGoal}%"
                                              aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
@@ -190,7 +191,7 @@
                                     <h4 class="por-title"><fmt:message key="carbohydrate.label"/></h4>
                                     <div class="progress mb-2" style="height: 5px;">
                                         <div class="progress-bar bg-flat-color-3" roleEntity="progressbar"
-                                             style="width: ${requestScope.homeModel.dailyCarbohydratesGoal}%"
+                                             style="width: ${requestScope.homeModel.dailyGoal.dailyCarbohydratesGoal}%"
                                              aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
@@ -198,7 +199,7 @@
                                     <h4 class="por-title"><fmt:message key="protein.label"/></h4>
                                     <div class="progress mb-2" style="height: 5px;">
                                         <div class="progress-bar bg-flat-color-4" roleEntity="progressbar"
-                                             style="width: ${requestScope.homeModel.dailyProteinGoal}%"
+                                             style="width: ${requestScope.homeModel.dailyGoal.dailyProteinGoal}%"
                                              aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
@@ -206,7 +207,7 @@
                                     <h4 class="por-title"><fmt:message key="fat.label"/></h4>
                                     <div class="progress mb-2" style="height: 5px;">
                                         <div class="progress-bar bg-flat-color-5" roleEntity="progressbar"
-                                             style="width: ${requestScope.homeModel.dailyFatGoal}%"
+                                             style="width: ${requestScope.homeModel.dailyGoal.dailyFatGoal}%"
                                              aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
@@ -231,11 +232,11 @@
             <c:forEach items="${requestScope.homeModel.labels}" var="label">
             labels.push("${label}");
             </c:forEach>
-            let protein = ${requestScope.homeModel.proteinWeeklyStat};
-            let carb = ${requestScope.homeModel.carbWeeklyStat};
-            let energy = ${requestScope.homeModel.energyWeeklyStat};
-            let water = ${requestScope.homeModel.waterWeeklyStat};
-            let fat = ${requestScope.homeModel.fatWeeklyStat};
+            let protein = ${requestScope.homeModel.weeklyProteinStat};
+            let carb = ${requestScope.homeModel.weeklyCarbohydrateStat};
+            let energy = ${requestScope.homeModel.weeklyEnergyStat};
+            let water = ${requestScope.homeModel.weeklyWaterStat};
+            let fat = ${requestScope.homeModel.weeklyFatStat};
             let chart = new Chartist.Line('#traffic-chart', {
                 labels: labels,
                 series: [

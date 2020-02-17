@@ -2,14 +2,16 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
+<my:replaceParam name='page' value='${sessionScope.page}'/>
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale/messages"/>
 <!doctype html>
 <html class="no-js" lang="${sessionScope.locale}">
 <head>
     <title>Food Tracker</title>
-    <link rel="icon" type="image/png" href="../../../assets/images/logo-002.png"/>
-    <link rel="stylesheet" href="../../../assets/css/style.css">
+    <link rel="icon" type="image/png" href="../../assets/images/logo-002.png"/>
+    <link rel="stylesheet" href="../../assets/css/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
@@ -38,7 +40,7 @@
     <header id="header" class="header">
         <div class="top-left">
             <div class="navbar-header">
-                <a class="navbar-brand" href="home"><img src="../../../assets/images/logo-001.png" alt="Logo"></a>
+                <a class="navbar-brand" href="home"><img src="../../assets/images/logo-001.png" alt="Logo"></a>
             </div>
         </div>
         <div class="top-right">
@@ -50,8 +52,8 @@
                     </a>
 
                     <div class="user-menu dropdown-menu">
-                        <a class="nav-link" href="settings"><em class="fa fa -cog"></em><fmt:message
-                                key="settings.btn"/></a>
+                        <a class="nav-link" href="profile"><em class="fa fa -cog"></em><fmt:message
+                                key="profile.btn"/></a>
 
                         <a class="nav-link" href="logout"><em class="fa fa-power -off"></em><fmt:message
                                 key="logout.btn"/></a>
@@ -74,30 +76,19 @@
                                 <div class="row">
                                     <div class="col-lg-2">
                                         <h4 class="box-title">Meal</h4>
-
-                                        <c:if test="${sessionScope.currentPage==1 && requestScope.pageCount>3}">
-                                            <a href="?page=${sessionScope.currentPage}">${sessionScope.currentPage} </a>
-                                            <a href="?page=${sessionScope.currentPage+1}">${sessionScope.currentPage+1} </a>...
-                                            <a href="?page=${requestScope.pageCount}">${requestScope.pageCount} </a>
-                                        </c:if>
-                                        <c:if test="${sessionScope.currentPage==requestScope.pageCount  && requestScope.pageCount>3}">
-                                            <a href="?page=1">1 </a>...
-                                            <a href="?page=${sessionScope.currentPage-1}">${sessionScope.currentPage-1} </a>
-                                            <a href="?page=${sessionScope.currentPage}">${sessionScope.currentPage} </a>
-                                        </c:if>
-                                        <c:if test="${sessionScope.currentPage!=1 && sessionScope.currentPage!=requestScope.pageCount  && requestScope.pageCount>3}}">
-                                            <a href="?page=${sessionScope.currentPage-1}">${sessionScope.currentPage-1} </a>
-                                            <a href="?page=${sessionScope.currentPage}">${sessionScope.currentPage} </a>...
-                                            <a href="?page=${requestScope.pageCount}">${requestScope.pageCount} </a>
-                                        </c:if>
-                                        <c:if test="${requestScope.pageCount <=3}">
-                                            <c:forEach begin="1" end="${requestScope.pageCount}" var="i">
-                                                <a href="?page=${i}">${i} </a>
-                                            </c:forEach>
+                                        <c:if test="${requestScope.totalPages>0}">
+                                            <div class="inline">
+                                                <c:forEach var="page" items="${requestScope.pageNumbers}">
+                                                    <a href="../user/meals?page=${page+1}">
+                                                            ${page+1}
+                                                    </a>
+                                                </c:forEach>
+                                            </div>
                                         </c:if>
                                     </div>
                                     <div class="col-lg-10">
-                                        <a class="btn float-right"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                                        <a href="../user/meals/add" class="btn float-right"><i class="fa fa-plus"
+                                                                                               aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                             </div>

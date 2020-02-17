@@ -1,4 +1,4 @@
-package ua.foodtracker.command.impl.user;
+package ua.foodtracker.command.impl.meal;
 
 import ua.foodtracker.command.impl.AbstractCommand;
 import ua.foodtracker.domain.MealInfo;

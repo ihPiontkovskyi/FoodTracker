@@ -1,10 +1,14 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" errorPage="/pages/error.jsp" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="locale/messages"/>
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html class="no-js" lang="${sessionScope.locale}">
 <head>
     <title>Food Tracker</title>
-    <link rel="icon" type="image/png" th:href="@{/images/logo-002.png}"/>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link th:href="@{/css/form.css}" rel="stylesheet" media="all">
+    <link rel="icon" type="image/png" href="../../../assets/images/logo-002.png"/>
+    <link rel="stylesheet" href="../../../assets/css/style.css">
+    <link href="../../../assets/css/form.css" rel="stylesheet" media="all">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
@@ -17,19 +21,13 @@
         <div id="main-menu" class="main-menu collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li>
-                    <a th:href="@{/home}">
-                        <em class="menu-icon fa fa-bar-chart"></em>
-                        <span th:text="#{highlights.btn}"></span></a>
+                    <a href="home"> <em class="menu-icon fa fa-bar-chart"></em><fmt:message key="highlights.btn"/></a>
                 </li>
                 <li>
-                    <a th:href="@{/records}"> <em class="menu-icon fa fa-calendar"></em>
-                        <span th:text="#{diary.btn}"></span>
-                    </a>
+                    <a href="records"> <em class="menu-icon fa fa-calendar"></em><fmt:message key="diary.btn"/> </a>
                 </li>
                 <li>
-                    <a th:href="@{/meals}"> <em class="menu-icon fa fa-cutlery"></em>
-                        <span th:text="#{meals.btn}"></span>
-                    </a>
+                    <a href="meals"> <em class="menu-icon fa fa-cutlery"></em><fmt:message key="meals.btn"/></a>
                 </li>
             </ul>
         </div>
@@ -39,7 +37,7 @@
     <header id="header" class="header">
         <div class="top-left">
             <div class="navbar-header">
-                <a class="navbar-brand" href="home"><img th:src="@{/images/logo-001.png}" alt="Logo"></a>
+                <a class="navbar-brand" href="home"><img src="../../../assets/images/logo-001.png" alt="Logo"></a>
             </div>
         </div>
         <div class="top-right">
@@ -51,18 +49,16 @@
                     </a>
 
                     <div class="user-menu dropdown-menu">
-                        <a class="nav-link" th:href="@{/profile}"><em class="fa fa -cog"></em>
-                            <span th:text="#{profile.btn}"></span>
-                        </a>
+                        <a class="nav-link" href="profile"><em class="fa fa -cog"></em><fmt:message
+                                key="profile.btn"/></a>
 
-                        <a class="nav-link" th:href="@{/logout}"><em class="fa fa-power -off"></em>
-                            <span th:text="#{logout.btn}"></span>
-                        </a>
+                        <a class="nav-link" href="logout"><em class="fa fa-power -off"></em><fmt:message
+                                key="logout.btn"/></a>
                     </div>
                 </div>
                 <div class="lang-block">
-                    <a th:href="@{/meals/add(lang='en')}">EN</a>
-                    <a th:href="@{/meals/add(lang='ru')}">RU</a>
+                    <a href="?lang=en">EN</a>
+                    <a href="?lang=ru">RU</a>
                 </div>
             </div>
         </div>
@@ -71,30 +67,27 @@
         <div class="wrapper wrapper--w680">
             <div class="card card-4">
                 <div class="card-body">
-                    <h2 class="title" th:text="#{add.meal.label}">
-
+                    <h2 class="title">
+                        <fmt:message key="add.meal.label"/>
                     </h2>
-                    <form th:action="@{/meals/edit}" method="POST" th:object="${meal}">
-                        <div hidden="hidden">
-                            <label>
-                                <input th:field="*{id}" th:value="${meal.id}"></label>
-                            </label>
-                        </div>
+                    <form action="add-meal" method="POST">
                         <div class="row row-space">
                             <div class="col-6">
                                 <div class="input-group">
                                     <label class="label">
-                                        <input class="input--style-4" th:placeholder="#{meal.name}" type="text"
-                                               name="first_name" th:field="*{name}" th:value="${meal.name}">
+                                        <fmt:message key="meal.name"/>
+                                        <input class="input--style-4" type="text"
+                                               name="name">
                                     </label>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="input-group">
                                     <label class="label">
-                                        <input class="input--style-4" th:placeholder="#{weight.column.label}"
+                                        <fmt:message key="weight.column.label"/>
+                                        <input class="input--style-4"
                                                type="number"
-                                               name="weight" th:field="*{weight}" th:value="${meal.weight}">
+                                               name="weight">
                                     </label>
                                 </div>
                             </div>
@@ -103,44 +96,52 @@
                             <div class="col-6">
                                 <div class="input-group">
                                     <label class="label">
+                                        <fmt:message key="protein.label"/>
+                                        <fmt:message key="weight.label"/>
                                         <input class="input--style-4"
-                                               th:placeholder="#{protein.label}+', '+#{weight.label}" type="number"
-                                               name="height" th:field="*{protein}" th:value="${meal.protein}">
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="input-group">
-                                    <label class="label">
-                                        <input class="input--style-4"
-                                               th:placeholder="#{water.label}+', '+#{volume.label}" type="number"
-                                               name="weight" th:field="*{water}" th:value="${meal.water}">
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row row-space">
-                            <div class="col-6">
-                                <div class="input-group">
-                                    <label class="label">
-                                        <input class="input--style-4"
-                                               th:placeholder="#{carbohydrate.label}+', '+#{weight.label}" type="number"
-                                               name="weight" th:field="*{carbohydrate}" th:value="${meal.carbohydrate}">
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="input-group">
-                                    <label class="label">
-                                        <input class="input--style-4" th:placeholder="#{fat.label}+', '+#{weight.label}"
                                                type="number"
-                                               name="height" th:field="*{fat}" th:value="${meal.fat}">
+                                               name="protein"/>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group">
+                                    <label class="label">
+                                        <fmt:message key="water.label"/>
+                                        <fmt:message key="volume.label"/>
+                                        <input class="input--style-4" type="number"
+                                               name="water"/>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-space">
+                            <div class="col-6">
+                                <div class="input-group">
+                                    <label class="label">
+                                        <fmt:message key="carbohydrate.label"/>
+                                        <fmt:message key="weight.label"/>
+                                        <input class="input--style-4"
+                                               type="number"
+                                               name="carbohydrate"/>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group">
+                                    <label class="label">
+                                        <fmt:message key="fat.label"/>
+                                        <fmt:message key="weight.label"/>
+                                        <input class="input--style-4"
+                                               type="number"
+                                               name="fat">
                                     </label>
                                 </div>
                             </div>
                         </div>
                         <div class="p-t-15">
-                            <button class="btn btn--radius-2 btn--blue" type="submit" th:text="#{save.btn}">
+                            <button class="btn btn--radius-2 btn--blue" type="submit">
+                                <fmt:message key="add.meal.label"/>
                             </button>
                         </div>
                     </form>

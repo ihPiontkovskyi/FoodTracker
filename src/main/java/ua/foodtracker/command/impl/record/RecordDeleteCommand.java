@@ -1,4 +1,4 @@
-package ua.foodtracker.command.impl.user;
+package ua.foodtracker.command.impl.record;
 
 import ua.foodtracker.command.impl.AbstractCommand;
 

@@ -16,6 +16,7 @@ public class RecordValidator extends AbstractValidator<Record> {
             return;
         }
         putIssue("record date", validateDate(record.getDate()));
+        putIssue("record weight", validateInteger(record.getWeight()));
         Validator<Meal> mealValidator = new MealValidator();
         mealValidator.validate(record.getMeal());
         mealValidator.getMessages().forEach((key, value) -> putIssue("recording meal: " + key, value));

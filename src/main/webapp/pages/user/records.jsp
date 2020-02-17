@@ -3,6 +3,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
+<my:replaceParam name='date' value='${sessionScope.date}'/>
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale/messages"/>
 <!doctype html>
@@ -11,7 +12,9 @@
     <title>Food Tracker</title>
     <link rel="icon" type="image/png" href="../../assets/images/logo-002.png"/>
     <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/form.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet"/>
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
     <link href="https://cdn.jsdelivr.net/npm/chartist@0.11.0/dist/chartist.min.css" rel="stylesheet">
@@ -51,8 +54,8 @@
                     </a>
 
                     <div class="user-menu dropdown-menu">
-                        <a class="nav-link" href="settings"><em class="fa fa -cog"></em><fmt:message
-                                key="settings.btn"/></a>
+                        <a class="nav-link" href="profile"><em class="fa fa -cog"></em><fmt:message
+                                key="profile.btn"/></a>
 
                         <a class="nav-link" href="logout"><em class="fa fa-power -off"></em><fmt:message
                                 key="logout.btn"/></a>
@@ -120,7 +123,7 @@
                                 <div class="stat-content">
                                     <div class="text-left dib">
                                         <div class="stat-text"><span id="carb"
-                                                                     class="count">${requestScope.dateSums.sumCarbohydrates}</span>
+                                                                     class="count">${requestScope.dateSums.sumCarbohydrate}</span>
                                             <fmt:message
                                                     key="weight.label"/>
                                         </div>
@@ -164,7 +167,7 @@
                                     </h4>
                                 </div>
 
-                                <form action="add" method="POST">
+                                <form action="records/add" method="POST">
                                     <div class="row">
                                         <label>
                                             <input name="meal_id" id="meal_id" hidden>
@@ -178,7 +181,7 @@
                                         </div>
                                         <div class="col-5">
                                             <label class="label">
-                                                <fmt:message key="weight.label"/>
+                                                <fmt:message key="weight.column.label"/>
                                                 <input class="input--style-4" id="weight"
                                                        name="weight"
                                                        type="number">
@@ -245,20 +248,16 @@
                                             <tr>
                                                 <td hidden>${record.id}</td>
                                                 <td>${record.meal.name}</td>
-                                                <td>${record.meal.protein}</td>
-                                                <td>${record.meal.carbohydrate}</td>
-                                                <td>${record.meal.fat}</td>
-                                                <td>${record.meal.calculateEnergy()}</td>
-                                                <td>${record.meal.weight}</td>
-                                                <td>${record.meal.water}</td>
+                                                <td>${record.calculateProtein()}</td>
+                                                <td>${record.calculateCarbohydrate()}</td>
+                                                <td>${record.calculateFat()}</td>
+                                                <td>${record.calculateEnergy()}</td>
+                                                <td>${record.weight}</td>
+                                                <td>${record.calculateWater()}</td>
                                                 <td><a href="../user/records/delete?id=${record.id}"
                                                        class="btn float-right"><i
                                                         class="fa fa-minus"
                                                         aria-hidden="true"></i></a>
-                                                    <a href="../user/records/edit?id=${record.id}"
-                                                       class="btn float-right"><i
-                                                            class="fa fa-pencil"
-                                                            aria-hidden="true"></i></a>
                                                 </td>
                                             </tr>
                                         </c:forEach>
@@ -283,7 +282,7 @@
     jQuery(document).ready(function ($) {
         $(function () {
             $("#meals_autocomplete").autocomplete({
-                source: 'byTerm',
+                source: 'records/byTerm',
                 minLength: 3,
                 select: function (event, ui) {
                     $("#meals_autocomplete").val(ui.item.label);

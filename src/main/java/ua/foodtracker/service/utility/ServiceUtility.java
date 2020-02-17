@@ -39,8 +39,7 @@ public class ServiceUtility {
 
     public static <T, E> E findByStringParam(String param, Validator<T> validator, IntFunction<E> function) {
         if (param == null) {
-            validator.putIssue(DATA_KEY, INCORRECT_DATA);
-            throw new IncorrectDataException(validator.getErrorMessageByIssues());
+            return function.apply(1);
         }
         try {
             return function.apply(Integer.parseInt(param));

@@ -11,11 +11,16 @@ import ua.foodtracker.command.impl.HomePageCommand;
 import ua.foodtracker.command.impl.LoginCommand;
 import ua.foodtracker.command.impl.LogoutCommand;
 import ua.foodtracker.command.impl.RegisterCommand;
-import ua.foodtracker.command.impl.user.DiaryPageCommand;
-import ua.foodtracker.command.impl.user.MealDeleteCommand;
-import ua.foodtracker.command.impl.user.MealPageCommand;
-import ua.foodtracker.command.impl.user.MealsInfoCommand;
-import ua.foodtracker.command.impl.user.RecordDeleteCommand;
+import ua.foodtracker.command.impl.meal.AddMealCommand;
+import ua.foodtracker.command.impl.meal.AddMealPageCommand;
+import ua.foodtracker.command.impl.meal.EditMealCommand;
+import ua.foodtracker.command.impl.meal.EditMealPageCommand;
+import ua.foodtracker.command.impl.meal.MealDeleteCommand;
+import ua.foodtracker.command.impl.meal.MealPageCommand;
+import ua.foodtracker.command.impl.meal.MealsInfoCommand;
+import ua.foodtracker.command.impl.record.AddRecordCommand;
+import ua.foodtracker.command.impl.record.DiaryPageCommand;
+import ua.foodtracker.command.impl.record.RecordDeleteCommand;
 import ua.foodtracker.dao.AnnotationHandler;
 import ua.foodtracker.dao.db.holder.ConnectionHolder;
 import ua.foodtracker.dao.db.manager.HikariCPManager;
@@ -144,6 +149,11 @@ public class ContextLoader extends AbstractContextLoader {
         urlToCommand.put("/foodtracker.ua/pages/user/records/delete", new RecordDeleteCommand());
         urlToCommand.put("/foodtracker.ua/pages/user/meals/delete", new MealDeleteCommand());
         urlToCommand.put("/foodtracker.ua/pages/user/records/byTerm", new MealsInfoCommand());
+        urlToCommand.put("/foodtracker.ua/pages/user/records/add", new AddRecordCommand());
+        urlToCommand.put("/foodtracker.ua/pages/user/meals/add-meal", new AddMealCommand());
+        urlToCommand.put("/foodtracker.ua/pages/user/meals/edit-meal", new EditMealCommand());
+        urlToCommand.put("/foodtracker.ua/pages/user/meals/add", new AddMealPageCommand());
+        urlToCommand.put("/foodtracker.ua/pages/user/meals/edit", new EditMealPageCommand());
         servletContext.setAttribute("urlToCommandMap", urlToCommand);
     }
 

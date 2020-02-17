@@ -1,13 +1,13 @@
 package ua.foodtracker.service.utility;
 
 import ua.foodtracker.domain.Gender;
-import ua.foodtracker.entity.GenderEntity;
 import ua.foodtracker.domain.Lifestyle;
 import ua.foodtracker.domain.Meal;
 import ua.foodtracker.domain.Record;
 import ua.foodtracker.domain.Role;
 import ua.foodtracker.domain.User;
 import ua.foodtracker.domain.UserGoal;
+import ua.foodtracker.entity.GenderEntity;
 import ua.foodtracker.entity.LifestyleEntity;
 import ua.foodtracker.entity.MealEntity;
 import ua.foodtracker.entity.RecordEntity;
@@ -62,6 +62,7 @@ public class EntityMapper {
                 .withUserId(record.getUserId())
                 .withMeal(mapMealToEntityMeal(record.getMeal()))
                 .withDate(record.getDate())
+                .withWeight(record.getWeight())
                 .build();
     }
 
@@ -138,6 +139,7 @@ public class EntityMapper {
                 .withUserId(recordEntity.getUserId())
                 .withMeal(mapEntityMealToMeal(recordEntity.getMealEntity()))
                 .withDate(recordEntity.getDate())
+                .withWeight(recordEntity.getWeight())
                 .build();
     }
 
