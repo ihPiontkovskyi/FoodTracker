@@ -49,17 +49,16 @@ public class HomePageCommandTest {
         when(request.getServletContext()).thenReturn(context);
         when(context.getAttribute(eq("ua.foodtracker.service.RecordService"))).thenReturn(recordService);
         when(request.getSession(false)).thenReturn(session);
-        when(session.getAttribute(eq("locale"))).thenReturn(Locale.getDefault());
         when(session.getAttribute(eq("user"))).thenReturn(USER);
         doNothing().when(request).setAttribute(eq("homeModel"), any());
 
         String url = homeCommand.execute(request);
 
         assertNotNull(url);
-        verify(context, times(1)).getAttribute(anyString());
-        verify(request, times(1)).getServletContext();
-        verify(request, times(2)).getSession(false);
-        verify(session, times(2)).getAttribute(anyString());
+        verify(context).getAttribute(anyString());
+        verify(request).getServletContext();
+        verify(request).getSession(false);
+        verify(session).getAttribute(anyString());
         verify(request).setAttribute(eq("homeModel"), any());
     }
 

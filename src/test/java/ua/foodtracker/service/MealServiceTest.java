@@ -16,7 +16,6 @@ import ua.foodtracker.domain.Role;
 import ua.foodtracker.domain.User;
 import ua.foodtracker.entity.MealEntity;
 import ua.foodtracker.exception.IncorrectDataException;
-import ua.foodtracker.exception.ValidationException;
 import ua.foodtracker.service.impl.MealServiceImpl;
 import ua.foodtracker.validator.impl.MealValidatorImpl;
 
@@ -36,7 +35,7 @@ import static ua.foodtracker.service.utility.EntityMapper.mapMealToEntityMeal;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MealServiceTest {
-    private User user = User.builder()
+    private static final User USER = User.builder()
             .withId(1)
             .withGender(Gender.MALE)
             .withLifestyle(Lifestyle.NOT_SELECTED)
@@ -49,7 +48,7 @@ public class MealServiceTest {
             .withFirstName("firstName")
             .withEmail("email@mail.com")
             .build();
-    private Meal meal = Meal.builder()
+    private static final Meal MEAL = Meal.builder()
             .withId(1)
             .withWeight(100)
             .withWater(100)
@@ -57,9 +56,11 @@ public class MealServiceTest {
             .withFat(100)
             .withCarbohydrates(100)
             .withName("name")
-            .withUser(user)
+            .withUser(USER)
             .build();
-    public MealEntity mealEntity = mapMealToEntityMeal(meal);
+
+    private static final MealEntity MEAL_ENTITY = mapMealToEntityMeal(MEAL);
+
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
@@ -78,102 +79,102 @@ public class MealServiceTest {
 
     @Test
     public void modifyShouldntThrowException() {
-        doNothing().when(mealValidator).validate(meal);
+        doNothing().when(mealValidator).validate(MEAL);
         when(mealDao.update(any())).thenReturn(true);
 
-        mealService.modify(meal);
+        mealService.modify(MEAL);
 
-        verify(mealValidator).validate(meal);
+        verify(mealValidator).validate(MEAL);
         verify(mealDao).update(any());
     }
 
     @Test
-    public void modifyShouldThrowValidationException() {
-        doNothing().when(mealValidator).validate(meal);
+    public void modifyShouldThrowIncorrectDataExceptionCase() {
+        doNothing().when(mealValidator).validate(MEAL);
 
-        exception.expect(ValidationException.class);
-        mealService.modify(meal);
+        exception.expect(IncorrectDataException.class);
+        mealService.modify(MEAL);
 
-        verify(mealValidator).validate(meal);
+        verify(mealValidator).validate(MEAL);
     }
 
     @Test
     public void modifyShouldThrowIncorrectDataException() {
-        doNothing().when(mealValidator).validate(meal);
+        doNothing().when(mealValidator).validate(MEAL);
         when(mealDao.update(any())).thenReturn(false);
 
         exception.expect(IncorrectDataException.class);
-        mealService.modify(meal);
+        mealService.modify(MEAL);
 
-        verify(mealValidator).validate(meal);
+        verify(mealValidator).validate(MEAL);
     }
 
     @Test
     public void findByIdShouldntThrowException() {
-        when(mealDao.findById(meal.getId())).thenReturn(Optional.of(mealEntity));
+        when(mealDao.findById(MEAL.getId())).thenReturn(Optional.of(MEAL_ENTITY));
 
-        mealService.findById(meal.getId().toString());
+        mealService.findById(MEAL.getId().toString());
 
-        verify(mealDao).findById(meal.getId());
+        verify(mealDao).findById(MEAL.getId());
     }
 
     @Test
     public void findByIdShouldIncorrectDataExceptionCase1() {
-        when(mealDao.findById(meal.getId())).thenReturn(Optional.empty());
+        when(mealDao.findById(MEAL.getId())).thenReturn(Optional.empty());
 
         exception.expect(IncorrectDataException.class);
         mealService.findById(null);
 
-        verify(mealDao).findById(meal.getId());
+        verify(mealDao).findById(MEAL.getId());
     }
 
     @Test
     public void findByIdShouldIncorrectDataExceptionCase2() {
-        when(mealDao.findById(meal.getId())).thenReturn(Optional.empty());
+        when(mealDao.findById(MEAL.getId())).thenReturn(Optional.empty());
 
         exception.expect(IncorrectDataException.class);
         mealService.findById("ass");
 
-        verify(mealDao).findById(meal.getId());
+        verify(mealDao).findById(MEAL.getId());
     }
 
     @Test
     public void deleteShouldntThrowException() {
-        when(mealDao.deleteById(meal.getId())).thenReturn(true);
+        when(mealDao.deleteById(MEAL.getId())).thenReturn(true);
 
-        mealService.delete(meal.getId().toString());
+        mealService.delete(MEAL.getId().toString());
 
-        verify(mealDao).deleteById(meal.getId());
+        verify(mealDao).deleteById(MEAL.getId());
     }
 
     @Test
     public void deleteShouldIncorrectDataException() {
-        when(mealDao.deleteById(meal.getId())).thenReturn(false);
+        when(mealDao.deleteById(MEAL.getId())).thenReturn(false);
 
         exception.expect(IncorrectDataException.class);
-        mealService.delete(meal.getId().toString());
+        mealService.delete(MEAL.getId().toString());
 
-        verify(mealDao).deleteById(meal.getId());
+        verify(mealDao).deleteById(MEAL.getId());
     }
 
     @Test
     public void deleteShouldIncorrectDataExceptionCase2() {
-        when(mealDao.deleteById(meal.getId())).thenReturn(false);
+        when(mealDao.deleteById(MEAL.getId())).thenReturn(false);
 
         exception.expect(IncorrectDataException.class);
         mealService.delete(null);
 
-        verify(mealDao).deleteById(meal.getId());
+        verify(mealDao).deleteById(MEAL.getId());
     }
 
     @Test
     public void deleteShouldIncorrectDataExceptionCase3() {
-        when(mealDao.deleteById(meal.getId())).thenReturn(false);
+        when(mealDao.deleteById(MEAL.getId())).thenReturn(false);
 
         exception.expect(IncorrectDataException.class);
         mealService.delete("ass");
 
-        verify(mealDao).deleteById(meal.getId());
+        verify(mealDao).deleteById(MEAL.getId());
     }
 
     @Test
@@ -224,53 +225,53 @@ public class MealServiceTest {
     }
 
     @Test
-    public void pageCountShouldReturn7() {
+    public void pageCountShouldReturn3() {
         when(mealDao.count()).thenReturn(21L);
 
-        assertEquals(7, mealService.pageCount());
+        assertEquals(3, mealService.pageCount());
 
         verify(mealDao).count();
     }
 
     @Test
-    public void pageCountShouldReturn7Case2() {
+    public void pageCountShouldReturn2Case2() {
         when(mealDao.count()).thenReturn(20L);
 
-        assertEquals(7, mealService.pageCount());
+        assertEquals(2, mealService.pageCount());
 
         verify(mealDao).count();
     }
 
     @Test
-    public void addShouldThrowValidationException() {
-        doNothing().when(mealValidator).validate(meal);
+    public void addShouldThrowIncorrectDataExceptionCase() {
+        doNothing().when(mealValidator).validate(MEAL);
 
-        exception.expect(ValidationException.class);
-        mealService.add(meal);
+        exception.expect(IncorrectDataException.class);
+        mealService.add(MEAL);
 
-        verify(mealValidator).validate(meal);
+        verify(mealValidator).validate(MEAL);
     }
 
     @Test
     public void addShouldThrowIncorrectDataException() {
-        doNothing().when(mealValidator).validate(meal);
+        doNothing().when(mealValidator).validate(MEAL);
         when(mealDao.save(any())).thenReturn(0);
 
         exception.expect(IncorrectDataException.class);
-        mealService.add(meal);
+        mealService.add(MEAL);
 
-        verify(mealValidator).validate(meal);
+        verify(mealValidator).validate(MEAL);
         verify(mealDao).save(any());
     }
 
     @Test
     public void addShouldntThrowException() {
-        doNothing().when(mealValidator).validate(meal);
-        when(mealDao.save(any())).thenReturn(meal.getId());
+        doNothing().when(mealValidator).validate(MEAL);
+        when(mealDao.save(any())).thenReturn(MEAL.getId());
 
-        mealService.add(meal);
+        mealService.add(MEAL);
 
-        verify(mealValidator).validate(meal);
+        verify(mealValidator).validate(MEAL);
         verify(mealDao).save(any());
     }
 }

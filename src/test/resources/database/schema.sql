@@ -24,10 +24,10 @@ CREATE TABLE `users`
     `height`       int(11)      NOT NULL,
     `weight`       int(11)      NOT NULL,
     `birthday`     date         NOT NULL,
-    `genderEntity`       int(11)      NOT NULL,
+    `gender`       varchar(255) NOT NULL,
     `user_goal_id` int(11)      NOT NULL,
-    `lifestyleEntity`    int(11)      NOT NULL,
-    `roleEntity`         int(11)      NOT NULL,
+    `lifestyle`   varchar(255) NOT NULL,
+    `role`        varchar(255) NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `users_email_uindex` (`email`),
     CONSTRAINT `users_user_goals_id_fk` FOREIGN KEY (`user_goal_id`) REFERENCES `user_goals` (`id`) ON UPDATE CASCADE
@@ -53,6 +53,7 @@ CREATE TABLE `records`
     `meal_id` int(11) NOT NULL,
     `date`    date    NOT NULL,
     `user_id` int(11) NOT NULL,
+    `weight`  int(11) NOT NULL,
     PRIMARY KEY (`id`),
     CONSTRAINT `records_meals_id_fk` FOREIGN KEY (`meal_id`) REFERENCES `meals` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT `records_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE

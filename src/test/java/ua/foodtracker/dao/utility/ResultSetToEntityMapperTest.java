@@ -57,16 +57,9 @@ public class ResultSetToEntityMapperTest {
         mockResultSetForUser();
         UserEntity userEntity = ResultSetToEntityMapper.extractUserFromResultSet(resultSet);
         assertNotNull(userEntity);
-        verify(resultSet, times(12)).getInt(any());
+        verify(resultSet, times(9)).getInt(any());
         verify(resultSet).getDate(any());
-        verify(resultSet, times(4)).getString(any());
-    }
-
-    @Test
-    public void extractUserFromResultSetShouldThrowDatabaseInteractionException() throws SQLException {
-        mockResultSetForUserGoal();
-        exception.expect(DatabaseInteractionException.class);
-        UserEntity userEntity = ResultSetToEntityMapper.extractUserFromResultSet(resultSet);
+        verify(resultSet, times(7)).getString(any());
     }
 
     @Test
@@ -90,22 +83,9 @@ public class ResultSetToEntityMapperTest {
         mockResultSetForRecord();
         RecordEntity recordEntity = ResultSetToEntityMapper.extractRecordFromResultSet(resultSet);
         assertNotNull(recordEntity);
-        verify(resultSet, times(21)).getInt(any());
-        verify(resultSet, times(2)).getDate(any());
-        verify(resultSet, times(5)).getString(any());
-    }
-
-    @Test
-    public void extractRecordFromResultSetShouldThrowDatabaseInteractionException() throws SQLException {
-        exception.expect(DatabaseInteractionException.class);
-        RecordEntity recordEntity = ResultSetToEntityMapper.extractRecordFromResultSet(resultSet);
-    }
-
-    @Test
-    public void extractRecordFromResultSetShouldThrowDatabaseInteractionExceptionCase2() throws SQLException {
-        exception.expect(DatabaseInteractionException.class);
-        mockResultSetForMeal();
-        RecordEntity recordEntity = ResultSetToEntityMapper.extractRecordFromResultSet(resultSet);
+        verify(resultSet, times(10)).getInt(any());
+        verify(resultSet, times(1)).getDate(any());
+        verify(resultSet, times(1)).getString(any());
     }
 
     private void mockResultSetForUserGoal() throws SQLException {
@@ -120,16 +100,16 @@ public class ResultSetToEntityMapperTest {
     private void mockResultSetForUser() throws SQLException {
         mockResultSetForUserGoal();
         when(resultSet.getInt("users.id")).thenReturn(1);
-        when(resultSet.getString("email")).thenReturn("email");
-        when(resultSet.getString("password")).thenReturn("password");
-        when(resultSet.getString("first_name")).thenReturn("firstName");
-        when(resultSet.getString("last_name")).thenReturn("lastName");
-        when(resultSet.getInt("gender")).thenReturn(1);
-        when(resultSet.getInt("role")).thenReturn(1);
-        when(resultSet.getInt("lifestyle")).thenReturn(1);
-        when(resultSet.getDate("birthday")).thenReturn(new Date(System.currentTimeMillis()));
-        when(resultSet.getInt("weight")).thenReturn(80);
-        when(resultSet.getInt("height")).thenReturn(190);
+        when(resultSet.getString("users.email")).thenReturn("email");
+        when(resultSet.getString("users.password")).thenReturn("password");
+        when(resultSet.getString("users.first_name")).thenReturn("firstName");
+        when(resultSet.getString("users.last_name")).thenReturn("lastName");
+        when(resultSet.getString("users.gender")).thenReturn("OTHER");
+        when(resultSet.getString("users.role")).thenReturn("USER");
+        when(resultSet.getString("users.lifestyle")).thenReturn("ACTIVE");
+        when(resultSet.getDate("users.birthday")).thenReturn(new Date(System.currentTimeMillis()));
+        when(resultSet.getInt("users.weight")).thenReturn(80);
+        when(resultSet.getInt("users.height")).thenReturn(190);
     }
 
     private void mockResultSetForMeal() throws SQLException {
@@ -148,8 +128,9 @@ public class ResultSetToEntityMapperTest {
         mockResultSetForUserGoal();
         mockResultSetForUser();
         mockResultSetForMeal();
-        when(resultSet.getInt("id")).thenReturn(1);
-        when(resultSet.getDate("date")).thenReturn(new Date(System.currentTimeMillis()));
-        when(resultSet.getInt("user_id")).thenReturn(1);
+        when(resultSet.getInt("records.id")).thenReturn(1);
+        when(resultSet.getInt("records.weight")).thenReturn(1);
+        when(resultSet.getDate("records.date")).thenReturn(new Date(System.currentTimeMillis()));
+        when(resultSet.getInt("records.user_id")).thenReturn(1);
     }
 }

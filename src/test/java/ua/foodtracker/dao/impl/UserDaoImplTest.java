@@ -22,7 +22,6 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Optional;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -65,9 +64,9 @@ public class UserDaoImplTest {
     }
 
     @Test
-    public void findByIdShouldReturnUser() {
-        Optional<UserEntity> user = dao.findById(containedUserEntity.getId());
-        assertTrue(user.isPresent());
+    public void findByIdShouldThrowUnsupportedExc() {
+        exception.expect(UnsupportedOperationException.class);
+        dao.findById(1);
     }
 
     @Test
@@ -103,13 +102,9 @@ public class UserDaoImplTest {
     }
 
     @Test
-    public void deleteByIdShouldReturnTrue() {
-        assertTrue(dao.deleteById(containedUserEntity.getId()));
-    }
-
-    @Test
-    public void deleteByIdShouldReturnFalse() {
-        assertFalse(dao.deleteById(0));
+    public void deleteByIdShouldThrowUnsupportedExc() {
+        exception.expect(UnsupportedOperationException.class);
+        dao.deleteById(1);
     }
 
     @After

@@ -6,6 +6,7 @@ import ua.foodtracker.dao.db.holder.ConnectionHolder;
 import ua.foodtracker.entity.RecordEntity;
 import ua.foodtracker.exception.DatabaseInteractionException;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -77,7 +78,7 @@ public class RecordDaoImpl extends AbstractDao<RecordEntity> implements RecordDa
     @Override
     protected void prepareData(RecordEntity recordEntity, PreparedStatement ps) throws SQLException {
         ps.setObject(1, recordEntity.getMealEntity().getId());
-        ps.setObject(2, recordEntity.getDate());
+        ps.setDate(2, Date.valueOf(recordEntity.getDate()));
         ps.setObject(3, recordEntity.getUserId());
         ps.setObject(4, recordEntity.getWeight());
     }

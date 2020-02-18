@@ -51,7 +51,6 @@ public class MealDeleteCommandTest {
         when(request.getServletContext()).thenReturn(context);
         when(context.getAttribute(eq("ua.foodtracker.service.MealService"))).thenReturn(service);
         when(request.getSession(false)).thenReturn(session);
-        when(session.getAttribute("locale")).thenReturn(Locale.getDefault());
         when(session.getAttribute("user")).thenReturn(ADMIN);
         when(request.getParameter("id")).thenReturn(ID);
 
@@ -60,7 +59,7 @@ public class MealDeleteCommandTest {
         assertNotNull(url);
         verify(request).getServletContext();
         verify(context).getAttribute(anyString());
-        verify(request, times(2)).getSession(false);
+        verify(request).getSession(false);
         verify(service).delete(ID);
         verify(request).getParameter(anyString());
     }
@@ -70,7 +69,6 @@ public class MealDeleteCommandTest {
         when(request.getServletContext()).thenReturn(context);
         when(context.getAttribute(eq("ua.foodtracker.service.MealService"))).thenReturn(service);
         when(request.getSession(false)).thenReturn(session);
-        when(session.getAttribute("locale")).thenReturn(Locale.getDefault());
         when(session.getAttribute("user")).thenReturn(USER);
         when(request.getParameter("id")).thenReturn(ID);
         when(service.findById(ID)).thenReturn(MEAL);
@@ -80,30 +78,10 @@ public class MealDeleteCommandTest {
         assertNotNull(url);
         verify(request, times(2)).getServletContext();
         verify(context, times(2)).getAttribute(anyString());
-        verify(request, times(4)).getSession(false);
+        verify(request, times(2)).getSession(false);
         verify(service).findById(ID);
         verify(service).delete(ID);
         verify(request, times(2)).getParameter(anyString());
-    }
-
-    @Test
-    public void executeLoginCommandShouldReturnPathSuccessfullyCase3() {
-        when(request.getServletContext()).thenReturn(context);
-        when(context.getAttribute(eq("ua.foodtracker.service.MealService"))).thenReturn(service);
-        when(request.getSession(false)).thenReturn(session);
-        when(session.getAttribute("locale")).thenReturn(Locale.getDefault());
-        when(session.getAttribute("user")).thenReturn(USER);
-        when(request.getParameter("id")).thenReturn(ID);
-        when(service.findById(ID)).thenReturn(null);
-
-        String url = mealDeleteCommand.execute(request);
-
-        assertNotNull(url);
-        verify(request).getServletContext();
-        verify(context).getAttribute(anyString());
-        verify(request, times(2)).getSession(false);
-        verify(service).findById(ID);
-        verify(request).getParameter(anyString());
     }
 
     @Test
@@ -111,7 +89,6 @@ public class MealDeleteCommandTest {
         when(request.getServletContext()).thenReturn(context);
         when(context.getAttribute(eq("ua.foodtracker.service.MealService"))).thenReturn(service);
         when(request.getSession(false)).thenReturn(session);
-        when(session.getAttribute("locale")).thenReturn(Locale.getDefault());
         when(session.getAttribute("user")).thenReturn(USER_WITH_ID_2);
         when(request.getParameter("id")).thenReturn(ID);
         when(service.findById(ID)).thenReturn(MEAL);
@@ -121,7 +98,7 @@ public class MealDeleteCommandTest {
         assertNotNull(url);
         verify(request).getServletContext();
         verify(context).getAttribute(anyString());
-        verify(request, times(3)).getSession(false);
+        verify(request, times(2)).getSession(false);
         verify(service).findById(ID);
         verify(request).getParameter(anyString());
     }

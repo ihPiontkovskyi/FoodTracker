@@ -49,8 +49,7 @@ public class DiaryPageCommandTest {
         when(request.getServletContext()).thenReturn(context);
         when(context.getAttribute(eq("ua.foodtracker.service.RecordService"))).thenReturn(service);
         when(request.getSession(false)).thenReturn(session);
-        when(session.getAttribute("locale")).thenReturn(Locale.getDefault());
-        when(session.getAttribute("currentDate")).thenReturn(LocalDate.now());
+        when(request.getParameter("date")).thenReturn(LocalDate.now().toString());
         when(session.getAttribute("user")).thenReturn(USER);
         when(service.getRecordsByDate(USER, LocalDate.now().toString())).thenReturn(Collections.emptyList());
         doNothing().when(request).setAttribute(eq("records"), any());
@@ -58,10 +57,10 @@ public class DiaryPageCommandTest {
 
         String url = diaryPageCommand.execute(request);
 
-        verify(request).getServletContext();
-        verify(context).getAttribute(anyString());
-        verify(request,times(4)).getSession(false);
-        verify(session,times(4)).getAttribute(anyString());
+        verify(request, times(2)).getServletContext();
+        verify(context, times(2)).getAttribute(anyString());
+        verify(request,times(2)).getSession(false);
+        verify(session,times(1)).getAttribute(anyString());
         verify(service).getRecordsByDate(USER,LocalDate.now().toString());
         verify(request, times(2)).setAttribute(anyString(),any());
     }

@@ -15,7 +15,6 @@ import ua.foodtracker.domain.Role;
 import ua.foodtracker.domain.User;
 import ua.foodtracker.entity.UserEntity;
 import ua.foodtracker.exception.IncorrectDataException;
-import ua.foodtracker.exception.ValidationException;
 import ua.foodtracker.service.impl.UserServiceImpl;
 import ua.foodtracker.service.utility.EntityMapper;
 import ua.foodtracker.validator.impl.UserValidatorImpl;
@@ -35,9 +34,9 @@ import static ua.foodtracker.service.utility.EntityMapper.mapUserToEntityUser;
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
 
-    public static final User RAW_USER = initUser();
-    public static final User RAW_ADMIN = initAdmin();
-    public static final UserEntity USER_ENTITY = mapUserToEntityUser(RAW_USER);
+    public static final User USER = initUser();
+    public static final User ADMIN = initAdmin();
+    public static final UserEntity USER_ENTITY = mapUserToEntityUser(USER);
     public static final String PASS = "admin";
     public static final String INCORRECT_PASS = "not_admin";
 
@@ -88,112 +87,112 @@ public class UserServiceTest {
 
     @Test
     public void registerShouldThrowIncorrectDataException() {
-        UserEntity userEntity = EntityMapper.mapUserToEntityUser(RAW_USER);
+        UserEntity userEntity = EntityMapper.mapUserToEntityUser(USER);
 
         when(userDao.findByEmail(userEntity.getEmail())).thenReturn(Optional.of(USER_ENTITY));
-        doNothing().when(userValidator).validate(RAW_USER);
+        doNothing().when(userValidator).validate(USER);
 
         exception.expect(IncorrectDataException.class);
-        userService.register(RAW_USER);
+        userService.register(USER);
 
         verify(userDao).findByEmail(userEntity.getEmail());
-        verify(userValidator).validate(RAW_USER);
+        verify(userValidator).validate(USER);
     }
 
     @Test
     public void registerShouldRegisterSuccessfully() {
-        doNothing().when(userValidator).validate(RAW_USER);
-        when(userDao.findByEmail(RAW_USER.getEmail())).thenReturn(Optional.empty());
-        when(userDao.save(any())).thenReturn(RAW_USER.getId());
+        doNothing().when(userValidator).validate(USER);
+        when(userDao.findByEmail(USER.getEmail())).thenReturn(Optional.empty());
+        when(userDao.save(any())).thenReturn(USER.getId());
 
-        userService.register(RAW_USER);
+        userService.register(USER);
 
-        verify(userDao).findByEmail(EntityMapper.mapUserToEntityUser(RAW_USER).getEmail());
-        verify(userValidator, times(2)).validate(RAW_USER);
+        verify(userDao).findByEmail(EntityMapper.mapUserToEntityUser(USER).getEmail());
+        verify(userValidator, times(2)).validate(USER);
         verify(userDao).save(any());
     }
 
     @Test
     public void registerShouldRegisterSuccessfully2() {
 
-        doNothing().when(userValidator).validate(RAW_ADMIN);
-        when(userDao.findByEmail(RAW_ADMIN.getEmail())).thenReturn(Optional.empty());
-        when(userDao.save(any())).thenReturn(RAW_ADMIN.getId());
+        doNothing().when(userValidator).validate(ADMIN);
+        when(userDao.findByEmail(ADMIN.getEmail())).thenReturn(Optional.empty());
+        when(userDao.save(any())).thenReturn(ADMIN.getId());
 
-        userService.register(RAW_ADMIN);
+        userService.register(ADMIN);
 
-        verify(userDao).findByEmail(EntityMapper.mapUserToEntityUser(RAW_ADMIN).getEmail());
-        verify(userValidator, times(2)).validate(RAW_ADMIN);
+        verify(userDao).findByEmail(EntityMapper.mapUserToEntityUser(ADMIN).getEmail());
+        verify(userValidator, times(2)).validate(ADMIN);
 
         verify(userDao).save(any());
     }
 
     @Test
     public void registerShouldThrowIncorrectDataExceptionCase3() {
-        doNothing().when(userValidator).validate(RAW_USER);
-        when(userDao.findByEmail(RAW_USER.getEmail())).thenReturn(Optional.empty());
+        doNothing().when(userValidator).validate(USER);
+        when(userDao.findByEmail(USER.getEmail())).thenReturn(Optional.empty());
         when(userDao.save(any())).thenReturn(0);
 
         exception.expect(IncorrectDataException.class);
-        userService.register(RAW_USER);
+        userService.register(USER);
 
-        verify(userDao).findByEmail(EntityMapper.mapUserToEntityUser(RAW_USER).getEmail());
-        verify(userValidator).validate(RAW_USER);
+        verify(userDao).findByEmail(EntityMapper.mapUserToEntityUser(USER).getEmail());
+        verify(userValidator).validate(USER);
 
         verify(userDao).save(any());
     }
 
     @Test
-    public void registerShouldThrowValidationException() {
-        UserEntity userEntity = EntityMapper.mapUserToEntityUser(RAW_USER);
+    public void registerShouldThrowIncorrectDataExceptionCase() {
+        UserEntity userEntity = EntityMapper.mapUserToEntityUser(USER);
 
-        doNothing().when(userValidator).validate(RAW_USER);
+        doNothing().when(userValidator).validate(USER);
         when(userDao.findByEmail(userEntity.getEmail())).thenReturn(Optional.empty());
 
 
-        exception.expect(ValidationException.class);
-        userService.register(RAW_USER);
+        exception.expect(IncorrectDataException.class);
+        userService.register(USER);
 
 
-        verify(userDao).findByEmail(EntityMapper.mapUserToEntityUser(RAW_USER).getEmail());
-        verify(userValidator).validate(RAW_USER);
+        verify(userDao).findByEmail(EntityMapper.mapUserToEntityUser(USER).getEmail());
+        verify(userValidator).validate(USER);
     }
 
     @Test
     public void modifyShouldntThrowException() {
-        doNothing().when(userValidator).validate(RAW_USER);
+        doNothing().when(userValidator).validate(USER);
 
         when(userDao.update(any())).thenReturn(true);
 
-        userService.modify(RAW_USER);
+        userService.modify(USER);
 
-        verify(userValidator).validate(RAW_USER);
+        verify(userValidator).validate(USER);
 
         verify(userDao).update(any());
     }
 
     @Test
-    public void modifyShouldThrowValidationException() {
-        doNothing().when(userValidator).validate(RAW_USER);
+    public void modifyShouldThrowIncorrectDataExceptionCase() {
+        doNothing().when(userValidator).validate(USER);
 
 
-        exception.expect(ValidationException.class);
-        userService.modify(RAW_USER);
+        exception.expect(IncorrectDataException.class);
+        userService.modify(USER);
 
-        verify(userValidator).validate(RAW_USER);
+        verify(userValidator).validate(USER);
 
     }
 
     @Test
     public void modifyShouldThrowIncorrectDataException() {
-        doNothing().when(userValidator).validate(RAW_USER);
+        doNothing().when(userValidator).validate(USER);
 
         when(userDao.update(any())).thenReturn(false);
 
         exception.expect(IncorrectDataException.class);
-        userService.modify(RAW_USER);
+        userService.modify(USER);
 
-        verify(userValidator).validate(RAW_USER);
+        verify(userValidator).validate(USER);
 
     }
 

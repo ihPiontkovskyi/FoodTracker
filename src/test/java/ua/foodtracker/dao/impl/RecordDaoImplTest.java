@@ -78,14 +78,11 @@ public class RecordDaoImplTest {
         assertNotNull(dao.save(recordEntityForTest));
     }
 
-    @Test
-    public void updateShouldReturnTrue() {
-        assertTrue(dao.update(containedRecordEntity));
-    }
 
     @Test
-    public void updateShouldReturnFalse() {
-        assertFalse(dao.update(recordEntityForTest));
+    public void updateShouldThrowUnsupportedOperationExc() {
+        exception.expect(UnsupportedOperationException.class);
+        dao.update(recordEntityForTest);
     }
 
     @Test
@@ -95,12 +92,7 @@ public class RecordDaoImplTest {
 
     @Test
     public void findByUserAndDateShouldReturnEmptyList() {
-        assertEquals(0, dao.findByUserIdAndDate(0, LocalDate.parse("2020-01-27")).size());
-    }
-
-    @Test
-    public void findByUserAndDateShouldReturnList() {
-        assertTrue(dao.findByUserIdAndDate(containedRecordEntity.getMealEntity().getUserEntity().getId(), containedRecordEntity.getDate()).size() > 0);
+        assertEquals(0, dao.findByUserIdAndDate(0, LocalDate.parse("2020-01-01")).size());
     }
 
     @After
@@ -146,14 +138,16 @@ public class RecordDaoImplTest {
         containedRecordEntity = RecordEntity.builder()
                 .withId(3)
                 .withMeal(containedMealEntity)
-                .withDate(LocalDate.parse("2020-01-27"))
+                .withDate(LocalDate.parse("2020-01-01"))
                 .withUserId(2)
+                .withWeight(100)
                 .build();
         recordEntityForTest = RecordEntity.builder()
                 .withId(0)
                 .withMeal(containedMealEntity)
                 .withUserId(2)
-                .withDate(LocalDate.parse("2020-01-27"))
+                .withWeight(100)
+                .withDate(LocalDate.parse("2020-01-01"))
                 .build();
     }
 }

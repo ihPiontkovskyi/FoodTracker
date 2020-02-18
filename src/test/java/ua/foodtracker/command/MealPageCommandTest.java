@@ -45,8 +45,7 @@ public class MealPageCommandTest {
         when(request.getServletContext()).thenReturn(context);
         when(context.getAttribute(eq("ua.foodtracker.service.MealService"))).thenReturn(service);
         when(request.getSession(false)).thenReturn(session);
-        when(session.getAttribute("currentPage")).thenReturn(CURRENT_PAGE);
-        when(session.getAttribute("locale")).thenReturn(Locale.getDefault());
+        when(request.getParameter("page")).thenReturn(CURRENT_PAGE);
         when(service.findAllByPage(CURRENT_PAGE)).thenReturn(Collections.emptyList());
         when(service.pageCount()).thenReturn(PAGE_COUNT);
         doNothing().when(request).setAttribute(eq("meals"),eq(Collections.EMPTY_LIST));
@@ -55,13 +54,12 @@ public class MealPageCommandTest {
         String url = pageCommand.execute(request);
 
         assertNotNull(url);
-        verify(request,times(2)).getServletContext();
-        verify(context, times(2)).getAttribute(eq("ua.foodtracker.service.MealService"));
-        verify(request, times(3)).getSession(false);
-        verify(session).getAttribute(eq("currentPage"));
-        verify(session, times(2)).getAttribute(eq("locale"));
+        verify(request).getServletContext();
+        verify(context).getAttribute(eq("ua.foodtracker.service.MealService"));
+        verify(request).getSession(false);
+        verify(session).setAttribute(eq("page"),eq(1));
         verify(service).findAllByPage(CURRENT_PAGE);
-        verify(service).pageCount();
-        verify(request,times(2)).setAttribute(anyString(),any());
+        verify(service,times(2)).pageCount();
+        verify(request,times(4)).setAttribute(anyString(),any());
     }
 }

@@ -11,20 +11,18 @@ import org.mockito.junit.MockitoJUnitRunner;
 import ua.foodtracker.dao.RecordDao;
 import ua.foodtracker.domain.Gender;
 import ua.foodtracker.domain.Lifestyle;
-import ua.foodtracker.domain.Role;
-import ua.foodtracker.entity.RecordEntity;
-import ua.foodtracker.exception.IncorrectDataException;
-import ua.foodtracker.exception.ValidationException;
 import ua.foodtracker.domain.Meal;
 import ua.foodtracker.domain.Record;
+import ua.foodtracker.domain.Role;
 import ua.foodtracker.domain.User;
+import ua.foodtracker.entity.RecordEntity;
+import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.service.impl.RecordServiceImpl;
 import ua.foodtracker.service.utility.EntityMapper;
 import ua.foodtracker.validator.impl.RecordValidatorImpl;
 
 import java.time.LocalDate;
 import java.util.Collections;
-import java.util.Locale;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
@@ -37,7 +35,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RecordServiceTest {
-    public static final User RAW_USER = User.builder()
+    private static final User USER = User.builder()
             .withId(1)
             .withGender(Gender.MALE)
             .withLifestyle(Lifestyle.NOT_SELECTED)
@@ -50,24 +48,24 @@ public class RecordServiceTest {
             .withFirstName("firstName")
             .withEmail("email@mail.com")
             .build();
-    public static final Meal RAW_MEAL = Meal.builder()
+    private static final Meal MEAL = Meal.builder()
             .withId(1)
             .withWeight(100)
             .withWater(100)
             .withProtein(100)
-            .withUser(RAW_USER)
+            .withUser(USER)
             .withFat(100)
             .withCarbohydrates(100)
             .withName("name")
             .build();
-    public static final Record RAW_RECORD = Record.builder()
+    private static final Record RECORD = Record.builder()
             .withId(1)
             .withUserId(1)
             .withDate(LocalDate.now())
-            .withMeal(RAW_MEAL)
+            .withMeal(MEAL)
             .build();
 
-    public static final RecordEntity RECORD_ENTITY = EntityMapper.mapRecordToEntityRecord(RAW_RECORD);
+    private static final RecordEntity RECORD_ENTITY = EntityMapper.mapRecordToEntityRecord(RECORD);
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
@@ -87,102 +85,102 @@ public class RecordServiceTest {
 
     @Test
     public void findByIdShouldntThrowException() {
-        when(recordDao.findById(RAW_USER.getId())).thenReturn(Optional.of(RECORD_ENTITY));
+        when(recordDao.findById(USER.getId())).thenReturn(Optional.of(RECORD_ENTITY));
 
-        recordService.findById(RAW_USER.getId().toString());
+        recordService.findById(USER.getId().toString());
 
-        verify(recordDao).findById(RAW_USER.getId());
+        verify(recordDao).findById(USER.getId());
     }
 
     @Test
     public void findByIdShouldIncorrectDataExceptionCase1() {
-        when(recordDao.findById(RAW_USER.getId())).thenReturn(Optional.empty());
+        when(recordDao.findById(USER.getId())).thenReturn(Optional.empty());
 
         exception.expect(IncorrectDataException.class);
         recordService.findById(null);
 
-        verify(recordDao).findById(RAW_USER.getId());
+        verify(recordDao).findById(USER.getId());
     }
 
     @Test
     public void findByIdShouldIncorrectDataExceptionCase2() {
-        when(recordDao.findById(RAW_USER.getId())).thenReturn(Optional.empty());
+        when(recordDao.findById(USER.getId())).thenReturn(Optional.empty());
 
         exception.expect(IncorrectDataException.class);
         recordService.findById("ass");
 
-        verify(recordDao).findById(RAW_USER.getId());
+        verify(recordDao).findById(USER.getId());
     }
 
     @Test
     public void deleteShouldntThrowException() {
-        when(recordDao.deleteById(RAW_RECORD.getId())).thenReturn(true);
+        when(recordDao.deleteById(RECORD.getId())).thenReturn(true);
 
-        recordService.delete(RAW_RECORD.getId().toString());
+        recordService.delete(RECORD.getId().toString());
 
-        verify(recordDao).deleteById(RAW_RECORD.getId());
+        verify(recordDao).deleteById(RECORD.getId());
     }
 
     @Test
     public void deleteShouldIncorrectDataException() {
-        when(recordDao.deleteById(RAW_RECORD.getId())).thenReturn(false);
+        when(recordDao.deleteById(RECORD.getId())).thenReturn(false);
 
         exception.expect(IncorrectDataException.class);
-        recordService.delete(RAW_RECORD.getId().toString());
+        recordService.delete(RECORD.getId().toString());
 
-        verify(recordDao).deleteById(RAW_RECORD.getId());
+        verify(recordDao).deleteById(RECORD.getId());
     }
 
     @Test
     public void deleteShouldIncorrectDataExceptionCase2() {
-        when(recordDao.deleteById(RAW_RECORD.getId())).thenReturn(false);
+        when(recordDao.deleteById(RECORD.getId())).thenReturn(false);
 
         exception.expect(IncorrectDataException.class);
         recordService.delete(null);
 
-        verify(recordDao).deleteById(RAW_RECORD.getId());
+        verify(recordDao).deleteById(RECORD.getId());
     }
 
     @Test
     public void deleteShouldIncorrectDataExceptionCase3() {
-        when(recordDao.deleteById(RAW_RECORD.getId())).thenReturn(false);
+        when(recordDao.deleteById(RECORD.getId())).thenReturn(false);
 
         exception.expect(IncorrectDataException.class);
         recordService.delete("ass");
 
-        verify(recordDao).deleteById(RAW_RECORD.getId());
+        verify(recordDao).deleteById(RECORD.getId());
     }
 
     @Test
-    public void addShouldThrowValidationException() {
-        doNothing().when(recordValidator).validate(RAW_RECORD);
+    public void addShouldThrowIncorrectDataExceptionCase() {
+        doNothing().when(recordValidator).validate(RECORD);
 
-        exception.expect(ValidationException.class);
-        recordService.add(RAW_RECORD);
+        exception.expect(IncorrectDataException.class);
+        recordService.add(RECORD);
 
-        verify(recordValidator).validate(RAW_RECORD);
+        verify(recordValidator).validate(RECORD);
     }
 
     @Test
     public void addShouldThrowIncorrectDataException() {
-        doNothing().when(recordValidator).validate(RAW_RECORD);
+        doNothing().when(recordValidator).validate(RECORD);
         when(recordDao.save(any())).thenReturn(0);
 
         exception.expect(IncorrectDataException.class);
-        recordService.add(RAW_RECORD);
+        recordService.add(RECORD);
 
-        verify(recordValidator).validate(RAW_RECORD);
+        verify(recordValidator).validate(RECORD);
         verify(recordDao).save(any());
     }
 
     @Test
     public void addShouldntThrowException() {
-        doNothing().when(recordValidator).validate(RAW_RECORD);
-        when(recordDao.save(any())).thenReturn(RAW_RECORD.getId());
+        doNothing().when(recordValidator).validate(RECORD);
+        when(recordDao.save(any())).thenReturn(RECORD.getId());
 
-        recordService.add(RAW_RECORD);
+        recordService.add(RECORD);
 
-        verify(recordValidator).validate(RAW_RECORD);
+        verify(recordValidator).validate(RECORD);
         verify(recordDao).save(any());
     }
 
@@ -190,7 +188,7 @@ public class RecordServiceTest {
     public void getRecordsByDateShouldReturnList() {
         when(recordDao.findByUserIdAndDate(eq(1), any())).thenReturn(Collections.emptyList());
 
-        assertEquals(Collections.EMPTY_LIST, recordService.getRecordsByDate(RAW_USER, LocalDate.now().toString()));
+        assertEquals(Collections.EMPTY_LIST, recordService.getRecordsByDate(USER, LocalDate.now().toString()));
 
         verify(recordDao).findByUserIdAndDate(eq(1), any());
     }

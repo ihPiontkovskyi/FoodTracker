@@ -41,19 +41,16 @@ public class RegisterCommandTest {
     public void executeRegisterCommandShouldReturnUrlSuccessfully() {
         when(request.getServletContext()).thenReturn(context);
         when(context.getAttribute(eq("ua.foodtracker.service.UserService"))).thenReturn(service);
-        when(request.getSession(false)).thenReturn(session);
-        when(session.getAttribute("locale")).thenReturn(Locale.getDefault());
         when(request.getParameter(anyString())).thenReturn("string");
-        doNothing().when(service).register(any());
+        when(request.getParameter("lifestyle")).thenReturn("ACTIVE");
+        when(request.getParameter("gender")).thenReturn("MALE");
 
         String url = registerCommand.execute(request);
 
         assertNotNull(url);
         verify(request).getServletContext();
         verify(context).getAttribute(eq("ua.foodtracker.service.UserService"));
-        verify(request).getSession(false);
         verify(context).getAttribute(any());
-        verify(session).getAttribute("locale");
         verify(request, times(9)).getParameter(anyString());
     }
 }

@@ -50,8 +50,6 @@ public class LoginCommandTest {
         when(request.getServletContext()).thenReturn(context);
         when(context.getAttribute(eq("ua.foodtracker.service.UserService"))).thenReturn(service);
         when(request.getSession(false)).thenReturn(session);
-        when(session.getAttribute("locale")).thenReturn(Locale.getDefault());
-        when(request.getSession(true)).thenReturn(session);
         when(request.getParameter("username")).thenReturn(USER.getEmail());
         when(request.getParameter("pass")).thenReturn(USER.getPassword());
         when(service.login(USER.getEmail(), USER.getPassword())).thenReturn(USER);
@@ -64,7 +62,6 @@ public class LoginCommandTest {
         verify(context).getAttribute(eq("ua.foodtracker.service.UserService"));
         verify(request).getSession(false);
         verify(context).getAttribute(any());
-        verify(request).getSession(true);
         verify(request).getParameter("username");
         verify(request).getParameter("pass");
         verify(service).login(USER.getEmail(), USER.getPassword());

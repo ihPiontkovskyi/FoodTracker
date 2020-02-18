@@ -44,8 +44,6 @@ public class RecordDeleteCommandTest {
     public void executeShouldReturnUrlSuccessfully() {
         when(request.getServletContext()).thenReturn(context);
         when(context.getAttribute(eq("ua.foodtracker.service.RecordService"))).thenReturn(service);
-        when(request.getSession(false)).thenReturn(session);
-        when(session.getAttribute("locale")).thenReturn(Locale.getDefault());
         when(request.getParameter("id")).thenReturn(ID);
 
         String url = recordDeleteCommand.execute(request);
@@ -54,7 +52,6 @@ public class RecordDeleteCommandTest {
         verify(request).getServletContext();
         verify(context).getAttribute(anyString());
         verify(service).delete(ID);
-        verify(request).getSession(false);
         verify(request).getParameter(eq("id"));
     }
 
