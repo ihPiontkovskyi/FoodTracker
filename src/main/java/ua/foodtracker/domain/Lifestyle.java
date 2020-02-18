@@ -1,8 +1,6 @@
 package ua.foodtracker.domain;
 
-import ua.foodtracker.entity.LifestyleEntity;
-
-public enum  Lifestyle {
+public enum Lifestyle {
     SEDENTARY(1.2),
     LIGHTLY_ACTIVE(1.375),
     ACTIVE(1.55),

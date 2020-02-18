@@ -8,10 +8,9 @@ import ua.foodtracker.domain.Meal;
 import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.service.MealService;
 import ua.foodtracker.service.utility.EntityMapper;
-import ua.foodtracker.validator.impl.MealValidator;
+import ua.foodtracker.validator.impl.MealValidatorImpl;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 import static ua.foodtracker.service.utility.EntityMapper.mapMealToEntityMeal;
@@ -29,7 +28,7 @@ public class MealServiceImpl implements MealService {
     private MealDao mealDao;
 
     @Autowired
-    private MealValidator mealValidator;
+    private MealValidatorImpl mealValidator;
 
     @Override
     public List<Meal> findAllByPage(String pageNumber) {
@@ -68,11 +67,6 @@ public class MealServiceImpl implements MealService {
         return findByStringParam(id, mealValidator, intId -> mealDao.findById(intId)
                 .map(EntityMapper::mapEntityMealToMeal))
                 .orElseThrow(() -> new IncorrectDataException("Meal not found"));
-    }
-
-    @Override
-    public void setLocale(Locale locale) {
-        mealValidator.setLocale(locale);
     }
 
     @Override

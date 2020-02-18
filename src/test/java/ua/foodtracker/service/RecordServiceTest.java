@@ -12,10 +12,7 @@ import ua.foodtracker.dao.RecordDao;
 import ua.foodtracker.domain.Gender;
 import ua.foodtracker.domain.Lifestyle;
 import ua.foodtracker.domain.Role;
-import ua.foodtracker.entity.GenderEntity;
-import ua.foodtracker.entity.LifestyleEntity;
 import ua.foodtracker.entity.RecordEntity;
-import ua.foodtracker.entity.RoleEntity;
 import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.exception.ValidationException;
 import ua.foodtracker.domain.Meal;
@@ -23,7 +20,7 @@ import ua.foodtracker.domain.Record;
 import ua.foodtracker.domain.User;
 import ua.foodtracker.service.impl.RecordServiceImpl;
 import ua.foodtracker.service.utility.EntityMapper;
-import ua.foodtracker.validator.impl.RecordValidator;
+import ua.foodtracker.validator.impl.RecordValidatorImpl;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -78,7 +75,7 @@ public class RecordServiceTest {
     @Mock
     private RecordDao recordDao;
     @Mock
-    private RecordValidator recordValidator;
+    private RecordValidatorImpl recordValidator;
 
     @InjectMocks
     private RecordServiceImpl recordService;

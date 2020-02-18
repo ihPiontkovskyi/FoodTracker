@@ -3,7 +3,7 @@ package ua.foodtracker.validator;
 import org.junit.Before;
 import org.junit.Test;
 import ua.foodtracker.domain.User;
-import ua.foodtracker.validator.impl.UserValidator;
+import ua.foodtracker.validator.impl.UserValidatorImpl;
 
 import java.time.LocalDate;
 import java.util.Locale;
@@ -18,7 +18,7 @@ public class UserValidatorTest {
 
     @Before
     public void initValidator() {
-        userValidator = new UserValidator();
+        userValidator = new UserValidatorImpl();
     }
 
     @Test

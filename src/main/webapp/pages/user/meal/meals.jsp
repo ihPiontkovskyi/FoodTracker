@@ -95,6 +95,9 @@
                             <div class="card-body--">
                                 <div class="table-stats order-table ov-h">
                                     <table class="table">
+                                        <caption>
+                                            Meals
+                                        </caption>
                                         <thead>
                                         <tr>
                                             <th id="name"><fmt:message key="name.label"/></th>

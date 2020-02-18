@@ -15,9 +15,4 @@ public interface UserService {
     @Transactional
     void modify(User user);
 
-    Optional<User> findById(String id);
-
-    void delete(String id);
-
-    void setLocale(Locale locale);
 }

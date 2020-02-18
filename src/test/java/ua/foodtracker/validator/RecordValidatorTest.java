@@ -5,7 +5,7 @@ import org.junit.Test;
 import ua.foodtracker.domain.Meal;
 import ua.foodtracker.domain.Record;
 import ua.foodtracker.domain.User;
-import ua.foodtracker.validator.impl.RecordValidator;
+import ua.foodtracker.validator.impl.RecordValidatorImpl;
 
 import java.time.LocalDate;
 
@@ -38,7 +38,7 @@ public class RecordValidatorTest {
 
     @Before
     public void initValidator() {
-        recordValidator = new RecordValidator();
+        recordValidator = new RecordValidatorImpl();
     }
 
     @Test

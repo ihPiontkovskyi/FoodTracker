@@ -16,6 +16,7 @@ public class EditMealCommand extends AbstractCommand {
             if (meal.getUser().getId().equals(getUser(request).getId())) {
                 getMealService(request).add(getMealFromRequest(request));
             } else {
+                //todo change
                 throw new RuntimeException("Access denied");
             }
         }

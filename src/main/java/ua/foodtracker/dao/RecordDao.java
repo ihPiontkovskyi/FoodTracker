@@ -2,7 +2,6 @@ package ua.foodtracker.dao;
 
 import ua.foodtracker.entity.RecordEntity;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 

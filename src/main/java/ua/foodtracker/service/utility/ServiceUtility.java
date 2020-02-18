@@ -1,7 +1,6 @@
 package ua.foodtracker.service.utility;
 
 import ua.foodtracker.exception.IncorrectDataException;
-import ua.foodtracker.exception.ValidationException;
 import ua.foodtracker.validator.Validator;
 
 import java.util.function.IntFunction;
@@ -23,17 +22,14 @@ public class ServiceUtility {
 
     public static void deleteByStringId(String id, Validator<?> validator, IntPredicate invoke) {
         if (id == null) {
-            validator.putIssue(DATA_KEY, INCORRECT_DATA);
-            throw new IncorrectDataException(validator.getErrorMessageByIssues());
+            throw new IncorrectDataException(INCORRECT_DATA);
         }
         try {
             if (!invoke.test(Integer.parseInt(id))) {
-                validator.putIssue(DATA_KEY, INCORRECT_DATA);
-                throw new IncorrectDataException(validator.getErrorMessageByIssues());
+                throw new IncorrectDataException(INCORRECT_DATA);
             }
         } catch (NumberFormatException ex) {
-            validator.putIssue(DATA_KEY, INCORRECT_DATA);
-            throw new IncorrectDataException(validator.getErrorMessageByIssues());
+            throw new IncorrectDataException(INCORRECT_DATA);
         }
     }
 
@@ -44,32 +40,21 @@ public class ServiceUtility {
         try {
             return function.apply(Integer.parseInt(param));
         } catch (NumberFormatException ex) {
-            validator.putIssue(DATA_KEY, INCORRECT_DATA);
-            throw new IncorrectDataException(validator.getErrorMessageByIssues());
+            throw new IncorrectDataException(INCORRECT_DATA);
         }
     }
 
     public static <T> void modifyByType(T object, Validator<T> validator, Predicate<T> predicate) {
         validator.validate(object);
-        if (!validator.hasErrors()) {
-            if (!predicate.test(object)) {
-                validator.putIssue(DATA_KEY, INCORRECT_DATA);
-                throw new IncorrectDataException(validator.getErrorMessageByIssues());
-            }
-        } else {
-            throw new ValidationException(validator.getErrorMessageByIssues());
+        if (!predicate.test(object)) {
+            throw new IncorrectDataException(INCORRECT_DATA);
         }
     }
 
     public static <T> void addByType(T object, Validator<T> validator, ToIntFunction<T> function) {
         validator.validate(object);
-        if (!validator.hasErrors()) {
-            if (function.applyAsInt(object) == 0) {
-                validator.putIssue(DATA_KEY, INCORRECT_DATA);
-                throw new IncorrectDataException(validator.getErrorMessageByIssues());
-            }
-        } else {
-            throw new ValidationException(validator.getErrorMessageByIssues());
+        if (function.applyAsInt(object) == 0) {
+            throw new IncorrectDataException(INCORRECT_DATA);
         }
     }
 }

@@ -19,8 +19,6 @@ public interface RecordService {
 
     Record findById(String id);
 
-    void setLocale(Locale locale);
-
     DailySums calculateDailySums(User user, String date);
 
     HomeModel getHomeModel(User user);

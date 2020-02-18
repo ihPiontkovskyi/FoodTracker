@@ -12,16 +12,13 @@ import ua.foodtracker.dao.MealDao;
 import ua.foodtracker.domain.Gender;
 import ua.foodtracker.domain.Lifestyle;
 import ua.foodtracker.domain.Role;
-import ua.foodtracker.entity.GenderEntity;
-import ua.foodtracker.entity.LifestyleEntity;
 import ua.foodtracker.entity.MealEntity;
-import ua.foodtracker.entity.RoleEntity;
 import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.exception.ValidationException;
 import ua.foodtracker.domain.Meal;
 import ua.foodtracker.domain.User;
 import ua.foodtracker.service.impl.MealServiceImpl;
-import ua.foodtracker.validator.impl.MealValidator;
+import ua.foodtracker.validator.impl.MealValidatorImpl;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -70,7 +67,7 @@ public class MealServiceTest {
     @Mock
     private MealDao mealDao;
     @Mock
-    private MealValidator mealValidator;
+    private MealValidatorImpl mealValidator;
 
     @InjectMocks
     private MealServiceImpl mealService;

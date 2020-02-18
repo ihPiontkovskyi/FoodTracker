@@ -226,6 +226,9 @@
                             <div class="card-body--">
                                 <div class="table-stats order-table ov-h">
                                     <table class="table ">
+                                        <caption>
+                                            Records
+                                        </caption>
                                         <thead>
                                         <tr>
                                             <th id="name-col"><fmt:message key="name.label"/></th>

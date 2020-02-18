@@ -11,12 +11,11 @@ import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.service.RecordService;
 import ua.foodtracker.service.utility.DateProvider;
 import ua.foodtracker.service.utility.EntityMapper;
-import ua.foodtracker.validator.impl.RecordValidator;
+import ua.foodtracker.validator.impl.RecordValidatorImpl;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -37,7 +36,7 @@ public class RecordServiceImpl implements RecordService {
     private RecordDao recordDao;
 
     @Autowired
-    private RecordValidator recordValidator;
+    private RecordValidatorImpl recordValidator;
 
     @Override
     public List<Record> getRecordsByDate(User user, String date) {
@@ -66,11 +65,6 @@ public class RecordServiceImpl implements RecordService {
         return findByStringParam(id, recordValidator, intId -> recordDao.findById(intId)
                 .map(EntityMapper::mapEntityRecordToRecord))
                 .orElseThrow(() -> new IncorrectDataException("record.not.found"));
-    }
-
-    @Override
-    public void setLocale(Locale locale) {
-        recordValidator.setLocale(locale);
     }
 
     @Override

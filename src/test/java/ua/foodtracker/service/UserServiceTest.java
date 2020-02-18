@@ -12,16 +12,13 @@ import ua.foodtracker.dao.UserDao;
 import ua.foodtracker.domain.Gender;
 import ua.foodtracker.domain.Lifestyle;
 import ua.foodtracker.domain.Role;
-import ua.foodtracker.entity.GenderEntity;
-import ua.foodtracker.entity.LifestyleEntity;
-import ua.foodtracker.entity.RoleEntity;
 import ua.foodtracker.entity.UserEntity;
 import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.exception.ValidationException;
 import ua.foodtracker.domain.User;
 import ua.foodtracker.service.impl.UserServiceImpl;
 import ua.foodtracker.service.utility.EntityMapper;
-import ua.foodtracker.validator.impl.UserValidator;
+import ua.foodtracker.validator.impl.UserValidatorImpl;
 
 import java.time.LocalDate;
 import java.util.Locale;
@@ -51,7 +48,7 @@ public class UserServiceTest {
     @Mock
     private UserDao userDao;
     @Mock
-    private UserValidator userValidator;
+    private UserValidatorImpl userValidator;
 
     @InjectMocks
     private UserServiceImpl userService;
