@@ -7,7 +7,7 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = {"/login", "/register", "/user/logout",
         "/user/records/delete", "/user/meals/delete", "/user/records/add",
-        "/user/meals/add-meal","/user/meals/edit-meal"})
+        "/user/meals/add-meal", "/user/meals/edit-meal", "/user/profile-modify"})
 public class RedirectController extends AbstractController {
 
     @Override

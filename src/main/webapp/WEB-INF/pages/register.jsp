@@ -49,15 +49,15 @@
                                 <label class="label"><fmt:message key="genderEntity.field"/></label>
                                 <div class="p-t-10">
                                     <label class="radio-container m-r-45"><fmt:message key="male.checkbox"/>
-                                        <input value="1" type="radio" checked="checked" name="genderEntity">
+                                        <input value="MALE" type="radio" checked="checked" name="gender">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="radio-container"><fmt:message key="female.checkbox"/>
-                                        <input value="2" type="radio" name="genderEntity">
+                                        <input value="FEMALE" type="radio" name="gender">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="radio-container"><fmt:message key="other.checkbox"/>
-                                        <input value="3" type="radio" name="genderEntity">
+                                        <input value="OTHER" type="radio" name="gender">
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
@@ -109,14 +109,14 @@
                     <div class="input-group">
                         <label class="label"><fmt:message key="lifestyleEntity.select"/>
                             <div class="rs-select2 js-select-simple select--no-search">
-                                <select name="lifestyleEntity">
-                                    <option value="0" disabled="disabled" selected="selected"><fmt:message
+                                <select name="lifestyle">
+                                    <option value="NOT_SELECTED" disabled="disabled" selected="selected"><fmt:message
                                             key="choose.option"/></option>
-                                    <option value="0"><fmt:message key="sedentary.option"/></option>
-                                    <option value="1"><fmt:message key="lightly.active.option"/></option>
-                                    <option value="2"><fmt:message key="active.option"/>
+                                    <option value="SEDENTARY"><fmt:message key="sedentary.option"/></option>
+                                    <option value="LIGHTLY_ACTIVE"><fmt:message key="lightly.active.option"/></option>
+                                    <option value="ACTIVE"><fmt:message key="active.option"/>
                                     </option>
-                                    <option value="3"><fmt:message key="very.active.option"/>
+                                    <option value="VERY_ACTIVE"><fmt:message key="very.active.option"/>
                                     </option>
                                 </select>
                                 <div class="select-dropdown"></div>

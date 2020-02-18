@@ -2,4 +2,4 @@
 logs
 target
 *.iml
-assets/
+*.log
