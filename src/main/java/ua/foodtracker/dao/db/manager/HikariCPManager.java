@@ -8,6 +8,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * An implementation of {@link ConnectionManager}, based on HikariCP tool.
+ */
 public class HikariCPManager implements ConnectionManager {
     private static final Logger LOGGER = Logger.getLogger(HikariCPManager.class);
 
@@ -22,6 +25,11 @@ public class HikariCPManager implements ConnectionManager {
     private static HikariConfig config = new HikariConfig();
     private HikariDataSource dataSource;
 
+    /**
+     * Instantiates a new manager from resource file.
+     *
+     * @param filename path to the resource file
+     */
     public HikariCPManager(String filename) {
         ResourceBundle resource = ResourceBundle.getBundle(filename);
         config.setDriverClassName(resource.getString(DB_DRIVER));

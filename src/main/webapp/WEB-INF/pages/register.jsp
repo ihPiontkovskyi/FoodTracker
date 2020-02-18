@@ -1,23 +1,13 @@
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" errorPage="error.jsp" %>
-<fmt:setLocale value="${sessionScope.locale}"/>
-<fmt:setBundle basename="locale/messages"/>
-<!DOCTYPE html>
+<%@include file="../jspf/directive.jsp"%>>
 <html lang="${sessionScope.locale}">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Register Your Account</title>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
-    <link rel="icon" type="image/png" href="../assets/images/logo-002.png"/>
-    <link href="../assets/css/register.css" rel="stylesheet" media="all">
+    <%@include file="../jspf/head.jsp"%>>
 </head>
 
 <body class="bg-gra-02">
 <div class="page-wrapper p-t-40 font-poppins">
-    <div class="lang-block">
+    <div class="lang-block-register">
         <a href="?lang=en">EN</a>
         <a href="?lang=ru">RU</a>
     </div>
@@ -142,14 +132,6 @@
         </div>
     </div>
 </div>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<script src="https://use.fontawesome.com/59810e450d.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script>
     (function ($) {
         'use strict';
@@ -236,7 +218,5 @@
         }
     })(jQuery);
 </script>
-</
->
-
+</body>
 </html>

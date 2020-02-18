@@ -19,6 +19,6 @@ public class DiaryPageCommand extends AbstractCommand {
         List<Record> dailyRecord = getDiaryRecordService(request).getRecordsByDate(user, request.getParameter("date"));
         request.setAttribute("records", dailyRecord);
         request.setAttribute("dateSums", getDiaryRecordService(request).calculateDailySums(user, date.toString()));
-        return "/pages/user/records.jsp";
+        return "/WEB-INF/pages/user/records.jsp";
     }
 }

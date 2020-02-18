@@ -23,7 +23,6 @@ import static ua.foodtracker.service.utility.EntityMapper.mapRecordToEntityRecor
 import static ua.foodtracker.service.utility.ServiceUtility.addByType;
 import static ua.foodtracker.service.utility.ServiceUtility.deleteByStringId;
 import static ua.foodtracker.service.utility.ServiceUtility.findByStringParam;
-import static ua.foodtracker.service.utility.ServiceUtility.modifyByType;
 
 @Service
 public class RecordServiceImpl implements RecordService {
@@ -52,17 +51,12 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public void delete(String id) {
-        deleteByStringId(id, recordValidator, intId -> recordDao.deleteById(intId));
-    }
-
-    @Override
-    public void modify(Record record) {
-        modifyByType(record, recordValidator, obj -> recordDao.update(mapRecordToEntityRecord(obj)));
+        deleteByStringId(id, intId -> recordDao.deleteById(intId));
     }
 
     @Override
     public Record findById(String id) {
-        return findByStringParam(id, recordValidator, intId -> recordDao.findById(intId)
+        return findByStringParam(id, intId -> recordDao.findById(intId)
                 .map(EntityMapper::mapEntityRecordToRecord))
                 .orElseThrow(() -> new IncorrectDataException("record.not.found"));
     }

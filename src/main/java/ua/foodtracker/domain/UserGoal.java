@@ -1,5 +1,9 @@
 package ua.foodtracker.domain;
 
+/**
+ * Domain class of User goal
+ */
+
 public class UserGoal {
     private final Integer id;
     private final Integer dailyEnergyGoal;

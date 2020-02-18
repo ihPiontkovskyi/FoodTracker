@@ -2,6 +2,9 @@ package ua.foodtracker.domain;
 
 import java.time.LocalDate;
 
+/**
+ * Domain class of Record
+ */
 public class Record {
     private Integer id;
     private Meal meal;

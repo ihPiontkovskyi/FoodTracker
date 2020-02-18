@@ -15,8 +15,6 @@ public interface RecordService {
 
     void delete(String id);
 
-    void modify(Record record);
-
     Record findById(String id);
 
     DailySums calculateDailySums(User user, String date);

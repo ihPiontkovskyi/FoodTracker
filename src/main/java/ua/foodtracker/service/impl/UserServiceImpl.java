@@ -49,5 +49,4 @@ public class UserServiceImpl implements UserService {
     public void modify(User user) {
         modifyByType(user, userValidator, obj -> userDao.update(mapUserToEntityUser(obj)));
     }
-
 }

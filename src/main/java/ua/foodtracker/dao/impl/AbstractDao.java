@@ -15,17 +15,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class AbstractDaoImpl<E> implements BaseDao<E> {
-    protected static final Logger LOGGER = Logger.getLogger(AbstractDaoImpl.class);
+/**
+ * Provides a base functionality for all dao.
+ */
+public abstract class AbstractDao<E> implements BaseDao<E> {
+    protected static final Logger LOGGER = Logger.getLogger(AbstractDao.class);
 
     protected static final String ERROR_MESSAGE = "Cannot handle sql ['%s']; Message:%s";
 
     private final ConnectionHolder connectionHolder;
 
-    public AbstractDaoImpl(ConnectionHolder connectionHolder) {
+    /**
+     * Creates a new dao.
+     *
+     * @param connectionHolder connection holder
+     */
+    public AbstractDao(ConnectionHolder connectionHolder) {
         this.connectionHolder = connectionHolder;
     }
 
+    /**
+     * Gets a connection from connection holder.
+     *
+     * @return connection from connection holder
+     */
     protected Connection getConnection() {
         return connectionHolder.get();
     }

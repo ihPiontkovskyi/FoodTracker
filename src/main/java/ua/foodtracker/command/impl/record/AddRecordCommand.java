@@ -17,6 +17,6 @@ public class AddRecordCommand extends AbstractCommand {
                 .withUserId(getUser(request).getId())
                 .build();
         getDiaryRecordService(request).add(record);
-        return "/pages/user/records?date=" + record.getDate().toString();
+        return "/user/records?date=" + record.getDate().toString();
     }
 }

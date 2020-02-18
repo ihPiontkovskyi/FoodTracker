@@ -7,6 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 public class AddMealPageCommand extends AbstractCommand {
     @Override
     public String execute(HttpServletRequest request) {
-        return "/pages/user/meal/add.jsp";
+        return "/WEB-INF/pages/user/add-meal.jsp";
     }
 }

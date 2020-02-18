@@ -1,6 +1,12 @@
-package ua.foodtracker.domain;
+package ua.foodtracker.domain.utility;
+
+import ua.foodtracker.domain.Convertible;
 
 import java.util.List;
+
+/**
+ * Utility class , converts values from domain object to json string
+ */
 
 public class ConvertibleUtility {
     private ConvertibleUtility() {

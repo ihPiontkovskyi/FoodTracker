@@ -11,7 +11,6 @@ import java.util.function.ToIntFunction;
 public class ServiceUtility {
 
     private static final String INCORRECT_DATA = "incorrect.data";
-    private static final String DATA_KEY = "data";
 
     private ServiceUtility() {
     }
@@ -20,7 +19,7 @@ public class ServiceUtility {
         return countOfRecords % itemsPerPage == 0 ? countOfRecords / itemsPerPage : countOfRecords / itemsPerPage + 1;
     }
 
-    public static void deleteByStringId(String id, Validator<?> validator, IntPredicate invoke) {
+    public static void deleteByStringId(String id, IntPredicate invoke) {
         if (id == null) {
             throw new IncorrectDataException(INCORRECT_DATA);
         }
@@ -33,7 +32,7 @@ public class ServiceUtility {
         }
     }
 
-    public static <T, E> E findByStringParam(String param, Validator<T> validator, IntFunction<E> function) {
+    public static <E> E findByStringParam(String param, IntFunction<E> function) {
         if (param == null) {
             return function.apply(1);
         }

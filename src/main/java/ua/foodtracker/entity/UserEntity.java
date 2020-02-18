@@ -2,6 +2,10 @@ package ua.foodtracker.entity;
 
 import java.sql.Date;
 
+/**
+ * Entity class of User
+ */
+
 public class UserEntity {
     private final Integer id;
     private final String email;

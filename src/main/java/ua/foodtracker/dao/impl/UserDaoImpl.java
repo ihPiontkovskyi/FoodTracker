@@ -17,12 +17,15 @@ import static org.mindrot.jbcrypt.BCrypt.gensalt;
 import static org.mindrot.jbcrypt.BCrypt.hashpw;
 import static ua.foodtracker.dao.utility.ResultSetToEntityMapper.extractUserFromResultSet;
 
+/**
+ * implementation of User dao
+ */
+
+
 @Dao
 @SuppressWarnings("squid:S2068")
-public class UserDaoImpl extends AbstractDaoImpl<UserEntity> implements UserDao {
+public class UserDaoImpl extends AbstractDao<UserEntity> implements UserDao {
     private static final String FIND_BY_EMAIL_QUERY = "SELECT * FROM users LEFT JOIN user_goals ON users.user_goal_id=user_goals.id WHERE email=?";
-    private static final String FIND_BY_ID_QUERY = "SELECT * FROM users LEFT JOIN user_goals ON users.user_goal_id=user_goals.id WHERE users.id=?";
-    private static final String DELETE_QUERY = "DELETE FROM users WHERE id=?";
     private static final String INSERT_QUERY = "INSERT INTO users VALUES (DEFAULT,?,?,?,?,?,?,?,?,?,?,?)";
     private static final String UPDATE_QUERY = "UPDATE users SET email=?,password=?,first_name=?,last_name=?,height=?,weight=?,birthday=?,gender=?,user_goal_id=?,lifestyle=?,role=? WHERE id=?";
 
@@ -89,7 +92,7 @@ public class UserDaoImpl extends AbstractDaoImpl<UserEntity> implements UserDao 
 
     @Override
     public Optional<UserEntity> findById(Integer id) {
-        return findByParam(id, FIND_BY_ID_QUERY);
+        throw new UnsupportedOperationException("find.by.id.for.user.unsupported");
     }
 
     @Override
@@ -106,7 +109,7 @@ public class UserDaoImpl extends AbstractDaoImpl<UserEntity> implements UserDao 
 
     @Override
     public boolean deleteById(Integer id) {
-        return delete(id, DELETE_QUERY);
+        throw new UnsupportedOperationException("delete.by.id.for.user.unsupported");
     }
 
     @Override
@@ -118,10 +121,10 @@ public class UserDaoImpl extends AbstractDaoImpl<UserEntity> implements UserDao 
         ps.setObject(5, userEntity.getHeight());
         ps.setObject(6, userEntity.getWeight());
         ps.setObject(7, userEntity.getBirthday());
-        ps.setObject(8, userEntity.getGenderEntity().getId());
+        ps.setObject(8, userEntity.getGenderEntity().name());
         ps.setObject(9, userEntity.getUserGoalEntity().getId());
-        ps.setObject(10, userEntity.getLifestyleEntity().getId());
-        ps.setObject(11, userEntity.getRoleEntity().getId());
+        ps.setObject(10, userEntity.getLifestyleEntity().name());
+        ps.setObject(11, userEntity.getRoleEntity().name());
     }
 
     @Override

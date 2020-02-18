@@ -1,5 +1,9 @@
 package ua.foodtracker.entity;
 
+/**
+ * Entity class of Meal
+ */
+
 public class MealEntity {
     private final Integer id;
     private final String name;

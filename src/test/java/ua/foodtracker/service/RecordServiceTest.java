@@ -86,44 +86,6 @@ public class RecordServiceTest {
     }
 
     @Test
-    public void modifyShouldntThrowException() {
-        doNothing().when(recordValidator).validate(RAW_RECORD);
-        when(recordValidator.hasErrors()).thenReturn(false);
-        when(recordDao.update(any())).thenReturn(true);
-
-        recordService.modify(RAW_RECORD);
-
-        verify(recordValidator).validate(RAW_RECORD);
-        verify(recordValidator).hasErrors();
-        verify(recordDao).update(any());
-    }
-
-    @Test
-    public void modifyShouldThrowValidationException() {
-        doNothing().when(recordValidator).validate(RAW_RECORD);
-        when(recordValidator.hasErrors()).thenReturn(true);
-
-        exception.expect(ValidationException.class);
-        recordService.modify(RAW_RECORD);
-
-        verify(recordValidator).validate(RAW_RECORD);
-        verify(recordValidator).hasErrors();
-    }
-
-    @Test
-    public void modifyShouldThrowIncorrectDataException() {
-        doNothing().when(recordValidator).validate(RAW_RECORD);
-        when(recordValidator.hasErrors()).thenReturn(false);
-        when(recordDao.update(any())).thenReturn(false);
-
-        exception.expect(IncorrectDataException.class);
-        recordService.modify(RAW_RECORD);
-
-        verify(recordValidator).validate(RAW_RECORD);
-        verify(recordValidator).hasErrors();
-    }
-
-    @Test
     public void findByIdShouldntThrowException() {
         when(recordDao.findById(RAW_USER.getId())).thenReturn(Optional.of(RECORD_ENTITY));
 
@@ -192,49 +154,35 @@ public class RecordServiceTest {
     }
 
     @Test
-    public void setLocaleTest() {
-        Locale current = Locale.getDefault();
-        recordService.setLocale(current);
-
-        verify(recordValidator).setLocale(current);
-    }
-
-    @Test
     public void addShouldThrowValidationException() {
         doNothing().when(recordValidator).validate(RAW_RECORD);
-        when(recordValidator.hasErrors()).thenReturn(true);
 
         exception.expect(ValidationException.class);
         recordService.add(RAW_RECORD);
 
         verify(recordValidator).validate(RAW_RECORD);
-        verify(recordValidator).hasErrors();
     }
 
     @Test
     public void addShouldThrowIncorrectDataException() {
         doNothing().when(recordValidator).validate(RAW_RECORD);
-        when(recordValidator.hasErrors()).thenReturn(false);
         when(recordDao.save(any())).thenReturn(0);
 
         exception.expect(IncorrectDataException.class);
         recordService.add(RAW_RECORD);
 
         verify(recordValidator).validate(RAW_RECORD);
-        verify(recordValidator).hasErrors();
         verify(recordDao).save(any());
     }
 
     @Test
     public void addShouldntThrowException() {
         doNothing().when(recordValidator).validate(RAW_RECORD);
-        when(recordValidator.hasErrors()).thenReturn(false);
         when(recordDao.save(any())).thenReturn(RAW_RECORD.getId());
 
         recordService.add(RAW_RECORD);
 
         verify(recordValidator).validate(RAW_RECORD);
-        verify(recordValidator).hasErrors();
         verify(recordDao).save(any());
     }
 

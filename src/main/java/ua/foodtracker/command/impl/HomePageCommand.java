@@ -9,7 +9,7 @@ public class HomePageCommand extends AbstractCommand {
     public String execute(HttpServletRequest request) {
         User user = getUser(request);
         request.setAttribute("homeModel", getDiaryRecordService(request).getHomeModel(user));
-        return "/pages/user/home.jsp";
+        return "/WEB-INF/pages/user/home.jsp";
     }
 }
 

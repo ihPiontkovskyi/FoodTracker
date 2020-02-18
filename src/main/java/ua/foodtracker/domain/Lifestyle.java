@@ -13,28 +13,6 @@ public enum Lifestyle {
         this.coefficient = coefficient;
     }
 
-    public static Lifestyle getLifestyleById(Integer id) {
-        if (id == null) {
-            return NOT_SELECTED;
-        }
-        switch (id) {
-            case 1:
-                return SEDENTARY;
-            case 2:
-                return LIGHTLY_ACTIVE;
-            case 3:
-                return ACTIVE;
-            case 4:
-                return VERY_ACTIVE;
-            default:
-                return NOT_SELECTED;
-        }
-    }
-
-    public Integer getId() {
-        return this.ordinal() + 1;
-    }
-
     public Double getCoefficient() {
         return coefficient;
     }

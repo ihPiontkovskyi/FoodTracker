@@ -9,8 +9,10 @@ import ua.foodtracker.command.Command;
 import ua.foodtracker.command.impl.ErrorCommand;
 import ua.foodtracker.command.impl.HomePageCommand;
 import ua.foodtracker.command.impl.LoginCommand;
+import ua.foodtracker.command.impl.LoginPageCommand;
 import ua.foodtracker.command.impl.LogoutCommand;
 import ua.foodtracker.command.impl.RegisterCommand;
+import ua.foodtracker.command.impl.RegisterPageCommand;
 import ua.foodtracker.command.impl.meal.AddMealCommand;
 import ua.foodtracker.command.impl.meal.AddMealPageCommand;
 import ua.foodtracker.command.impl.meal.EditMealCommand;
@@ -139,21 +141,23 @@ public class ContextLoader extends AbstractContextLoader {
 
     private void loadCommands() {
         Map<String, Command> urlToCommand = new HashMap<>();
-        urlToCommand.put("/foodtracker.ua/pages/user/logout", new LogoutCommand());
-        urlToCommand.put("/foodtracker.ua/pages/login", new LoginCommand());
-        urlToCommand.put("/foodtracker.ua/pages/user/home", new HomePageCommand());
-        urlToCommand.put("/foodtracker.ua/pages/register", new RegisterCommand());
-        urlToCommand.put("/foodtracker.ua/pages/error", new ErrorCommand());
-        urlToCommand.put("/foodtracker.ua/pages/user/records", new DiaryPageCommand());
-        urlToCommand.put("/foodtracker.ua/pages/user/meals", new MealPageCommand());
-        urlToCommand.put("/foodtracker.ua/pages/user/records/delete", new RecordDeleteCommand());
-        urlToCommand.put("/foodtracker.ua/pages/user/meals/delete", new MealDeleteCommand());
-        urlToCommand.put("/foodtracker.ua/pages/user/records/byTerm", new MealsInfoCommand());
-        urlToCommand.put("/foodtracker.ua/pages/user/records/add", new AddRecordCommand());
-        urlToCommand.put("/foodtracker.ua/pages/user/meals/add-meal", new AddMealCommand());
-        urlToCommand.put("/foodtracker.ua/pages/user/meals/edit-meal", new EditMealCommand());
-        urlToCommand.put("/foodtracker.ua/pages/user/meals/add", new AddMealPageCommand());
-        urlToCommand.put("/foodtracker.ua/pages/user/meals/edit", new EditMealPageCommand());
+        urlToCommand.put("/foodtracker.ua/user/logout", new LogoutCommand());
+        urlToCommand.put("/foodtracker.ua/login", new LoginCommand());
+        urlToCommand.put("/foodtracker.ua/user/home", new HomePageCommand());
+        urlToCommand.put("/foodtracker.ua/register", new RegisterCommand());
+        urlToCommand.put("/foodtracker.ua/error", new ErrorCommand());
+        urlToCommand.put("/foodtracker.ua/user/records", new DiaryPageCommand());
+        urlToCommand.put("/foodtracker.ua/user/meals", new MealPageCommand());
+        urlToCommand.put("/foodtracker.ua/user/records/delete", new RecordDeleteCommand());
+        urlToCommand.put("/foodtracker.ua/user/meals/delete", new MealDeleteCommand());
+        urlToCommand.put("/foodtracker.ua/user/records/byTerm", new MealsInfoCommand());
+        urlToCommand.put("/foodtracker.ua/user/records/add", new AddRecordCommand());
+        urlToCommand.put("/foodtracker.ua/user/meals/add-meal", new AddMealCommand());
+        urlToCommand.put("/foodtracker.ua/user/meals/edit-meal", new EditMealCommand());
+        urlToCommand.put("/foodtracker.ua/user/meal-add", new AddMealPageCommand());
+        urlToCommand.put("/foodtracker.ua/user/meal-edit", new EditMealPageCommand());
+        urlToCommand.put("/foodtracker.ua/login-page", new LoginPageCommand());
+        urlToCommand.put("/foodtracker.ua/register-page", new RegisterPageCommand());
         servletContext.setAttribute("urlToCommandMap", urlToCommand);
     }
 

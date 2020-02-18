@@ -18,12 +18,12 @@ public class RegisterCommand extends AbstractCommand {
                 .withLastName(request.getParameter("last_name"))
                 .withHeight(getIntParamOrDefault(request, "height", 0))
                 .withWeight(getIntParamOrDefault(request, "weight", 0))
-                .withLifestyle(Lifestyle.getLifestyleById(getIntParam(request, "lifestyle")))
+                .withLifestyle(Lifestyle.valueOf(request.getParameter("lifestyle")))
                 .withBirthday(getDateParamOrNow(request, "birthday"))
-                .withGender(Gender.getGenderById(getIntParam(request, "gender")))
+                .withGender(Gender.valueOf(request.getParameter("gender")))
                 .withRole(Role.USER)
                 .build();
         getUserService(request).register(newUser);
-        return "/pages/login.jsp";
+        return "/WEB-INF/pages/login.jsp";
     }
 }

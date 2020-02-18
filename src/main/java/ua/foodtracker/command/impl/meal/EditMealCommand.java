@@ -3,6 +3,7 @@ package ua.foodtracker.command.impl.meal;
 import ua.foodtracker.command.impl.AbstractCommand;
 import ua.foodtracker.domain.Meal;
 import ua.foodtracker.domain.Role;
+import ua.foodtracker.exception.AccessDeniedException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,11 +17,10 @@ public class EditMealCommand extends AbstractCommand {
             if (meal.getUser().getId().equals(getUser(request).getId())) {
                 getMealService(request).add(getMealFromRequest(request));
             } else {
-                //todo change
-                throw new RuntimeException("Access denied");
+                throw new AccessDeniedException("access.denied");
             }
         }
-        return "/pages/user/meals";
+        return "/user/meals";
     }
 
     private Meal getMealFromRequest(HttpServletRequest request) {

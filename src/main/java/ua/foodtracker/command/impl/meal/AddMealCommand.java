@@ -18,6 +18,6 @@ public class AddMealCommand extends AbstractCommand {
                 .withUser(getUser(request))
                 .build();
         getMealService(request).add(meal);
-        return "/pages/user/meals";
+        return "/user/meals";
     }
 }

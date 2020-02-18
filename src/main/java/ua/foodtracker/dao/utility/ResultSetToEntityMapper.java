@@ -43,13 +43,13 @@ public class ResultSetToEntityMapper {
                 .withEmail(resultSet.getString("users.email"))
                 .withFirstName(resultSet.getString("users.first_name"))
                 .withLastName(resultSet.getString("users.last_name"))
-                .withGender(GenderEntity.getGenderById(resultSet.getInt("users.gender")))
+                .withGender(GenderEntity.valueOf(resultSet.getString("users.gender").toUpperCase()))
                 .withBirthday(resultSet.getDate("users.birthday"))
                 .withHeight(resultSet.getInt("users.height"))
                 .withWeight(resultSet.getInt("users.weight"))
-                .withLifestyle(LifestyleEntity.getLifestyleById(resultSet.getInt("users.lifestyle")))
+                .withLifestyle(LifestyleEntity.valueOf(resultSet.getString("users.lifestyle").toUpperCase()))
                 .withPassword(resultSet.getString("users.password"))
-                .withRole(RoleEntity.getRoleById(resultSet.getInt("users.role")))
+                .withRole(RoleEntity.valueOf(resultSet.getString("users.role").toUpperCase()))
                 .withUserGoal(extractUserGoalsFromResultSet(resultSet))
                 .build();
         if (userEntity.getId().equals(0)) {

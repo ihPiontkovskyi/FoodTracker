@@ -28,6 +28,13 @@ public class AnnotationHandler implements InvocationHandler {
     private final ConnectionHolder connectionHolder;
     private final Object serviceToInvoke;
 
+    /**
+     * Creates a new transaction handler.
+     *
+     * @param holder          connection holder
+     * @param serviceToInvoke service to invoke
+     * @param manager         connection manager
+     */
     public AnnotationHandler(ConnectionHolder holder, Object serviceToInvoke, HikariCPManager manager) {
         this.connectionManager = manager;
         this.serviceToInvoke = serviceToInvoke;

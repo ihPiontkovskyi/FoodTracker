@@ -1,5 +1,8 @@
 package ua.foodtracker.domain;
 
+/**
+ * Domain class of Meal
+ */
 public class Meal {
     private Integer id;
     private String name;

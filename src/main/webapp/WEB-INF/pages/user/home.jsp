@@ -1,69 +1,13 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" errorPage="/pages/error.jsp" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<fmt:setLocale value="${sessionScope.locale}"/>
-<fmt:setBundle basename="locale/messages"/>
-<!doctype html>
-<html class="no-js" lang="${sessionScope.locale}">
+<%@include file="../../jspf/directive.jsp" %>
+<html lang="${sessionScope.locale}">
 <head>
-    <title>Food Tracker</title>
-    <link rel="icon" type="image/png" href="../../assets/images/logo-002.png"/>
-    <link rel="stylesheet" href="../../assets/css/style.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/chartist@0.11.0/dist/chartist.min.css" rel="stylesheet">
+    <%@include file="../../jspf/head.jsp" %>
 </head>
 
 <body class="bg-gra-02">
-<aside id="left-panel" class="left-panel">
-    <nav class="navbar navbar-expand-sm navbar-default">
-        <div id="main-menu" class="main-menu collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li>
-                    <a href="home"> <em class="menu-icon fa fa-bar-chart"></em><fmt:message key="highlights.btn"/></a>
-                </li>
-                <li>
-                    <a href="records"> <em class="menu-icon fa fa-calendar"></em><fmt:message
-                            key="diary.btn"/></a>
-                </li>
-                <li>
-                    <a href="meals"> <em class="menu-icon fa fa-cutlery"></em><fmt:message key="meals.btn"/></a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-</aside>
+<%@include file="../../jspf/aside.jsp" %>
 <div id="right-panel" class="right-panel">
-    <header id="header" class="header">
-        <div class="top-left">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="home"><img src="../../assets/images/logo-001.png" alt="Logo"></a>
-            </div>
-        </div>
-        <div class="top-right">
-            <div class="header-menu">
-                <div class="user-area dropdown">
-                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true"
-                       aria-expanded="false">
-                        <em class="fa fa-user-circle"></em>
-                    </a>
-                    <div class="user-menu dropdown-menu">
-                        <a class="nav-link" href="profile"><em class="fa fa -cog"></em><fmt:message
-                                key="profile.btn"/></a>
-
-                        <a class="nav-link" href="logout"><em class="fa fa-power -off"></em><fmt:message
-                                key="logout.btn"/></a>
-                    </div>
-                </div>
-
-                <div class="lang-block">
-                    <a href="?lang=en">EN</a>
-                    <a href="?lang=ru">RU</a>
-                </div>
-            </div>
-        </div>
-    </header>
+    <%@include file="../../jspf/header.jsp" %>
     <div class="content">
         <div class="animated fadeIn">
             <div class="row">
@@ -174,7 +118,7 @@
                                 <div class="progress-box progress-1">
                                     <h4 class="por-title"><fmt:message key="energy.label"/></h4>
                                     <div class="progress mb-2" style="height: 5px;">
-                                        <div class="progress-bar bg-flat-color-1" roleEntity="progressbar"
+                                        <div class="progress-bar bg-flat-color-1"
                                              style="width:${requestScope.homeModel.dailyGoal.dailyEnergyGoal}%"
                                              aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
@@ -182,7 +126,7 @@
                                 <div class="progress-box progress-2">
                                     <h4 class="por-title"><fmt:message key="water.label"/></h4>
                                     <div class="progress mb-2" style="height: 5px;">
-                                        <div class="progress-bar bg-flat-color-2" roleEntity="progressbar"
+                                        <div class="progress-bar bg-flat-color-2"
                                              style="width: ${requestScope.homeModel.dailyGoal.dailyWaterGoal}%"
                                              aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
@@ -190,7 +134,7 @@
                                 <div class="progress-box progress-2">
                                     <h4 class="por-title"><fmt:message key="carbohydrate.label"/></h4>
                                     <div class="progress mb-2" style="height: 5px;">
-                                        <div class="progress-bar bg-flat-color-3" roleEntity="progressbar"
+                                        <div class="progress-bar bg-flat-color-3"
                                              style="width: ${requestScope.homeModel.dailyGoal.dailyCarbohydratesGoal}%"
                                              aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
@@ -198,7 +142,7 @@
                                 <div class="progress-box progress-2">
                                     <h4 class="por-title"><fmt:message key="protein.label"/></h4>
                                     <div class="progress mb-2" style="height: 5px;">
-                                        <div class="progress-bar bg-flat-color-4" roleEntity="progressbar"
+                                        <div class="progress-bar bg-flat-color-4"
                                              style="width: ${requestScope.homeModel.dailyGoal.dailyProteinGoal}%"
                                              aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
@@ -206,7 +150,7 @@
                                 <div class="progress-box progress-2">
                                     <h4 class="por-title"><fmt:message key="fat.label"/></h4>
                                     <div class="progress mb-2" style="height: 5px;">
-                                        <div class="progress-bar bg-flat-color-5" roleEntity="progressbar"
+                                        <div class="progress-bar bg-flat-color-5"
                                              style="width: ${requestScope.homeModel.dailyGoal.dailyFatGoal}%"
                                              aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
@@ -219,12 +163,6 @@
         </div>
     </div>
 </div>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<script src="https://use.fontawesome.com/59810e450d.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartist@0.11.0/dist/chartist.min.js"></script>
 <script>
     jQuery(document).ready(function ($) {
         if ($('#traffic-chart').length) {

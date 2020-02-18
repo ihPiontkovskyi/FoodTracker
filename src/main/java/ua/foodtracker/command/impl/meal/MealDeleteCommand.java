@@ -18,6 +18,6 @@ public class MealDeleteCommand extends AbstractCommand {
                 getMealService(request).delete(request.getParameter("id"));
             }
         }
-        return "/pages/user/meals";
+        return "/user/meals";
     }
 }

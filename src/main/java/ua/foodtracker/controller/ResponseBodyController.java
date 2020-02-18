@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(urlPatterns = {"/pages/user/records/byTerm"})
+@WebServlet(urlPatterns = {"/user/records/byTerm"})
 public class ResponseBodyController extends AbstractController {
 
     @Override

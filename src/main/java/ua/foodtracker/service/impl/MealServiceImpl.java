@@ -32,7 +32,7 @@ public class MealServiceImpl implements MealService {
 
     @Override
     public List<Meal> findAllByPage(String pageNumber) {
-        return findByStringParam(pageNumber, mealValidator, number -> {
+        return findByStringParam(pageNumber, number -> {
             if (number < 1 || number > pageCount()) {
                 number = 1;
             }
@@ -54,7 +54,7 @@ public class MealServiceImpl implements MealService {
 
     @Override
     public void delete(String id) {
-        deleteByStringId(id, mealValidator, intId -> mealDao.deleteById(intId));
+        deleteByStringId(id, intId -> mealDao.deleteById(intId));
     }
 
     @Override
@@ -64,9 +64,9 @@ public class MealServiceImpl implements MealService {
 
     @Override
     public Meal findById(String id) {
-        return findByStringParam(id, mealValidator, intId -> mealDao.findById(intId)
+        return findByStringParam(id, intId -> mealDao.findById(intId)
                 .map(EntityMapper::mapEntityMealToMeal))
-                .orElseThrow(() -> new IncorrectDataException("Meal not found"));
+                .orElseThrow(() -> new IncorrectDataException("meal.not.found"));
     }
 
     @Override

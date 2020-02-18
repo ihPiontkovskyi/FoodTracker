@@ -2,6 +2,9 @@ package ua.foodtracker.domain;
 
 import java.time.LocalDate;
 
+/**
+ * Domain class of User
+ */
 public class User {
     private Integer id;
     private String email;

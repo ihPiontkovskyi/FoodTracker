@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ua.foodtracker.domain.ConvertibleUtility.convertToJsonArray;
+import static ua.foodtracker.domain.utility.ConvertibleUtility.convertToJsonArray;
 
 public class MealsInfoCommand extends AbstractCommand {
     @Override

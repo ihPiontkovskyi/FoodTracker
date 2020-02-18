@@ -9,7 +9,6 @@ import ua.foodtracker.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.Locale;
 
 public abstract class AbstractCommand implements Command {
 
@@ -30,15 +29,7 @@ public abstract class AbstractCommand implements Command {
     }
 
     protected Integer getIntParam(HttpServletRequest request, String param) {
-        String paramValue = request.getParameter(param);
-        if (paramValue == null) {
-            return null;
-        }
-        try {
-            return Integer.parseInt(paramValue);
-        } catch (NumberFormatException e) {
-            return null;
-        }
+        return getIntParamOrDefault(request, param, null);
     }
 
     protected LocalDate getDateParamOrNow(HttpServletRequest request, String param) {
@@ -53,25 +44,15 @@ public abstract class AbstractCommand implements Command {
         return LocalDate.now();
     }
 
-    protected Locale getLocale(HttpServletRequest request) {
-        return Locale.forLanguageTag(request.getSession(false).getAttribute("locale").toString());
-    }
-
     protected MealService getMealService(HttpServletRequest request) {
-        MealService service = (MealService) request.getServletContext().getAttribute("ua.foodtracker.service.MealService");
-        service.setLocale(getLocale(request));
-        return service;
+        return (MealService) request.getServletContext().getAttribute("ua.foodtracker.service.MealService");
     }
 
     protected RecordService getDiaryRecordService(HttpServletRequest request) {
-        RecordService service = (RecordService) request.getServletContext().getAttribute("ua.foodtracker.service.RecordService");
-        service.setLocale(getLocale(request));
-        return service;
+        return (RecordService) request.getServletContext().getAttribute("ua.foodtracker.service.RecordService");
     }
 
     protected UserService getUserService(HttpServletRequest request) {
-        UserService service = (UserService) request.getServletContext().getAttribute("ua.foodtracker.service.UserService");
-        service.setLocale(getLocale(request));
-        return service;
+        return (UserService) request.getServletContext().getAttribute("ua.foodtracker.service.UserService");
     }
 }

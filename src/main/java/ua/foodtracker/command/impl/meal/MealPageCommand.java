@@ -5,6 +5,7 @@ import ua.foodtracker.domain.Meal;
 import ua.foodtracker.service.MealService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
@@ -12,6 +13,9 @@ import java.util.stream.LongStream;
 public class MealPageCommand extends AbstractCommand {
     @Override
     public String execute(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        Integer page = getIntParamOrDefault(request, "page", 1);
+        session.setAttribute("page", page);
         final MealService mealService = getMealService(request);
         List<Meal> meals = mealService.findAllByPage(request.getParameter("page"));
         long totalPages = mealService.pageCount();
@@ -24,6 +28,6 @@ public class MealPageCommand extends AbstractCommand {
         }
         request.setAttribute("meals", meals);
         request.setAttribute("pageCount", mealService.pageCount());
-        return "/pages/user/meal/meals.jsp";
+        return "/WEB-INF/pages/user/meals.jsp";
     }
 }

@@ -12,16 +12,15 @@ import ua.foodtracker.dao.UserDao;
 import ua.foodtracker.domain.Gender;
 import ua.foodtracker.domain.Lifestyle;
 import ua.foodtracker.domain.Role;
+import ua.foodtracker.domain.User;
 import ua.foodtracker.entity.UserEntity;
 import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.exception.ValidationException;
-import ua.foodtracker.domain.User;
 import ua.foodtracker.service.impl.UserServiceImpl;
 import ua.foodtracker.service.utility.EntityMapper;
 import ua.foodtracker.validator.impl.UserValidatorImpl;
 
 import java.time.LocalDate;
-import java.util.Locale;
 import java.util.Optional;
 
 import static org.junit.Assert.assertNotNull;
@@ -111,7 +110,6 @@ public class UserServiceTest {
 
         verify(userDao).findByEmail(EntityMapper.mapUserToEntityUser(RAW_USER).getEmail());
         verify(userValidator, times(2)).validate(RAW_USER);
-        verify(userValidator).hasErrors();
         verify(userDao).save(any());
     }
 
@@ -126,7 +124,7 @@ public class UserServiceTest {
 
         verify(userDao).findByEmail(EntityMapper.mapUserToEntityUser(RAW_ADMIN).getEmail());
         verify(userValidator, times(2)).validate(RAW_ADMIN);
-        verify(userValidator).hasErrors();
+
         verify(userDao).save(any());
     }
 
@@ -141,7 +139,7 @@ public class UserServiceTest {
 
         verify(userDao).findByEmail(EntityMapper.mapUserToEntityUser(RAW_USER).getEmail());
         verify(userValidator).validate(RAW_USER);
-        verify(userValidator).hasErrors();
+
         verify(userDao).save(any());
     }
 
@@ -151,12 +149,12 @@ public class UserServiceTest {
 
         doNothing().when(userValidator).validate(RAW_USER);
         when(userDao.findByEmail(userEntity.getEmail())).thenReturn(Optional.empty());
-        when(userValidator.hasErrors()).thenReturn(true);
+
 
         exception.expect(ValidationException.class);
         userService.register(RAW_USER);
 
-        verify(userValidator).hasErrors();
+
         verify(userDao).findByEmail(EntityMapper.mapUserToEntityUser(RAW_USER).getEmail());
         verify(userValidator).validate(RAW_USER);
     }
@@ -164,115 +162,39 @@ public class UserServiceTest {
     @Test
     public void modifyShouldntThrowException() {
         doNothing().when(userValidator).validate(RAW_USER);
-        when(userValidator.hasErrors()).thenReturn(false);
+
         when(userDao.update(any())).thenReturn(true);
 
         userService.modify(RAW_USER);
 
         verify(userValidator).validate(RAW_USER);
-        verify(userValidator).hasErrors();
+
         verify(userDao).update(any());
     }
 
     @Test
     public void modifyShouldThrowValidationException() {
         doNothing().when(userValidator).validate(RAW_USER);
-        when(userValidator.hasErrors()).thenReturn(true);
+
 
         exception.expect(ValidationException.class);
         userService.modify(RAW_USER);
 
         verify(userValidator).validate(RAW_USER);
-        verify(userValidator).hasErrors();
+
     }
 
     @Test
     public void modifyShouldThrowIncorrectDataException() {
         doNothing().when(userValidator).validate(RAW_USER);
-        when(userValidator.hasErrors()).thenReturn(false);
+
         when(userDao.update(any())).thenReturn(false);
 
         exception.expect(IncorrectDataException.class);
         userService.modify(RAW_USER);
 
         verify(userValidator).validate(RAW_USER);
-        verify(userValidator).hasErrors();
-    }
 
-    @Test
-    public void findByIdShouldntThrowException() {
-        when(userDao.findById(RAW_USER.getId())).thenReturn(Optional.of(USER_ENTITY));
-
-        userService.findById(RAW_USER.getId().toString());
-
-        verify(userDao).findById(RAW_USER.getId());
-    }
-
-    @Test
-    public void findByIdShouldIncorrectDataExceptionCase1() {
-        when(userDao.findById(RAW_USER.getId())).thenReturn(Optional.empty());
-
-        exception.expect(IncorrectDataException.class);
-        userService.findById(null);
-
-        verify(userDao).findById(RAW_USER.getId());
-    }
-
-    @Test
-    public void findByIdShouldIncorrectDataExceptionCase2() {
-        when(userDao.findById(RAW_USER.getId())).thenReturn(Optional.empty());
-
-        exception.expect(IncorrectDataException.class);
-        userService.findById("ass");
-
-        verify(userDao).findById(RAW_USER.getId());
-    }
-
-    @Test
-    public void deleteShouldntThrowException() {
-        when(userDao.deleteById(RAW_USER.getId())).thenReturn(true);
-
-        userService.delete(RAW_USER.getId().toString());
-
-        verify(userDao).deleteById(RAW_USER.getId());
-    }
-
-    @Test
-    public void deleteShouldIncorrectDataException() {
-        when(userDao.deleteById(RAW_USER.getId())).thenReturn(false);
-
-        exception.expect(IncorrectDataException.class);
-        userService.delete(RAW_USER.getId().toString());
-
-        verify(userDao).deleteById(RAW_USER.getId());
-    }
-
-    @Test
-    public void deleteShouldIncorrectDataExceptionCase2() {
-        when(userDao.deleteById(RAW_USER.getId())).thenReturn(false);
-
-        exception.expect(IncorrectDataException.class);
-        userService.delete(null);
-
-        verify(userDao).deleteById(RAW_USER.getId());
-    }
-
-    @Test
-    public void deleteShouldIncorrectDataExceptionCase3() {
-        when(userDao.deleteById(RAW_USER.getId())).thenReturn(false);
-
-        exception.expect(IncorrectDataException.class);
-        userService.delete("ass");
-
-        verify(userDao).deleteById(RAW_USER.getId());
-    }
-
-    @Test
-    public void setLocaleTest() {
-        Locale current = Locale.getDefault();
-        userService.setLocale(current);
-
-        verify(userValidator).setLocale(current);
     }
 
     private static User initUser() {

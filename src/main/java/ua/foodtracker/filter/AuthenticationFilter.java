@@ -10,8 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+
 //TODO add test
-@WebFilter(urlPatterns = {"/pages/user/*", "/pages/admin/*"})
+@WebFilter(urlPatterns = {"/user/*"})
 public class AuthenticationFilter implements Filter {
 
     @Override
@@ -20,7 +21,8 @@ public class AuthenticationFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
         HttpSession session = req.getSession(false);
         if (!(session != null && (session.getAttribute("user") != null))) {
-            res.sendRedirect(req.getContextPath() + "/pages/login");
+            res.sendRedirect(req.getContextPath() + "/login-page");
+            return;
         }
         chain.doFilter(req, res);
     }

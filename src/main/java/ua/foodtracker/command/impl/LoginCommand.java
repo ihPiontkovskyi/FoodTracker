@@ -9,6 +9,6 @@ public class LoginCommand extends AbstractCommand {
     public String execute(HttpServletRequest request) {
         User user = getUserService(request).login(request.getParameter("username"), request.getParameter("pass"));
         request.getSession(true).setAttribute("user", user);
-        return "/pages/user/home";
+        return "/user/home";
     }
 }

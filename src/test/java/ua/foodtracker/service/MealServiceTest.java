@@ -11,18 +11,17 @@ import org.mockito.junit.MockitoJUnitRunner;
 import ua.foodtracker.dao.MealDao;
 import ua.foodtracker.domain.Gender;
 import ua.foodtracker.domain.Lifestyle;
+import ua.foodtracker.domain.Meal;
 import ua.foodtracker.domain.Role;
+import ua.foodtracker.domain.User;
 import ua.foodtracker.entity.MealEntity;
 import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.exception.ValidationException;
-import ua.foodtracker.domain.Meal;
-import ua.foodtracker.domain.User;
 import ua.foodtracker.service.impl.MealServiceImpl;
 import ua.foodtracker.validator.impl.MealValidatorImpl;
 
 import java.time.LocalDate;
 import java.util.Collections;
-import java.util.Locale;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
@@ -80,39 +79,33 @@ public class MealServiceTest {
     @Test
     public void modifyShouldntThrowException() {
         doNothing().when(mealValidator).validate(meal);
-        when(mealValidator.hasErrors()).thenReturn(false);
         when(mealDao.update(any())).thenReturn(true);
 
         mealService.modify(meal);
 
         verify(mealValidator).validate(meal);
-        verify(mealValidator).hasErrors();
         verify(mealDao).update(any());
     }
 
     @Test
     public void modifyShouldThrowValidationException() {
         doNothing().when(mealValidator).validate(meal);
-        when(mealValidator.hasErrors()).thenReturn(true);
 
         exception.expect(ValidationException.class);
         mealService.modify(meal);
 
         verify(mealValidator).validate(meal);
-        verify(mealValidator).hasErrors();
     }
 
     @Test
     public void modifyShouldThrowIncorrectDataException() {
         doNothing().when(mealValidator).validate(meal);
-        when(mealValidator.hasErrors()).thenReturn(false);
         when(mealDao.update(any())).thenReturn(false);
 
         exception.expect(IncorrectDataException.class);
         mealService.modify(meal);
 
         verify(mealValidator).validate(meal);
-        verify(mealValidator).hasErrors();
     }
 
     @Test
@@ -192,7 +185,7 @@ public class MealServiceTest {
         assertEquals(Collections.emptyList(), mealService.findAllByPage("2"));
 
         verify(mealDao, times(2)).findAll(any());
-        verify(mealDao,times(2)).count();
+        verify(mealDao, times(2)).count();
     }
 
     @Test
@@ -249,49 +242,35 @@ public class MealServiceTest {
     }
 
     @Test
-    public void setLocaleTest() {
-        Locale current = Locale.getDefault();
-        mealService.setLocale(current);
-
-        verify(mealValidator).setLocale(current);
-    }
-
-    @Test
     public void addShouldThrowValidationException() {
         doNothing().when(mealValidator).validate(meal);
-        when(mealValidator.hasErrors()).thenReturn(true);
 
         exception.expect(ValidationException.class);
         mealService.add(meal);
 
         verify(mealValidator).validate(meal);
-        verify(mealValidator).hasErrors();
     }
 
     @Test
     public void addShouldThrowIncorrectDataException() {
         doNothing().when(mealValidator).validate(meal);
-        when(mealValidator.hasErrors()).thenReturn(false);
         when(mealDao.save(any())).thenReturn(0);
 
         exception.expect(IncorrectDataException.class);
         mealService.add(meal);
 
         verify(mealValidator).validate(meal);
-        verify(mealValidator).hasErrors();
         verify(mealDao).save(any());
     }
 
     @Test
     public void addShouldntThrowException() {
         doNothing().when(mealValidator).validate(meal);
-        when(mealValidator.hasErrors()).thenReturn(false);
         when(mealDao.save(any())).thenReturn(meal.getId());
 
         mealService.add(meal);
 
         verify(mealValidator).validate(meal);
-        verify(mealValidator).hasErrors();
         verify(mealDao).save(any());
     }
 }

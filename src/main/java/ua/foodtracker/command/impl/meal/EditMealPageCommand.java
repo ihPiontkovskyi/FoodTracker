@@ -8,6 +8,6 @@ public class EditMealPageCommand extends AbstractCommand {
     @Override
     public String execute(HttpServletRequest request) {
         request.setAttribute("meal", getMealService(request).findById(request.getParameter("id")));
-        return "/pages/user/meal/edit.jsp";
+        return "/WEB-INF/pages/user/edit-meal.jsp";
     }
 }
