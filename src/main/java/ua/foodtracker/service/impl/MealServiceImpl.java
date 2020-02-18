@@ -8,7 +8,7 @@ import ua.foodtracker.domain.Meal;
 import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.service.MealService;
 import ua.foodtracker.service.utility.EntityMapper;
-import ua.foodtracker.validator.impl.MealValidatorImpl;
+import ua.foodtracker.validator.MealValidator;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,7 +28,7 @@ public class MealServiceImpl implements MealService {
     private MealDao mealDao;
 
     @Autowired
-    private MealValidatorImpl mealValidator;
+    private MealValidator mealValidator;
 
     @Override
     public List<Meal> findAllByPage(String pageNumber) {

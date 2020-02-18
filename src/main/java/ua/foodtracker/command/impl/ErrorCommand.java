@@ -1,8 +1,12 @@
 package ua.foodtracker.command.impl;
 
+import ua.foodtracker.annotation.CommandMapping;
+import ua.foodtracker.command.Command;
+
 import javax.servlet.http.HttpServletRequest;
 
-public class ErrorCommand extends AbstractCommand {
+@CommandMapping(urlPatterns = {"/foodtracker.ua/error"})
+public class ErrorCommand extends AbstractCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");

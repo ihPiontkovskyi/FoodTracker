@@ -17,14 +17,14 @@
                 <h2 class="title"><fmt:message key="registration.label"/></h2>
                 <form action="register" method="POST">
                     <div class="row row-space">
-                        <div class="col-2">
+                        <div class="col-6">
                             <div class="input-group">
                                 <label class="label"><fmt:message key="first.name.field"/>
                                     <input class="input--style-4" type="text" name="first_name" required>
                                 </label>
                             </div>
                         </div>
-                        <div class="col-2">
+                        <div class="col-6">
                             <div class="input-group">
                                 <label class="label"><fmt:message key="last.name.field"/>
                                     <input class="input--style-4" type="text" name="last_name" required>
@@ -33,7 +33,7 @@
                         </div>
                     </div>
                     <div class="row row-space">
-                        <div class="col-2">
+                        <div class="col-6">
                             <div class="input-group">
                                 <label class="label"><fmt:message key="birthday.field"/>
                                     <div class="input-group-icon">
@@ -44,9 +44,9 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="col-2">
+                        <div class="col-6">
                             <div class="input-group">
-                                <label class="label"><fmt:message key="genderEntity.field"/></label>
+                                <label class="label"><fmt:message key="gender.field"/></label>
                                 <div class="p-t-10">
                                     <label class="radio-container m-r-45"><fmt:message key="male.checkbox"/>
                                         <input value="MALE" type="radio" checked="checked" name="gender">
@@ -65,7 +65,7 @@
                         </div>
                     </div>
                     <div class="row row-space">
-                        <div class="col-2">
+                        <div class="col-6">
                             <div class="input-group">
                                 <label class="label"><fmt:message key="username.field"/>
                                     <input class="input--style-4" type="email" name="email" required>
@@ -73,7 +73,7 @@
                             </div>
                         </div>
 
-                        <div class="col-2">
+                        <div class="col-6">
                             <div class="input-group ">
                                 <label class="label"><fmt:message key="password.field"/>
                                     <input class="input--style-4" type="password" name="pass" required>
@@ -82,7 +82,7 @@
                         </div>
                     </div>
                     <div class="row row-space">
-                        <div class="col-2">
+                        <div class="col-6">
                             <div class="input-group ">
                                 <label class="label"><fmt:message key="repeat.password.field"/>
                                     <input class="input--style-4" type="password" name="repeat-pass" required>
@@ -91,14 +91,14 @@
                         </div>
                     </div>
                     <div class="row row-space">
-                        <div class="col-2">
+                        <div class="col-6">
                             <div class="input-group">
                                 <label class="label"><fmt:message key="weight.field"/>
                                     <input class="input--style-4" type="number" name="weight" required>
                                 </label>
                             </div>
                         </div>
-                        <div class="col-2">
+                        <div class="col-6">
                             <div class="input-group">
                                 <label class="label"><fmt:message key="height.field"/>
                                     <input class="input--style-4" type="number" name="height" required>
@@ -107,7 +107,7 @@
                         </div>
                     </div>
                     <div class="input-group">
-                        <label class="label"><fmt:message key="lifestyleEntity.select"/>
+                        <label class="label"><fmt:message key="lifestyle.select"/>
                             <div class="rs-select2 js-select-simple select--no-search">
                                 <select name="lifestyle">
                                     <option value="NOT_SELECTED" disabled="disabled" selected="selected"><fmt:message

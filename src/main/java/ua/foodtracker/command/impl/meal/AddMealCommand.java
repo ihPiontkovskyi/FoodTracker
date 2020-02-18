@@ -1,11 +1,14 @@
 package ua.foodtracker.command.impl.meal;
 
+import ua.foodtracker.annotation.CommandMapping;
+import ua.foodtracker.command.Command;
 import ua.foodtracker.command.impl.AbstractCommand;
 import ua.foodtracker.domain.Meal;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class AddMealCommand extends AbstractCommand {
+@CommandMapping(urlPatterns = "/foodtracker.ua/user/meals/add-meal")
+public class AddMealCommand extends AbstractCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         Meal meal = Meal.builder()

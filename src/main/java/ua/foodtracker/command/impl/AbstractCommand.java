@@ -1,6 +1,5 @@
 package ua.foodtracker.command.impl;
 
-import ua.foodtracker.command.Command;
 import ua.foodtracker.domain.User;
 import ua.foodtracker.service.MealService;
 import ua.foodtracker.service.RecordService;
@@ -10,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
-public abstract class AbstractCommand implements Command {
+public abstract class AbstractCommand {
 
     protected User getUser(HttpServletRequest request) {
         return (User) request.getSession(false).getAttribute("user");

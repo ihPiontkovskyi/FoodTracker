@@ -19,88 +19,109 @@
                         <div class="row row-space">
                             <div class="col-6">
                                 <div class="input-group">
-                                    <label class="label">first name</label>
-                                    <input class="input--style-4" type="text" name="first_name" required
-                                           value="${sessionScope.user.firstName}">
+                                    <label class="label">
+                                        <fmt:message key="first.name.field"/>
+                                        <input class="input--style-4" type="text" name="first_name" required
+                                               value="${sessionScope.user.firstName}">
+                                    </label>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="input-group">
-                                    <label class="label">last name</label>
-                                    <input class="input--style-4" type="text" name="last_name" required
-                                           value="${sessionScope.user.lastName}">
+                                    <label class="label">
+                                        <fmt:message key="last.name.field"/>
+                                        <input class="input--style-4" type="text" name="last_name" required
+                                               value="${sessionScope.user.lastName}">
+                                    </label>
                                 </div>
                             </div>
                         </div>
                         <div class="row row-space">
                             <div class="col-6">
                                 <div class="input-group">
-                                    <label class="label">Birthday</label>
-                                    <div class="input-group-icon">
-                                        <input class="input--style-4 js-datepicker" type="text" name="birthday" required
-                                               value="${sessionScope.user.birthday}">
-                                        <em class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></em>
-                                    </div>
+                                    <label class="label">
+                                        <fmt:message key="birthday.field"/>
+                                        <div class="input-group-icon">
+                                            <input class="input--style-4 js-datepicker" type="text" name="birthday"
+                                                   required
+                                                   value="${sessionScope.user.birthday}">
+                                            <em class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></em>
+                                        </div>
                                 </div>
                             </div>
-                            <div class="col-6">
-                                <div class="input-group">
-                                    <label class="label">Gender</label>
-                                    <div class="p-t-10">
-                                        <label class="radio-container m-r-45">Male
+                        </div>
+                        <div class="col-6">
+                            <div class="input-group">
+                                <label class="label">
+                                    <fmt:message key="gender.field"/>
+                                    <div class="p-t-15">
+                                        <label class="radio-container m-r-45"><fmt:message key="male.checkbox"/>
                                             <input value="MALE"
                                                    type="radio" ${sessionScope.user.gender.name()=='MALE'?'checked="checked"':''}
-                                                   name="genderEntity">
+                                                   name="gender">
                                             <span class="checkmark"></span>
                                         </label>
-                                        <label class="radio-container">Female
+                                        <label class="radio-container"><fmt:message key="female.checkbox"/>
                                             <input value="FEMALE"
                                                    type="radio" ${sessionScope.user.gender.name()=='FEMALE'?'checked="checked"':''}
-                                                   name="genderEntity">
+                                                   name="gender">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                        <label class="radio-container"><fmt:message key="other.checkbox"/>
+                                            <input value="OTHER"
+                                                   type="radio"
+                                            ${sessionScope.user.gender.name()=='OTHER'?'checked="checked"':''}
+                                                   name="gender">
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
-                                </div>
+                                </label>
                             </div>
                         </div>
                         <div class="row row-space">
                             <div class="col-6">
                                 <div class="input-group">
-                                    <label class="label">Weight</label>
-                                    <input class="input--style-4" type="number" name="weight" required
-                                           value="${sessionScope.user.weight}">
+                                    <label class="label">
+                                        <fmt:message key="weight.field"/>
+                                        <input class="input--style-4" type="number" name="weight" required
+                                               value="${sessionScope.user.weight}">
+                                    </label>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="input-group">
-                                    <label class="label">Height</label>
-                                    <input class="input--style-4" type="number" name="height" required
-                                           value="${sessionScope.user.height}">
+                                    <label class="label">
+                                        <fmt:message key="height.field"/>
+                                        <input class="input--style-4" type="number" name="height" required
+                                               value="${sessionScope.user.height}">
+                                    </label>
                                 </div>
                             </div>
                         </div>
                         <div class="input-group">
-                            <label class="label">Lifestyle</label>
-                            <div class="rs-select2 js-select-simple select--no-search">
-                                <select name="lifestyleEntity">
-                                    <option value="SEDENTARY" ${sessionScope.user.lifestyle.name() == 'SEDENTARY'?'selected="true"':''}>
-                                        <fmt:message key="sedentary.option"/>
-                                    </option>
-                                    <option value="LIGHTLY_ACTIVE"${sessionScope.user.lifestyle.name() == 'LIGHTLY_ACTIVE'?'selected="true"':''}>
-                                        <fmt:message key="lightly.active.option"/>
-                                    </option>
-                                    <option value="ACTIVE"${sessionScope.user.lifestyle.name() == 'ACTIVE'?'selected="true"':''}>
-                                        <fmt:message key="active.option"/>
-                                    </option>
-                                    <option value="VERY_ACTIVE"${sessionScope.user.lifestyle.name() == 'VERY_ACTIVE'?'selected="true"':''}>
-                                        <fmt:message key="very.active.option"/>
-                                    </option>
-                                    <option value="NOT_SELECTED"${sessionScope.user.lifestyle.name() == 'NOT_SELECTED'?'selected="true"':''}>
-                                        <fmt:message key="choose.option"/>
-                                    </option>
-                                </select>
-                                <div class="select-dropdown"></div>
-                            </div>
+                            <label class="label">
+                                <fmt:message key="lifestyle.select"/>
+                                <div class="rs-select2 js-select-simple select--no-search">
+                                    <select name="lifestyle">
+                                        <option value="SEDENTARY" ${sessionScope.user.lifestyle.name() == 'SEDENTARY'?'selected="true"':''}>
+                                            <fmt:message key="sedentary.option"/>
+                                        </option>
+                                        <option value="LIGHTLY_ACTIVE"${sessionScope.user.lifestyle.name() == 'LIGHTLY_ACTIVE'?'selected="true"':''}>
+                                            <fmt:message key="lightly.active.option"/>
+                                        </option>
+                                        <option value="ACTIVE"${sessionScope.user.lifestyle.name() == 'ACTIVE'?'selected="true"':''}>
+                                            <fmt:message key="active.option"/>
+                                        </option>
+                                        <option value="VERY_ACTIVE"${sessionScope.user.lifestyle.name() == 'VERY_ACTIVE'?'selected="true"':''}>
+                                            <fmt:message key="very.active.option"/>
+                                        </option>
+                                        <option value="NOT_SELECTED"${sessionScope.user.lifestyle.name() == 'NOT_SELECTED'?'selected="true"':''}>
+                                            <fmt:message key="choose.option"/>
+                                        </option>
+                                    </select>
+                                    <div class="select-dropdown"></div>
+                                </div>
+                            </label>
                         </div>
                         <div class="p-t-15">
                             <button class="btn btn--radius-2 btn--blue" type="submit">Submit</button>
@@ -111,14 +132,6 @@
         </div>
     </div>
 </div>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<script src="https://use.fontawesome.com/59810e450d.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script>
     (function ($) {
         'use strict';

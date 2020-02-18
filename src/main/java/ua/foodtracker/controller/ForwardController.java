@@ -1,5 +1,7 @@
 package ua.foodtracker.controller;
 
+import ua.foodtracker.annotation.CommandMapping;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;

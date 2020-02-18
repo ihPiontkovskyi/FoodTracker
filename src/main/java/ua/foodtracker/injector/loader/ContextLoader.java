@@ -2,33 +2,14 @@ package ua.foodtracker.injector.loader;
 
 import org.apache.log4j.Logger;
 import ua.foodtracker.annotation.Autowired;
+import ua.foodtracker.annotation.CommandMapping;
 import ua.foodtracker.annotation.Dao;
 import ua.foodtracker.annotation.Service;
 import ua.foodtracker.annotation.ValidatorClass;
 import ua.foodtracker.command.Command;
-import ua.foodtracker.command.impl.ErrorCommand;
-import ua.foodtracker.command.impl.HomePageCommand;
-import ua.foodtracker.command.impl.LoginCommand;
-import ua.foodtracker.command.impl.LoginPageCommand;
-import ua.foodtracker.command.impl.LogoutCommand;
-import ua.foodtracker.command.impl.RegisterCommand;
-import ua.foodtracker.command.impl.RegisterPageCommand;
-import ua.foodtracker.command.impl.meal.AddMealCommand;
-import ua.foodtracker.command.impl.meal.AddMealPageCommand;
-import ua.foodtracker.command.impl.meal.EditMealCommand;
-import ua.foodtracker.command.impl.meal.EditMealPageCommand;
-import ua.foodtracker.command.impl.meal.MealDeleteCommand;
-import ua.foodtracker.command.impl.meal.MealPageCommand;
-import ua.foodtracker.command.impl.meal.MealsInfoCommand;
-import ua.foodtracker.command.impl.record.AddRecordCommand;
-import ua.foodtracker.command.impl.record.DiaryPageCommand;
-import ua.foodtracker.command.impl.record.RecordDeleteCommand;
-import ua.foodtracker.command.impl.user.ModifyProfileCommand;
-import ua.foodtracker.command.impl.user.ProfilePageCommand;
 import ua.foodtracker.dao.AnnotationHandler;
 import ua.foodtracker.dao.db.holder.ConnectionHolder;
 import ua.foodtracker.dao.db.manager.HikariCPManager;
-import ua.foodtracker.validator.impl.AbstractValidator;
 
 import javax.servlet.ServletContext;
 import java.io.IOException;
@@ -46,6 +27,7 @@ public class ContextLoader extends AbstractContextLoader {
     private HikariCPManager connectionManager;
     private Map<String, Object> beans = new HashMap<>();
     private Map<String, Object> services = new HashMap<>();
+    private Map<String, Command> urlToCommand = new HashMap<>();
 
     public ContextLoader(ConnectionHolder holder, HikariCPManager manager, ServletContext context) {
         this.servletContext = context;
@@ -59,7 +41,7 @@ public class ContextLoader extends AbstractContextLoader {
             beans.putAll(services);
             autowireBeans();
             manageServices();
-            loadCommands();
+            manageCommands();
         } catch (ReflectiveOperationException e) {
             LOGGER.error("Cannot load bean(s). Cause", e);
         } catch (IOException e) {
@@ -80,36 +62,28 @@ public class ContextLoader extends AbstractContextLoader {
         }
         if (clazz.isAnnotationPresent(ValidatorClass.class)) {
             loadValidator(clazz);
+            return;
+        }
+        if (clazz.isAnnotationPresent(CommandMapping.class)) {
+            loadCommandMapping(clazz);
         }
     }
 
     private void loadDao(Class<?> clazz) throws ReflectiveOperationException {
         Constructor<?> constructor = clazz.getConstructor(ConnectionHolder.class);
         Object o = constructor.newInstance(connectionHolder);
-        String s = null;
-        for (Object obj : o.getClass().getInterfaces()) {
-            if (obj.toString().contains("Dao")) {
-                s = obj.toString().replace("interface ", "");
-                break;
-            }
-        }
+        String s = getNameByImplType(o, "Dao");
         if (s != null) {
             beans.put(s, o);
         } else {
-            LOGGER.debug(String.format("Dao %s wasn't logged because its not repository", o));
+            LOGGER.debug(String.format("Dao %s wasn't logged because its not dao", o));
         }
     }
 
     private void loadService(Class<?> clazz) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         Constructor<?> constructor = clazz.getDeclaredConstructor();
         Object o = constructor.newInstance();
-        String s = null;
-        for (Object obj : o.getClass().getInterfaces()) {
-            if (obj.toString().contains("Service")) {
-                s = obj.toString().replace("interface ", "");
-                break;
-            }
-        }
+        String s = getNameByImplType(o, "Service");
         if (s != null) {
             services.put(s, o);
             return;
@@ -120,8 +94,9 @@ public class ContextLoader extends AbstractContextLoader {
     private void loadValidator(Class<?> clazz) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
         Constructor<?> constructor = clazz.getDeclaredConstructor();
         Object o = constructor.newInstance();
-        if (o.getClass().getSuperclass() == AbstractValidator.class) {
-            services.put(o.getClass().getName(), o);
+        String s = getNameByImplType(o, "Validator");
+        if (s != null) {
+            services.put(s, o);
             return;
         }
         LOGGER.debug(String.format("Validator %s wasn't logged Because its not repository", o));
@@ -141,28 +116,28 @@ public class ContextLoader extends AbstractContextLoader {
         }
     }
 
-    private void loadCommands() {
-        Map<String, Command> urlToCommand = new HashMap<>();
-        urlToCommand.put("/foodtracker.ua/user/logout", new LogoutCommand());
-        urlToCommand.put("/foodtracker.ua/login", new LoginCommand());
-        urlToCommand.put("/foodtracker.ua/user/home", new HomePageCommand());
-        urlToCommand.put("/foodtracker.ua/register", new RegisterCommand());
-        urlToCommand.put("/foodtracker.ua/error", new ErrorCommand());
-        urlToCommand.put("/foodtracker.ua/user/records", new DiaryPageCommand());
-        urlToCommand.put("/foodtracker.ua/user/meals", new MealPageCommand());
-        urlToCommand.put("/foodtracker.ua/user/records/delete", new RecordDeleteCommand());
-        urlToCommand.put("/foodtracker.ua/user/meals/delete", new MealDeleteCommand());
-        urlToCommand.put("/foodtracker.ua/user/records/byTerm", new MealsInfoCommand());
-        urlToCommand.put("/foodtracker.ua/user/records/add", new AddRecordCommand());
-        urlToCommand.put("/foodtracker.ua/user/meals/add-meal", new AddMealCommand());
-        urlToCommand.put("/foodtracker.ua/user/meals/edit-meal", new EditMealCommand());
-        urlToCommand.put("/foodtracker.ua/user/meal-add", new AddMealPageCommand());
-        urlToCommand.put("/foodtracker.ua/user/meal-edit", new EditMealPageCommand());
-        urlToCommand.put("/foodtracker.ua/login-page", new LoginPageCommand());
-        urlToCommand.put("/foodtracker.ua/register-page", new RegisterPageCommand());
-        urlToCommand.put("/foodtracker.ua/user/profile", new ProfilePageCommand());
-        urlToCommand.put("/foodtracker.ua/user/profile-modify", new ModifyProfileCommand());
-        servletContext.setAttribute("urlToCommandMap", urlToCommand);
+    private void loadCommandMapping(Class<?> clazz) throws IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchMethodException {
+        Constructor<?> constructor = clazz.getDeclaredConstructor();
+        Object o = constructor.newInstance();
+        boolean flag = false;
+        for (Object obj : o.getClass().getInterfaces()) {
+            if (obj.toString().contains("Command")) {
+                flag = true;
+                break;
+            }
+        }
+        if (flag) {
+            for (String pattern : clazz.getDeclaredAnnotation(CommandMapping.class).urlPatterns()) {
+                if (urlToCommand.containsKey(pattern)) {
+                    throw new IllegalStateException("There is command with such url pattern!");
+                }
+                urlToCommand.put(pattern, (Command) o);
+            }
+        } else {
+            LOGGER.debug(String.format("Url %s wasn't mapped because its not command", o));
+        }
+
+
     }
 
     private void manageServices() {
@@ -177,8 +152,23 @@ public class ContextLoader extends AbstractContextLoader {
         }
     }
 
+    private void manageCommands() {
+        servletContext.setAttribute("urlToCommandMap", urlToCommand);
+    }
+
     @SuppressWarnings("squid:S1172")
     public void destroy(ServletContext context) {
         connectionManager.shutdown();
+    }
+
+    private String getNameByImplType(Object o, String dao) {
+        String s = null;
+        for (Object obj : o.getClass().getInterfaces()) {
+            if (obj.toString().contains(dao)) {
+                s = obj.toString().replace("interface ", "");
+                break;
+            }
+        }
+        return s;
     }
 }

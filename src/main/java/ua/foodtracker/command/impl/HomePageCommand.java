@@ -1,10 +1,13 @@
 package ua.foodtracker.command.impl;
 
+import ua.foodtracker.annotation.CommandMapping;
+import ua.foodtracker.command.Command;
 import ua.foodtracker.domain.User;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class HomePageCommand extends AbstractCommand {
+@CommandMapping(urlPatterns = {"/foodtracker.ua/user/home"})
+public class HomePageCommand extends AbstractCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         User user = getUser(request);

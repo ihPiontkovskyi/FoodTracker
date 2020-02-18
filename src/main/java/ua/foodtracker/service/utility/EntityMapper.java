@@ -86,6 +86,7 @@ public class EntityMapper {
                 .withDailyFatGoal(sixthPart / 9)
                 .withDailyProteinGoal(sixthPart / 4)
                 .withDailyCarbohydrateGoal(sixthPart)
+                .withId(user.getUserGoal() == null ? null : user.getUserGoal().getId())
                 .build();
     }
 

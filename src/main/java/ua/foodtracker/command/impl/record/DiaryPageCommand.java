@@ -1,5 +1,7 @@
 package ua.foodtracker.command.impl.record;
 
+import ua.foodtracker.annotation.CommandMapping;
+import ua.foodtracker.command.Command;
 import ua.foodtracker.command.impl.AbstractCommand;
 import ua.foodtracker.domain.Record;
 import ua.foodtracker.domain.User;
@@ -9,7 +11,8 @@ import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.List;
 
-public class DiaryPageCommand extends AbstractCommand {
+@CommandMapping(urlPatterns = {"/foodtracker.ua/user/records"})
+public class DiaryPageCommand extends AbstractCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         HttpSession session = request.getSession(false);

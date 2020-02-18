@@ -11,7 +11,7 @@ import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.service.RecordService;
 import ua.foodtracker.service.utility.DateProvider;
 import ua.foodtracker.service.utility.EntityMapper;
-import ua.foodtracker.validator.impl.RecordValidatorImpl;
+import ua.foodtracker.validator.RecordValidator;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -35,7 +35,7 @@ public class RecordServiceImpl implements RecordService {
     private RecordDao recordDao;
 
     @Autowired
-    private RecordValidatorImpl recordValidator;
+    private RecordValidator recordValidator;
 
     @Override
     public List<Record> getRecordsByDate(User user, String date) {

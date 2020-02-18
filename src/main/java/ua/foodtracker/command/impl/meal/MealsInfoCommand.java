@@ -1,5 +1,7 @@
 package ua.foodtracker.command.impl.meal;
 
+import ua.foodtracker.annotation.CommandMapping;
+import ua.foodtracker.command.Command;
 import ua.foodtracker.command.impl.AbstractCommand;
 import ua.foodtracker.domain.MealInfo;
 
@@ -9,7 +11,8 @@ import java.util.stream.Collectors;
 
 import static ua.foodtracker.domain.utility.ConvertibleUtility.convertToJsonArray;
 
-public class MealsInfoCommand extends AbstractCommand {
+@CommandMapping(urlPatterns = {"/foodtracker.ua/user/records/byTerm"})
+public class MealsInfoCommand extends AbstractCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         String term = request.getParameter("term");

@@ -1,12 +1,15 @@
 package ua.foodtracker.command.impl.meal;
 
+import ua.foodtracker.annotation.CommandMapping;
+import ua.foodtracker.command.Command;
 import ua.foodtracker.command.impl.AbstractCommand;
 import ua.foodtracker.domain.Meal;
 import ua.foodtracker.domain.Role;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class MealDeleteCommand extends AbstractCommand {
+@CommandMapping(urlPatterns = {"/foodtracker.ua/user/meals/delete"})
+public class MealDeleteCommand extends AbstractCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {

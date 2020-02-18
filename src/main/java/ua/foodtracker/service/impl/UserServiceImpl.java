@@ -7,7 +7,7 @@ import ua.foodtracker.domain.User;
 import ua.foodtracker.entity.UserEntity;
 import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.service.UserService;
-import ua.foodtracker.validator.impl.UserValidatorImpl;
+import ua.foodtracker.validator.UserValidator;
 
 import java.util.Optional;
 
@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Autowired
-    private UserValidatorImpl userValidator;
+    private UserValidator userValidator;
 
     @Override
     public User login(String email, String pass) {

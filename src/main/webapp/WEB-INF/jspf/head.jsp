@@ -6,6 +6,8 @@
     <link rel="stylesheet" type="text/css" href="../../foodtracker.ua/assets/css/login.css">
     <link rel="stylesheet" href="../../foodtracker.ua/assets/css/style.css">
     <link href="../../foodtracker.ua/assets/css/register.css" rel="stylesheet" media="all">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
     <link href="https://cdn.jsdelivr.net/npm/chartist@0.11.0/dist/chartist.min.css" rel="stylesheet">

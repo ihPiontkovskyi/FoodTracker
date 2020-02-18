@@ -1,5 +1,7 @@
 package ua.foodtracker.command.impl.meal;
 
+import ua.foodtracker.annotation.CommandMapping;
+import ua.foodtracker.command.Command;
 import ua.foodtracker.command.impl.AbstractCommand;
 import ua.foodtracker.domain.Meal;
 import ua.foodtracker.service.MealService;
@@ -10,7 +12,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
-public class MealPageCommand extends AbstractCommand {
+@CommandMapping(urlPatterns = {"/foodtracker.ua/user/meals"})
+public class MealPageCommand extends AbstractCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
