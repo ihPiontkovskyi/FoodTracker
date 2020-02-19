@@ -25,10 +25,18 @@ public class LocaleFilter implements Filter {
         String locale = req.getParameter("lang");
         final HttpSession session = req.getSession(false);
         Object currentLocale = session.getAttribute(LOCALE);
-        if (currentLocale == null || (locale != null && !currentLocale.toString().equals(locale))) {
+        if (currentLocale == null) {
+            if (locale == null) {
+                session.setAttribute(LOCALE, "en");
+            } else {
+                LOGGER.info(String.format("Locale filter set locale to %s", locale));
+                session.setAttribute(LOCALE, locale);
+            }
+        } else if (!currentLocale.toString().equals(locale)) {
             LOGGER.info(String.format("Locale filter set locale to %s", locale));
             session.setAttribute(LOCALE, locale);
         }
+
         chain.doFilter(req, res);
     }
 }

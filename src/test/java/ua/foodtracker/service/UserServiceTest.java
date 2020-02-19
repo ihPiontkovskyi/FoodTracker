@@ -13,6 +13,7 @@ import ua.foodtracker.domain.Gender;
 import ua.foodtracker.domain.Lifestyle;
 import ua.foodtracker.domain.Role;
 import ua.foodtracker.domain.User;
+import ua.foodtracker.domain.UserGoal;
 import ua.foodtracker.entity.UserEntity;
 import ua.foodtracker.exception.IncorrectDataException;
 import ua.foodtracker.service.impl.UserServiceImpl;
@@ -172,6 +173,19 @@ public class UserServiceTest {
     }
 
     @Test
+    public void modifyShouldntThrowExceptionCase2() {
+        doNothing().when(userValidator).validate(ADMIN);
+
+        when(userDao.update(any())).thenReturn(true);
+
+        userService.modify(ADMIN);
+
+        verify(userValidator).validate(ADMIN);
+
+        verify(userDao).update(any());
+    }
+
+    @Test
     public void modifyShouldThrowIncorrectDataExceptionCase() {
         doNothing().when(userValidator).validate(USER);
 
@@ -209,6 +223,14 @@ public class UserServiceTest {
                 .withLastName("lastName")
                 .withFirstName("firstName")
                 .withEmail("email@mail.com")
+                .withUserGoal(UserGoal.builder()
+                        .withId(1)
+                        .withDailyCarbohydrateGoal(2)
+                        .withDailyEnergyGoal(3)
+                        .withDailyFatGoal(1)
+                        .withDailyProteinGoal(1)
+                        .withDailyWaterGoal(2)
+                        .build())
                 .build();
     }
 

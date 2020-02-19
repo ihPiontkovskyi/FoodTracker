@@ -10,6 +10,6 @@ public class MealInfo implements Convertible {
     }
 
     public String toJson() {
-        return "{\"id\": " + id + ",\"label\":\"" + label + "\"}";
+        return "{\"id\":" + id + ",\"label\":\"" + label + "\"}";
     }
 }

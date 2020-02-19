@@ -16,9 +16,11 @@ import ua.foodtracker.exception.DatabaseInteractionException;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -76,6 +78,25 @@ public class ResultSetToEntityMapperTest {
         mockResultSetForUser();
         exception.expect(DatabaseInteractionException.class);
         MealEntity mealEntity = ResultSetToEntityMapper.extractMealFromResultSet(resultSet);
+    }
+    @Test
+    public void extractUserFromResultSetShouldThrowDatabaseInteractionException() throws SQLException {
+        mockResultSetForUserGoal();
+        when(resultSet.getDate(anyString())).thenReturn(new Date(System.currentTimeMillis()));
+        when(resultSet.getString("users.gender")).thenReturn("OTHER");
+        when(resultSet.getString("users.lifestyle")).thenReturn("VERY_ACTIVE");
+        when(resultSet.getString("users.role")).thenReturn("USER");
+        exception.expect(DatabaseInteractionException.class);
+        UserEntity userEntity = ResultSetToEntityMapper.extractUserFromResultSet(resultSet);
+    }
+
+    @Test
+    public void extractRecordFromResultSetShouldThrowDatabaseInteractionException() throws SQLException {
+        mockResultSetForUser();
+        mockResultSetForMeal();
+        when(resultSet.getDate(anyString())).thenReturn(new Date(System.currentTimeMillis()));
+        exception.expect(DatabaseInteractionException.class);
+        RecordEntity recordEntity = ResultSetToEntityMapper.extractRecordFromResultSet(resultSet);
     }
 
     @Test

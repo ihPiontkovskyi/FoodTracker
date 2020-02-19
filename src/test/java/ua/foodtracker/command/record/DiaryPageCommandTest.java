@@ -1,4 +1,4 @@
-package ua.foodtracker.command;
+package ua.foodtracker.command.record;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
