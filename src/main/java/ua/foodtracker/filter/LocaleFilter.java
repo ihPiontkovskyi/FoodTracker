@@ -32,7 +32,7 @@ public class LocaleFilter implements Filter {
                 LOGGER.info(String.format("Locale filter set locale to %s", locale));
                 session.setAttribute(LOCALE, locale);
             }
-        } else if (!currentLocale.toString().equals(locale)) {
+        } else if (locale != null && !currentLocale.toString().equals(locale)) {
             LOGGER.info(String.format("Locale filter set locale to %s", locale));
             session.setAttribute(LOCALE, locale);
         }

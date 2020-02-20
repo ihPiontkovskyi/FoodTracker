@@ -3,6 +3,7 @@ package ua.foodtracker.command.impl.record;
 import ua.foodtracker.annotation.CommandMapping;
 import ua.foodtracker.command.Command;
 import ua.foodtracker.command.impl.AbstractCommand;
+import ua.foodtracker.domain.DailySums;
 import ua.foodtracker.domain.Record;
 import ua.foodtracker.domain.User;
 
@@ -21,7 +22,12 @@ public class DiaryPageCommand extends AbstractCommand implements Command {
         session.setAttribute("date", date);
         List<Record> dailyRecord = getDiaryRecordService(request).getRecordsByDate(user, request.getParameter("date"));
         request.setAttribute("records", dailyRecord);
-        request.setAttribute("dateSums", getDiaryRecordService(request).calculateDailySums(user, date.toString()));
+        final DailySums dailySums = getDiaryRecordService(request).calculateDailySums(user, date.toString());
+        request.setAttribute("dateSums", dailySums);
+        if (dailySums.getSumEnergy() > user.getUserGoal().getDailyEnergyGoal()) {
+            request.setAttribute("exceedingTheGoal", true);
+            request.setAttribute("exceedingValue", dailySums.getSumEnergy() - user.getUserGoal().getDailyEnergyGoal());
+        }
         return "/WEB-INF/pages/user/records.jsp";
     }
 }

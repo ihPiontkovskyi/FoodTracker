@@ -57,6 +57,7 @@
                                         <div class="stat-heading"><fmt:message key="energy.label"/></div>
                                     </div>
                                 </div>
+                                message
                             </div>
                         </div>
                     </div>
@@ -179,6 +180,12 @@
                                     <div class="col-lg-2">
                                         <h4 class="box-title" id="title">
                                             <fmt:message key="daily.food"/> ${sessionScope.date.toString()}:
+                                        </h4>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <h4 class="box-title" ${requestScope.exceedingTheGoal==true?'':'hidden'} style="color:red">
+                                            <fmt:message key="exceeding.message"/> ${requestScope.exceedingValue}
+                                            <fmt:message key="kcal.field"/>
                                         </h4>
                                     </div>
                                     <div class="col-lg-10">

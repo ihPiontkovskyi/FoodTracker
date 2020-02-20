@@ -1,5 +1,8 @@
 package ua.foodtracker.domain;
 
+/**
+ * Class stores information about records by a specific date
+ */
 public final class DailySums {
     private final int sumEnergy;
     private final int sumProtein;

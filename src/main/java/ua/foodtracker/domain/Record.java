@@ -40,22 +40,47 @@ public class Record {
         return weight;
     }
 
+    /**
+     * Use to get the integer value of protein by a meal for  weight in record
+     *
+     * @return int value of protein
+     */
     public Integer calculateProtein() {
         return (int) (meal.getProtein() * (((double) weight) / meal.getWeight()));
     }
 
+    /**
+     * Use to get the integer value of carbohydrate by a meal for  weight in record
+     *
+     * @return int value of carbohydrate
+     */
     public Integer calculateCarbohydrate() {
         return (int) (meal.getCarbohydrate() * (((double) weight) / meal.getWeight()));
     }
 
+    /**
+     * Use to get the integer value of fat by a meal for  weight in record
+     *
+     * @return int value of fat
+     */
     public Integer calculateFat() {
         return (int) (meal.getFat() * (((double) weight) / meal.getWeight()));
     }
 
+    /**
+     * Use to get the integer value of water by a meal for  weight in record
+     *
+     * @return int value of water
+     */
     public Integer calculateWater() {
         return (int) (meal.getWater() * (((double) weight) / meal.getWeight()));
     }
 
+    /**
+     * Use to get the integer value of energy by a meal for  weight in record
+     *
+     * @return int value of energy
+     */
     public Integer calculateEnergy() {
         return (int) (meal.calculateEnergy() * (((double) weight) / meal.getWeight()));
     }

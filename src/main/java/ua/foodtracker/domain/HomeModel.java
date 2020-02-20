@@ -5,6 +5,10 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * Class stores information for home page that includes statistics for user
+ */
+
 public class HomeModel {
     private static final int PERCENTAGE = 100;
     private static final int MAX_PERCENTAGE = 100;
@@ -21,22 +25,47 @@ public class HomeModel {
         this.dailyGoal = builder.dailyGoal;
     }
 
+    /**
+     * Used to get a list of energy statistics by date about last week
+     *
+     * @return list of integer sum of daily energy {@link DailySums}
+     */
     public List<Integer> getWeeklyEnergyStat() {
         return getListByFunction(DailySums::getSumEnergy);
     }
 
+    /**
+     * Used to get a list of fat statistics by date about last week
+     *
+     * @return list of integer sum of daily energy {@link DailySums}
+     */
     public List<Integer> getWeeklyFatStat() {
         return getListByFunction(DailySums::getSumFat);
     }
 
+    /**
+     * Used to get a list of water statistics by date about last week
+     *
+     * @return list of integer sum of daily energy {@link DailySums}
+     */
     public List<Integer> getWeeklyWaterStat() {
         return getListByFunction(DailySums::getSumWater);
     }
 
+    /**
+     * Used to get a list of carbohydrates statistics by date about last week
+     *
+     * @return list of integer sum of daily energy {@link DailySums}
+     */
     public List<Integer> getWeeklyCarbohydrateStat() {
         return getListByFunction(DailySums::getSumCarbohydrate);
     }
 
+    /**
+     * Used to get a list of protein statistics by date about last week
+     *
+     * @return list of integer sum of daily energy {@link DailySums}
+     */
     public List<Integer> getWeeklyProteinStat() {
         return getListByFunction(DailySums::getSumProtein);
     }

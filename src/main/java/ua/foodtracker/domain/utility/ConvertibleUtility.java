@@ -5,7 +5,7 @@ import ua.foodtracker.domain.Convertible;
 import java.util.List;
 
 /**
- * Utility class , converts values from domain object to json string
+ * Utility class , converts values from convertible list to array json string
  */
 
 public class ConvertibleUtility {
