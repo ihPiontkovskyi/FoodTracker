@@ -23,8 +23,12 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Optional;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.reset;
@@ -273,5 +277,23 @@ public class MealServiceTest {
 
         verify(mealValidator).validate(MEAL);
         verify(mealDao).save(any());
+    }
+
+    @Test
+    public void findByNameStartWithShouldReturnEmptyList() {
+        when(mealDao.findAllByNameStartWith("term")).thenReturn(Collections.emptyList());
+
+        assertThat(mealService.findAllByNameStartWith("term"), equalTo(Collections.emptyList()));
+
+        verify(mealDao).findAllByNameStartWith("term");
+    }
+
+    @Test
+    public void findByNameStartWithShouldReturnList() {
+        when(mealDao.findAllByNameStartWith("term")).thenReturn(Collections.singletonList(MEAL_ENTITY));
+
+        assertThat(mealService.findAllByNameStartWith("term"), hasItem(notNullValue()));
+
+        verify(mealDao).findAllByNameStartWith("term");
     }
 }
