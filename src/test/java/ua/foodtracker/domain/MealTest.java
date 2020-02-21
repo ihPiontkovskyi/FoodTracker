@@ -4,18 +4,20 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
 import java.util.Arrays;
 import java.util.Collection;
 
 @RunWith(Parameterized.class)
 public class MealTest {
-    @Parameterized.Parameter
+    @Parameter
     public Meal mealEntity;
-    @Parameterized.Parameter(1)
+    @Parameter(1)
     public Integer expected;
 
-    @Parameterized.Parameters(name = "id={0}, Lifestyle={1}")
+    @Parameters(name = "id={0}, Lifestyle={1}")
     public static Collection<Object[]> getTestData() {
         return Arrays.asList(new Object[][]{
                 {Meal.builder()

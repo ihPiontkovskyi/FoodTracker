@@ -1,5 +1,6 @@
 package ua.foodtracker.domain;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
 import java.time.LocalDate;
@@ -10,7 +11,11 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.hasItems;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 public class HomeModelTest {
 
@@ -28,6 +33,20 @@ public class HomeModelTest {
         assertEquals(70, model.getDailyGoal().getDailyProteinGoal());
         assertEquals(100, model.getDailyGoal().getDailyWaterGoal());
         assertEquals(100, model.getDailyGoal().getDailyEnergyGoal());
+    }
+
+    @Test
+    public void getLabelsTest() {
+        assertThat(model.getLabels(), hasItem(LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM"))));
+    }
+
+    @Test
+    public void getWeeklyStatTest() {
+        assertThat(model.getWeeklyWaterStat(), hasItems(notNullValue()));
+        assertThat(model.getWeeklyProteinStat(), hasItems(notNullValue()));
+        assertThat(model.getWeeklyFatStat(), hasItems(notNullValue()));
+        assertThat(model.getWeeklyEnergyStat(), hasItems(notNullValue()));
+        assertThat(model.getWeeklyCarbohydrateStat(), hasItems(notNullValue()));
     }
 
     private static HomeModel build() {
