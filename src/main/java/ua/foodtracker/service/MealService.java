@@ -3,7 +3,6 @@ package ua.foodtracker.service;
 import ua.foodtracker.domain.Meal;
 
 import java.util.List;
-import java.util.Locale;
 
 public interface MealService {
     List<Meal> findAllByPage(String pageNumber);
