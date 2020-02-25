@@ -205,20 +205,4 @@ public class MealValidatorTest {
         mealValidator.validate(meal);
     }
 
-    @Test
-    public void validateMealShouldHasUserEmailError() {
-        Meal meal = Meal.builder()
-                .withId(1)
-                .withWeight(10)
-                .withUser(USER)
-                .withWater(10)
-                .withProtein(10)
-                .withName("Name")
-                .withFat(23)
-                .withCarbohydrates(12)
-                .build();
-        exception.expect(ValidationException.class);
-        exception.expectMessage("email.cant.be.empty");
-        mealValidator.validate(meal);
-    }
 }

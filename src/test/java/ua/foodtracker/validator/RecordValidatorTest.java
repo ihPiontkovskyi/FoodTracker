@@ -94,18 +94,4 @@ public class RecordValidatorTest {
         exception.expectMessage("cant.set.date");
         recordValidator.validate(record);
     }
-
-    @Test
-    public void recordValidateShouldHasMealValidateError1() {
-        Record record = Record.builder()
-                .withUserId(1)
-                .withUserId(1)
-                .withWeight(10)
-                .withMeal(null)
-                .withDate(LocalDate.now().minusDays(1))
-                .build();
-        exception.expect(ValidationException.class);
-        exception.expectMessage("object.is.null");
-        recordValidator.validate(record);
-    }
 }

@@ -11,7 +11,7 @@
             <div class="col-md-12 text-center">
                 <div>
                     <div class="mb-4 lead">Something went wrong</div>
-                    <a href="../../foodtracker.ua/user/home">Back to home</a>
+                    <a href="../../../foodtracker.ua/user/home">Back to home</a>
                 </div>
             </div>
         </div>

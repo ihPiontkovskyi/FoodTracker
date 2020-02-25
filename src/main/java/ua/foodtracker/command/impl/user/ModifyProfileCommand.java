@@ -17,8 +17,8 @@ public class ModifyProfileCommand extends AbstractCommand implements Command {
         User modifiedUser = User.builder()
                 .withEmail(currentUser.getEmail())
                 .withPassword(currentUser.getPassword())
-                .withFirstName(request.getParameter("first_name"))
-                .withLastName(request.getParameter("last_name"))
+                .withFirstName(decodeParameter(request.getParameter("first_name")))
+                .withLastName(decodeParameter(request.getParameter("last_name")))
                 .withHeight(getIntParamOrDefault(request, "height", 0))
                 .withWeight(getIntParamOrDefault(request, "weight", 0))
                 .withLifestyle(Lifestyle.valueOf(request.getParameter("lifestyle")))
@@ -26,6 +26,7 @@ public class ModifyProfileCommand extends AbstractCommand implements Command {
                 .withGender(Gender.valueOf(request.getParameter("gender")))
                 .withRole(currentUser.getRole())
                 .withId(currentUser.getId())
+                .withUserGoal(currentUser.getUserGoal())
                 .build();
         getUserService(request).modify(modifiedUser);
         return "/user/home";

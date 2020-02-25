@@ -81,7 +81,7 @@
                                         <c:forEach items="${requestScope.meals}" var="meal">
                                             <c:if test="${meal.user == null || meal.user.id==sessionScope.user.id || sessionScope.user.role.name()=='ADMIN'}">
                                                 <tr class=" pb-0">
-                                                    <td hidden class="mealId">${meal.id}</td>
+                                                    <td hidden class="id">${meal.id}</td>
                                                     <td><span class="name">${meal.name}</span></td>
                                                     <td><span class="count">${meal.calculateEnergy()}</span>
                                                         <fmt:message

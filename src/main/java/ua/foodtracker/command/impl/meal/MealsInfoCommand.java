@@ -16,7 +16,6 @@ public class MealsInfoCommand extends AbstractCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         String term = request.getParameter("term");
-
         List<MealInfo> list = getMealService(request).findAllByNameStartWith(term).stream()
                 .map(meal -> new MealInfo(meal.getId(), meal.getName()))
                 .collect(Collectors.toList());

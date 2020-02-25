@@ -23,7 +23,6 @@ public class UserValidatorImpl extends AbstractValidator implements UserValidato
         validateInteger(user.getHeight());
         validateDate(user.getBirthday());
         validateEmail(user.getEmail());
-        validatePassword(user.getPassword());
     }
 
     private void validateEmail(String email) {
@@ -38,7 +37,7 @@ public class UserValidatorImpl extends AbstractValidator implements UserValidato
         }
     }
 
-    private void validatePassword(String pass) {
+    public void validatePassword(String pass) {
         if (pass == null || pass.isEmpty()) {
             throw new ValidationException("pass.cant.be.empty");
         }

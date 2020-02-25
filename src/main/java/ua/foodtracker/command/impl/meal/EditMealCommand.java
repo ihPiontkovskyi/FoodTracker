@@ -9,16 +9,16 @@ import ua.foodtracker.exception.AccessDeniedException;
 
 import javax.servlet.http.HttpServletRequest;
 
-@CommandMapping(urlPatterns = {"/foodtracker.ua/user/meals/edit-meal"})
+@CommandMapping(urlPatterns = {"/foodtracker.ua/user/edit-meal"})
 public class EditMealCommand extends AbstractCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         if (getUser(request).getRole() == Role.ADMIN) {
-            getMealService(request).add(getMealFromRequest(request));
+            getMealService(request).modify(getMealFromRequest(request));
         } else {
             Meal meal = getMealService(request).findById(request.getParameter("id"));
             if (meal.getUser().getId().equals(getUser(request).getId())) {
-                getMealService(request).add(getMealFromRequest(request));
+                getMealService(request).modify(getMealFromRequest(request));
             } else {
                 throw new AccessDeniedException("access.denied");
             }
@@ -28,13 +28,13 @@ public class EditMealCommand extends AbstractCommand implements Command {
 
     private Meal getMealFromRequest(HttpServletRequest request) {
         return Meal.builder()
-                .withName(request.getParameter("name"))
+                .withName(decodeParameter(request.getParameter("name")))
                 .withWeight(getIntParam(request, "weight"))
                 .withCarbohydrates(getIntParam(request, "carbohydrate"))
                 .withFat(getIntParam(request, "fat"))
                 .withProtein(getIntParam(request, "protein"))
                 .withWater(getIntParam(request, "water"))
-                .withUser(null)
+                .withUser(getUser(request).getRole() == Role.ADMIN ? null : getUser(request))
                 .withId(getIntParam(request, "id"))
                 .build();
     }

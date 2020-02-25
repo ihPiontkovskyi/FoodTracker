@@ -85,8 +85,8 @@ public class EditMealCommandTest {
 
         verify(request).getServletContext();
         verify(context).getAttribute(anyString());
-        verify(request).getSession(false);
-        verify(service).add(any(Meal.class));
+        verify(request, times(2)).getSession(false);
+        verify(service).modify(any(Meal.class));
         verify(request, times(7)).getParameter(anyString());
     }
 
@@ -103,8 +103,8 @@ public class EditMealCommandTest {
 
         verify(request, times(2)).getServletContext();
         verify(context, times(2)).getAttribute(anyString());
-        verify(request, times(2)).getSession(false);
-        verify(service).add(any(Meal.class));
+        verify(request, times(4)).getSession(false);
+        verify(service).modify(any(Meal.class));
         verify(service).findById("1");
         verify(request, times(8)).getParameter(anyString());
     }
@@ -123,7 +123,7 @@ public class EditMealCommandTest {
 
         verify(request, times(2)).getServletContext();
         verify(context, times(2)).getAttribute(anyString());
-        verify(request, times(2)).getSession(false);
+        verify(request, times(4)).getSession(false);
         verify(service).findById("1");
     }
 

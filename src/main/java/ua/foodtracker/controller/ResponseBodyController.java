@@ -12,6 +12,7 @@ public class ResponseBodyController extends AbstractController {
     @Override
     public void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String respBody = urlToCommand.get(req.getRequestURI()).execute(req);
+        resp.setCharacterEncoding("utf8");
         final PrintWriter writer = resp.getWriter();
         writer.print(respBody);
         writer.flush();

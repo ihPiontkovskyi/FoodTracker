@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public abstract class AbstractValidator {
 
-    private static final Pattern TEMPLATE = Pattern.compile("^[a-zA-zа-яА-Я]+$");
+    private static final Pattern TEMPLATE = Pattern.compile("^[a-zA-zа-яА-Я ]+$");
     protected static final Integer MIN_LENGTH = 3;
     protected static final Integer MAX_LENGTH = 32;
 

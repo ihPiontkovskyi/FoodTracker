@@ -76,7 +76,7 @@ public class UserDaoImpl extends AbstractDao<UserEntity> implements UserDao {
                         .withHeight(userEntity.getHeight())
                         .withLastName(userEntity.getLastName())
                         .withLifestyle(userEntity.getLifestyleEntity())
-                        .withPassword((userEntity.getPassword()))
+                        .withPassword((hashpw(userEntity.getPassword(), gensalt())))
                         .withRole(userEntity.getRoleEntity())
                         .withWeight(userEntity.getWeight())
                         .build();
@@ -115,7 +115,7 @@ public class UserDaoImpl extends AbstractDao<UserEntity> implements UserDao {
     @Override
     protected void prepareData(UserEntity userEntity, PreparedStatement ps) throws SQLException {
         ps.setObject(1, userEntity.getEmail());
-        ps.setObject(2, hashpw(userEntity.getPassword(), gensalt()));
+        ps.setObject(2, userEntity.getPassword());
         ps.setObject(3, userEntity.getFirstName());
         ps.setObject(4, userEntity.getLastName());
         ps.setObject(5, userEntity.getHeight());

@@ -6,6 +6,7 @@ import ua.foodtracker.service.RecordService;
 import ua.foodtracker.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
@@ -53,5 +54,9 @@ public abstract class AbstractCommand {
 
     protected UserService getUserService(HttpServletRequest request) {
         return (UserService) request.getServletContext().getAttribute("ua.foodtracker.service.UserService");
+    }
+
+    protected String decodeParameter(String parameter) {
+        return new String(parameter.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
     }
 }

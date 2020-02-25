@@ -7,12 +7,12 @@ import ua.foodtracker.domain.Meal;
 
 import javax.servlet.http.HttpServletRequest;
 
-@CommandMapping(urlPatterns = "/foodtracker.ua/user/meals/add-meal")
+@CommandMapping(urlPatterns = "/foodtracker.ua/user/add-meal")
 public class AddMealCommand extends AbstractCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         Meal meal = Meal.builder()
-                .withName(request.getParameter("name"))
+                .withName(decodeParameter(request.getParameter("name")))
                 .withWeight(getIntParam(request, "weight"))
                 .withCarbohydrates(getIntParam(request, "carbohydrate"))
                 .withFat(getIntParam(request, "fat"))

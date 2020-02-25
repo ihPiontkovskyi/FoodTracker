@@ -130,57 +130,6 @@ public class UserValidatorTest {
     }
 
     @Test
-    public void userValidatorShouldHasPasswordValidateError() {
-        User user = User.builder()
-                .withId(1)
-                .withEmail("email@email.email")
-                .withHeight(10)
-                .withPassword("password--")
-                .withFirstName("Firtsname")
-                .withLastName("Lastname")
-                .withWeight(10)
-                .withBirthday(LocalDate.now())
-                .build();
-        exception.expect(ValidationException.class);
-        exception.expectMessage("pass.should.match.pass.pattern");
-        userValidator.validate(user);
-    }
-
-    @Test
-    public void userValidatorShouldHasPasswordValidateError1() {
-        User user = User.builder()
-                .withId(1)
-                .withEmail("email@email.email")
-                .withHeight(10)
-                .withPassword("")
-                .withFirstName("Firtsname")
-                .withLastName("Lastname")
-                .withWeight(10)
-                .withBirthday(LocalDate.now())
-                .build();
-        exception.expect(ValidationException.class);
-        exception.expectMessage("pass.cant.be.empty");
-        userValidator.validate(user);
-    }
-
-    @Test
-    public void userValidatorShouldHasPasswordValidateError2() {
-        User user = User.builder()
-                .withId(1)
-                .withEmail("email@email.email")
-                .withHeight(10)
-                .withPassword("as")
-                .withFirstName("Firtsname")
-                .withLastName("Lastname")
-                .withWeight(10)
-                .withBirthday(LocalDate.now())
-                .build();
-        exception.expect(ValidationException.class);
-        exception.expectMessage("pass.length.should.be.in.range(3,32)");
-        userValidator.validate(user);
-    }
-
-    @Test
     public void userValidatorShouldHasFirstNameValidateError() {
         User user = User.builder()
                 .withId(1)
@@ -262,74 +211,6 @@ public class UserValidatorTest {
                 .build();
         exception.expect(ValidationException.class);
         exception.expectMessage("email.cant.be.empty");
-        userValidator.validate(user);
-    }
-
-    @Test
-    public void userValidatorShouldHasPassValidateErrorByEmptyPass() {
-        User user = User.builder()
-                .withId(1)
-                .withEmail("email@email.email")
-                .withHeight(10)
-                .withPassword(null)
-                .withFirstName("Firtsname")
-                .withLastName("Lastname")
-                .withWeight(10)
-                .withBirthday(LocalDate.now().minusDays(1))
-                .build();
-        exception.expect(ValidationException.class);
-        exception.expectMessage("pass.cant.be.empty");
-        userValidator.validate(user);
-    }
-
-    @Test
-    public void userValidatorShouldHasPassValidateErrorByNullPass() {
-        User user = User.builder()
-                .withId(1)
-                .withEmail("email@email.email")
-                .withHeight(10)
-                .withPassword(null)
-                .withFirstName("Firtsname")
-                .withLastName("Lastname")
-                .withWeight(10)
-                .withBirthday(LocalDate.now().minusDays(1))
-                .build();
-        exception.expect(ValidationException.class);
-        exception.expectMessage("pass.cant.be.empty");
-        userValidator.validate(user);
-    }
-
-    @Test
-    public void userValidatorShouldHasPassValidateErrorByLongPass() {
-        User user = User.builder()
-                .withId(1)
-                .withEmail("email@email.email")
-                .withHeight(10)
-                .withPassword("123456789123456789123456789123456789")
-                .withFirstName("Firtsname")
-                .withLastName("Lastname")
-                .withWeight(10)
-                .withBirthday(LocalDate.now().minusDays(1))
-                .build();
-        exception.expect(ValidationException.class);
-        exception.expectMessage("pass.length.should.be.in.range(3,32)");
-        userValidator.validate(user);
-    }
-
-    @Test
-    public void userValidatorShouldHasPassValidateErrorBySmallPass() {
-        User user = User.builder()
-                .withId(1)
-                .withEmail("email@email.email")
-                .withHeight(10)
-                .withPassword("12")
-                .withFirstName("Firtsname")
-                .withLastName("Lastname")
-                .withWeight(10)
-                .withBirthday(LocalDate.now().minusDays(1))
-                .build();
-        exception.expect(ValidationException.class);
-        exception.expectMessage("pass.length.should.be.in.range(3,32)");
         userValidator.validate(user);
     }
 

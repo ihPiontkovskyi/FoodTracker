@@ -39,6 +39,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void register(User user) {
         userValidator.validate(user);
+        userValidator.validatePassword(user.getPassword());
         if (userDao.findByEmail(user.getEmail()).isPresent()) {
             throw new IncorrectDataException("user.already.exist");
         }

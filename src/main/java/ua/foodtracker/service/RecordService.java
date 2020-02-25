@@ -6,7 +6,6 @@ import ua.foodtracker.domain.Record;
 import ua.foodtracker.domain.User;
 
 import java.util.List;
-import java.util.Locale;
 
 public interface RecordService {
     List<Record> getRecordsByDate(User user, String date);
