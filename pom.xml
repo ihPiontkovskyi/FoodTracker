@@ -19,7 +19,7 @@
         <javax.servlet.api>4.0.1</javax.servlet.api>
         <javax.servlet.jstl>1.2</javax.servlet.jstl>
         <jacoco>0.8.4</jacoco>
-        <mysql.connector>8.0.17</mysql.connector>
+        <mysql.connector>8.0.28</mysql.connector>
         <hikari.connection.pool>3.4.1</hikari.connection.pool>
         <log4j>1.2.17</log4j>
         <bcrypt>0.4</bcrypt>
